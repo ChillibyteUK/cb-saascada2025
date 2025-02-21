@@ -1,0 +1,23 @@
+{
+    "key": "group_cb_site-wide_cta",
+    "title": "CB Site-Wide CTA",
+    "fields": [
+        {
+            "key": "field_cb_site-wide_cta_title",
+            "label": "CB Site-Wide CTA",
+            "name": "title",
+            "type": "message"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/cb-site-wide-cta"
+            }
+        ]
+    ],
+    "active": 1,
+    "description": ""
+}

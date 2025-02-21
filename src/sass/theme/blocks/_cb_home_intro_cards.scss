@@ -1,0 +1,46 @@
+.home_intro {
+    position: relative;
+    &__dna {
+        display: block;
+        max-width: min(33%,510px);
+        margin-inline: auto;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    &__lines {
+        display: block;
+        max-width: 68%;
+        margin-inline: auto;
+
+        padding-top: 95px;
+        @media (min-width:992px) {
+            padding-top: 145px;
+        }
+    }
+    &__icon {
+        max-width: min(185px, 50vw);
+        margin-bottom: 1rem;
+    }
+    .h4 {
+        max-width: 14ch;
+        line-height: 1.2;
+        margin-inline: auto;
+        margin-bottom: 0.75rem;
+    }
+    .fs-300 {
+        max-width: 35ch;
+        margin-inline: auto;
+    }
+
+    &__brace {
+        width: 100%;
+    }
+
+    @media (max-width:768px) {
+        .col-md-4:first-of-type {
+            margin-top: 140px;
+        }
+    }
+
+}

@@ -1,0 +1,46 @@
+.button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    align-self: center;
+    text-align: center;
+    text-decoration: none;
+    transition: border-color var(--transition), color var(--transition), background-color var(--transition);
+    &:disabled {
+        border-color: var(--col-grey-200);
+        background-color: var(--col-grey-200);
+    }
+}
+
+.button-primary {
+    border: 2px solid var(--col-blue-400);
+    background-color: var(--col-blue-400);
+    color: var(--col-light);
+
+    &:hover {
+        border-color: var(--col-teal-400);
+        background-color: var(--col-teal-400);
+        color: var(--col-light);
+    }
+}
+
+.button-outline {
+    border: 2px solid var(--col-teal-400);
+    color: var(--col-light);
+
+    &:hover {
+        border-color: var(--col-teal-400);
+        background-color: var(--col-blue-400);
+    }
+}
+
+.button--sm {
+    border-radius: 0;
+    border: 2px solid var(--col-teal-400);
+    color: var(--col-blue-400);
+    &:hover {
+        background-color: var(--col-blue-400);
+        color: var(--col-light);
+    }
+
+}

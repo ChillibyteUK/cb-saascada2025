@@ -1,0 +1,46 @@
+.four_list_cards {
+    &__grid {
+        display: grid;
+        // grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+        max-width: 100%;
+
+        @media (max-width:1200px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        @media (max-width:768px) {
+            grid-template-columns: repeat(1, 1fr);
+        }
+    }
+    &__card {
+        display: grid;
+        grid-template-rows: subgrid;
+        grid-row: span 5;
+        align-items: stretch;
+        height: 100%;
+        row-gap: 0;
+    }
+    &__image {
+        aspect-ratio: 16 / 9;
+        width: 100%;
+        object-fit: cover;
+        margin-bottom: 0.5rem;
+    }
+    &__title {
+        font-size: var(--fs-500);
+        color: var(--col-blue-400);
+        margin-bottom: 0.5rem;
+    }
+    &__content {
+        margin-bottom: 0.5rem;
+    }
+    ul {
+        padding-inline-start: 1rem;
+        color: var(--col-teal-400);
+        margin-bottom: 2rem;
+    }
+    .button {
+        align-self: self-end;
+    }
+}

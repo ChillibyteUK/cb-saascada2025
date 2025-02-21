@@ -1,0 +1,24 @@
+.text_video {
+    .vimeo-embed {
+        cursor: pointer;
+        position: relative;
+        &::after {
+            content: "\f144";
+            font-family: var(--ff-fa);
+            font-weight: 400;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: var(--fs-900);
+            color: var(--col-light);
+            pointer-events: none;
+        }
+        &.video-loaded {
+            &::after {
+                display: none;
+            }
+        }
+    }
+
+}

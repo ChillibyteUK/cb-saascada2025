@@ -1,0 +1,17 @@
+.home_hero {
+    color: var(--col-light);
+    position: relative;
+    height: 510px;
+    isolation: isolate;
+    &__bg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+    }
+    &__title {
+        padding-top: 4rem;
+        font-size: var(--fs-900);
+    }
+}

@@ -1,0 +1,85 @@
+.footer {
+    font-size: var(--fs-300);
+    background-color: var(--col-light);
+    color: var(--col-dark);
+
+    &__menu {
+        ul {
+            list-style: none;
+            padding-inline-start: 0;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    a:not([class]) {
+        text-decoration: none;
+        color: var(--col-dark);
+    }
+
+    .social-icons {
+        max-width: 200px;
+        a {
+            color: var(--col-grey-400);
+        }
+    }
+
+    &__logo {
+        max-width: 200px;
+    }
+
+
+    &__contact {
+        margin-top: 2rem;
+        font-weight: var(--fw-600);
+        & > * {
+            margin-bottom: 0.5rem;
+        }
+    }
+    .button {
+        max-width: 200px;
+    }
+
+    &__address {
+        li {
+            list-style: none;
+            padding-inline-start: 0;
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    &__iso {
+        max-width: 100px;
+        display: block;
+        margin-inline: auto;
+    }
+
+    .colophon,
+    .colophon a {
+        color: var(--col-grey-400);
+
+        &.cb {
+            content: url(../img/cb.png);
+            opacity: .6;
+            transition: all .3s ease;
+            &:hover {
+                opacity: 1;
+            }
+        }
+
+        .text-end {
+            display: flex ;
+            align-items: center;
+            line-height: 1;
+            gap: 0.25em;
+
+            justify-content: center;
+            @media (min-width:992px) {
+                justify-content: end;
+            }
+        }
+    }
+
+
+}
