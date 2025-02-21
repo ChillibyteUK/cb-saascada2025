@@ -120,10 +120,10 @@ if (!is_user_logged_in()) {
 }
 ?>
 <header id="wrapper-navbar" class="fixed-top p-0">
-    <nav class="navbar navbar-expand-lg p-0">
+    <nav class="navbar navbar-expand-xl p-0">
         <div class="container-xl py-3 nav-top align-items-center">
-            <div class="text-lg-center logo-container"><a href="/" class="logo" aria-label="SaaScada Homepage"></a></div>
-            <div class="button-container d-lg-none">
+            <div class="text-xl-center logo-container"><a href="/" class="logo" aria-label="SaaScada Homepage"></a></div>
+            <div class="button-container d-xl-none">
                 <button class="navbar-toggler mt-2" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false"
                         aria-label="Toggle navigation">
