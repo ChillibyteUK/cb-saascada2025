@@ -1,6 +1,7 @@
 .two_col_feature {
     position: relative;
     isolation: isolate;
+    color: var(--col-light);
     &__bg {
         position: absolute;
         inset: 0;
@@ -11,5 +12,8 @@
     }
     .container-xl {
         color: var(--col-light);
+        h2, h3 {
+            color: inherit;
+        }
     }
 }

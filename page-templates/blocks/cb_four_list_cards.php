@@ -1,6 +1,6 @@
 <section class="four_list_cards">
     <div class="container-xl py-5">
-        <h2 class="h3 has-blue-400-color mb-5"><?=get_field('title')?></h2>
+        <h2 class="has-blue-400-color mb-5"><?=get_field('title')?></h2>
         <div class="four_list_cards__grid g-5">
             <?php
             if (have_rows('cards')) {

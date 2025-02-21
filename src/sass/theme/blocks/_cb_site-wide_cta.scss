@@ -11,5 +11,8 @@
     }
     .container-xl {
         color: var(--col-light);
+        h2 {
+            color: inherit;
+        }
     }
 }

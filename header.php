@@ -137,7 +137,6 @@ if (!is_user_logged_in()) {
     array(
         'theme_location'  => 'primary_nav',
         'container_class' => 'w-100',
-        // 'container_id'    => 'primaryNav',
         'menu_class'      => 'navbar-nav justify-content-end',
         'fallback_cb'     => '',
         'menu_id'         => 'navbarr',

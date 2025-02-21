@@ -4,6 +4,28 @@ function acf_blocks()
     if (function_exists('acf_register_block_type')) {
 
         acf_register_block_type(array(
+            'name'                => 'cb_text_icon', 
+            'title'               => __('CB Text Icon'), 
+            'category'            => 'layout',
+            'icon'                => 'cover-image', 
+            'render_template'    => 'page-templates/blocks/cb_text_icon.php', 
+            'mode'                => 'edit',
+            'supports'            => array('mode' => false, 'anchor' => true, 'className' => true),
+        ));
+
+
+        acf_register_block_type(array(
+            'name'                => 'cb_page_hero', 
+            'title'               => __('CB Page Hero'), 
+            'category'            => 'layout',
+            'icon'                => 'cover-image', 
+            'render_template'    => 'page-templates/blocks/cb_page_hero.php', 
+            'mode'                => 'edit',
+            'supports'            => array('mode' => false, 'anchor' => true, 'className' => true),
+        ));
+
+
+        acf_register_block_type(array(
             'name'                => 'cb_site-wide_cta', 
             'title'               => __('CB Site-Wide CTA'), 
             'category'            => 'layout',

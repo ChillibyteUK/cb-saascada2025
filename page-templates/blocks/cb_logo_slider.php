@@ -1,7 +1,7 @@
 <section class="logo_slider">
     <?=wp_get_attachment_image(get_field('background'),'full',false,['class' => 'logo_slider__bg'])?>
     <div class="container-xl py-5">
-        <h2 class="text-white"><?=get_field('title')?></h2>
+        <h2><?=get_field('title')?></h2>
         <?php 
 $logos = get_field('logos'); // Retrieve the ACF gallery field
 
