@@ -72,7 +72,7 @@ get_header();
                         <?php
                         if ($first) {
                             ?>
-                        <div><?= get_field('excerpt') ?: wp_trim_words(get_the_content(),20)?></div>
+                        <div><?= get_field('excerpt') ?: wp_trim_words(get_the_content(),25)?></div>
                             <?php
                         }
                         ?>
