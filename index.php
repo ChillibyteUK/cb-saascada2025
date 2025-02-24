@@ -41,10 +41,7 @@ get_header();
             $first = true;
     while (have_posts()) {
         the_post();
-        $img = get_the_post_thumbnail_url(get_the_ID(), 'large');
-        if (!$img) {
-            $img = '<img src="' . get_stylesheet_directory_uri() . '/img/default-blog.jpg" class="news__image">';
-        }
+        $img = get_the_post_thumbnail(get_the_ID(), 'large',['class' => 'news__img']) ?: '<img src="' . get_stylesheet_directory_uri() . '/img/default-blog.jpg" class="news__image">';
         $cats = get_the_category();
         $category = wp_list_pluck($cats, 'name');
         $flashcat = $category[0];
@@ -61,7 +58,7 @@ get_header();
                 <a href="<?=get_the_permalink()?>"
                     class="news__item <?=$class?>">
                     <div class="news__image">
-                        <?=get_the_post_thumbnail(get_the_ID(), 'large',['class' => 'news__img']) ?? $img?>
+                        <?=$img?>
                         <div class="overlay"></div>
                         <div class="catflash">
                             <?=$flashcat?>
