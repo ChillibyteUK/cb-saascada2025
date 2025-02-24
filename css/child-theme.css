@@ -22205,6 +22205,68 @@ header .dropdown.current-menu-item > .nav-link {
   transition: transform var(--transition);
 }
 
+.blog__title {
+  font-size: var(--fs-800);
+}
+.blog__image {
+  aspect-ratio: 16/9;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+.blog__meta {
+  font-size: var(--fs-300);
+}
+
+.related {
+  display: grid;
+  gap: 1rem;
+}
+@media (min-width: 576px) {
+  .related {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+@media (min-width: 992px) {
+  .related {
+    grid-template-columns: 1fr;
+  }
+}
+.related__card {
+  background-color: var(--col-light);
+  text-decoration: none;
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 4;
+  gap: 0;
+  align-items: stretch;
+  height: 100%;
+}
+.related__card:hover .related__image {
+  opacity: 0.6;
+}
+.related__image {
+  aspect-ratio: 16/9;
+  width: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+  transition: opacity var(--transition);
+}
+.related__title {
+  font-size: var(--fs-400);
+  color: var(--col-blue-400);
+  margin-bottom: 0.5rem;
+  padding-inline: 0.5rem;
+}
+.related__date {
+  align-self: end;
+  color: var(--col-teal-400);
+  font-size: var(--fs-300);
+  font-weight: var(--fw-400);
+  padding-inline: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
 .home_hero {
   color: var(--col-light);
   position: relative;
@@ -22559,7 +22621,7 @@ main a.anchor {
   font-size: var(--fs-200);
 }
 
-.container-xl > .container-xl, .yoast-breadcrumbs > .container-xl, .container-xl > .yoast-breadcrumbs, .yoast-breadcrumbs > .yoast-breadcrumbs {
+.container-xl .container-xl, .yoast-breadcrumbs .container-xl, .container-xl .yoast-breadcrumbs, .yoast-breadcrumbs .yoast-breadcrumbs {
   padding-inline: 0;
 }
 

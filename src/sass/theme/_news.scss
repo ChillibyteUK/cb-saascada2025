@@ -118,41 +118,66 @@
 }
 
 
-// .pagination {
-//     width: fit-content;
-//     ul{
-//         list-style: none;
-//         display: flex;
-//         padding-inline-start: 0;
-//     }
-//     li {
-        
-//         border: 1px solid var(--col-blue-400);
-//         border-right: none;
-//         background-color: white;
-//         &.active {
-//             background-color: var(--col-blue-400);
-//             a {
-//                 cursor: default;
-//                 font-weight: 600;
-//             }
-//         }
-//         &:first-of-type {
-//             border-top-left-radius: 0.25rem;
-//             border-bottom-left-radius: 0.25rem;
-//         }
-//         &:last-of-type {
-//             border-top-right-radius: 0.25rem;
-//             border-bottom-right-radius: 0.25rem;
-//             border-right: 1px solid var(--col-blue-400);
-//         }
-//     }
+.blog {
+    &__title {
+        font-size: var(--fs-800);
+    }
+    &__image {
+        aspect-ratio: 16 / 9;
+        width: 100%;
+        margin-bottom: 1rem;
+        object-fit: cover;
+    }
+    &__meta {
+        font-size: var(--fs-300);
+    }
+}
 
-//     a {
-//         display: block;
-//         text-decoration: none;
-//         color: black;
-//         padding: 0.5rem 1rem;
-//     }
+.related {
+    display: grid;
+    gap: 1rem;
 
-// }
+    @media (min-width:576px) {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    @media (min-width:992px) {
+        grid-template-columns: 1fr;
+    }
+
+    &__card {
+        background-color: var(--col-light);
+        text-decoration: none;
+        display: grid;
+        grid-template-rows: subgrid;
+        grid-row: span 4;
+        gap: 0;
+        align-items: stretch;
+        height: 100%;
+        &:hover {
+            .related__image {
+                opacity: 0.6;
+            }
+        }
+    }
+    &__image {
+        aspect-ratio: 16 / 9;
+        width: 100%;
+        object-fit: cover;
+        margin-bottom: 0.5rem;
+        transition: opacity var(--transition);
+    }
+    &__title {
+        font-size: var(--fs-400);
+        color: var(--col-blue-400);
+        margin-bottom: 0.5rem;
+        padding-inline: 0.5rem;
+    }
+    &__date {
+        align-self: end;
+        color: var(--col-teal-400);
+        font-size: var(--fs-300);
+        font-weight: var(--fw-400);
+        padding-inline: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+}
