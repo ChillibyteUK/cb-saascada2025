@@ -1,0 +1,101 @@
+.news {
+    &__grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 2rem;
+    }
+
+    &__item {
+        text-decoration: none;
+        color: inherit;
+        font-weight: inherit;
+        &:hover {
+            .overlay {
+                opacity: 0.4;
+            }
+            .news__link {
+                &::after {
+                    transform: translateX(0.5rem);
+                }
+            }
+        }
+    }
+
+    h3 {
+        font-size: var(--fs-400);
+    }
+    &__first {
+        grid-column: span 3;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 2rem;
+        h3 {
+            font-size: var(--fs-600);
+        }
+        .news__inner {
+            grid-template-rows: auto 1fr auto;
+        }
+    }
+
+    &__item:not(.news__first) {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        .news__image {
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    &__image {
+        position: relative;
+        width: 100%;
+    }
+    &__img {
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+    }
+    .overlay {
+        background-color: var(--col-blue-400);
+        inset: 0;
+        position: absolute;
+        opacity: 0;
+        transition: opacity var(--transition);
+    }
+
+    .catflash {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        background-color: var(--col-blue-400);
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 100vw;
+        font-size: var(--fs-300);
+        font-weight: var(--fw-400);
+    }
+
+    &__inner {
+        display: grid;
+        align-items: stretch;
+    }
+
+    &__meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: var(--fs-300);
+        align-items: end;
+    }
+    &__link {
+        position: relative;
+        display: inline-block;
+        padding-right: 1.5rem;
+        &::after {
+            position: absolute;
+            content: "\f178";
+            font-family: var(--ff-fa);
+            font-weight: 600;
+            right: 0.5rem;
+            transition: transform var(--transition);
+        }
+    }
+    
+}

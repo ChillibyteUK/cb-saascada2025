@@ -3,6 +3,7 @@
     position: relative;
     height: 400px;
     isolation: isolate;
+    overflow: hidden;
     &__bg {
         position: absolute;
         width: 100%;

@@ -3,56 +3,54 @@
 defined('ABSPATH') || exit;
 
 $page_for_posts = get_option('page_for_posts');
-$bg = get_the_post_thumbnail_url($page_for_posts, 'full');
+$bg = get_the_post_thumbnail($page_for_posts, 'full',['class' => 'page_hero__bg']);
 
 get_header();
 ?>
-<main id="main" class="theme--blue">
-    <section class="hero hero--short" data-parallax="scroll"
-        data-image-src="<?=get_the_post_thumbnail_url(get_option('page_for_posts'), 'full')?>">
-        <div class="container-bg bg--left">
-            <div class="container-xl pe-0">
-                <div class="hero__content">
-                    <h1 data-aos="fade-right">SaaScada News and Insights</h1>
-                </div>
-            </div>
-        </div>
-    </section>
+<main id="main">
+<?php
+?>
+<section class="page_hero">
+    <?= $bg ?>
+    <div class="container-xl">
+        <h1 class="page_hero__title">SaaScada News and Insights</h1>
+        <a href="/contact/" class="button button-outline">Contact us</a>
+    </div>
+</section>
 
-    <div class="container-xl py-5">
+
+    <div class="container-xl py-5 news">
         <?php
         if (get_the_content(null, false, $page_for_posts)) {
             echo '<div class="mb-5">' . get_the_content(null, false, $page_for_posts) . '</div>';
         }
 
-        /*
-        $cats = get_categories(array('exclude' => array(32)));
+        // $cats = get_categories(array('exclude' => array(32)));
+        $cats = get_categories();
         ?>
         <div class="filters mb-4">
             <?php
-        echo '<button class="btn btn-outline-primary active me-2 mb-2" data-filter="*">All</button>';
+        echo '<a class="button button--sm active me-2 mb-2" href="/insights/">All</a>';
         foreach ($cats as $cat) {
-            echo '<button class="btn btn-outline-primary me-2 mb-2" data-filter=".' . cbslugify($cat->name) . '">' . $cat->cat_name . '</button>';
+            echo '<a class="button button--sm me-2 mb-2" href="' . esc_url(get_category_link($cat->term_id)) . ' ">' . $cat->cat_name . '</a>';
         }
         ?>
         </div>
-        <?php
-        */
-?>
-        <div class="row w-100" id="newsGrid">
+        <div class="news__grid">
             <?php
+            $first = true;
     while (have_posts()) {
         the_post();
         $img = get_the_post_thumbnail_url(get_the_ID(), 'large');
         if (!$img) {
-            $img = get_stylesheet_directory_uri() . '/img/default-blog.jpg';
+            $img = '<img src="' . get_stylesheet_directory_uri() . '/img/default-blog.jpg" class="news__image">';
         }
         $cats = get_the_category();
         $category = wp_list_pluck($cats, 'name');
-        $flashcat = cbslugify($category[0]);
-        $catClass = implode(' ', array_map('cbslugify', $category));
-        $category = implode(', ', $category);
+        $flashcat = $category[0];
 
+        $class = $first ? 'news__first' : '';
+        
         if (has_category('event')) {
             $the_date = get_field('start_date', get_the_ID());
         } else {
@@ -60,25 +58,34 @@ get_header();
         }
 
         ?>
-            <div
-                class="grid_item col-lg-4 col-md-6 px-1 <?=$catClass?>">
                 <a href="<?=get_the_permalink()?>"
-                    class="news_grid__item mb-2 mx-1"
-                    style="background-image:url(<?=$img?>)"
-                    data-aos="fade">
-                    <div class="overlay <?=$catClass?>"></div>
-                    <!-- div class="catflash <?=$catClass?>">
-                    <?=$flashcat?>
-            </div -->
-            <h3><?=get_the_title()?></h3>
-            <div class="news_meta">
-                <div class="news_meta__date">
-                    <?=get_the_date('j F Y')?>
-                </div>
-            </div>
-            </a>
-        </div>
+                    class="news__item <?=$class?>">
+                    <div class="news__image">
+                        <?=get_the_post_thumbnail(get_the_ID(), 'large',['class' => 'news__img']) ?? $img?>
+                        <div class="overlay"></div>
+                        <div class="catflash">
+                            <?=$flashcat?>
+                        </div>
+                    </div>
+                    <div class="news__inner">
+                        <h3><?= get_field('title') ?: get_the_title()?></h3>
+                        <?php
+                        if ($first) {
+                            ?>
+                        <div><?= get_field('excerpt') ?: wp_trim_words(get_the_content(),20)?></div>
+                            <?php
+                        }
+                        ?>
+                        <div class="news__meta">
+                            <div class="news__date">
+                                <?=get_the_date('j F Y')?>
+                            </div>
+                            <div class="news__link">Read More</div>
+                        </div>
+                    </div>
+                </a>
         <?php
+        $first = false;
     }
 ?>
     </div>

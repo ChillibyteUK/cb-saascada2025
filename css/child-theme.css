@@ -22095,6 +22095,95 @@ header .dropdown.current-menu-item > .nav-link {
   grid-column: 1/4;
 }
 
+.news__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+}
+.news__item {
+  text-decoration: none;
+  color: inherit;
+  font-weight: inherit;
+}
+.news__item:hover .overlay {
+  opacity: 0.4;
+}
+.news__item:hover .news__link::after {
+  transform: translateX(0.5rem);
+}
+.news h3, .news .h3 {
+  font-size: var(--fs-400);
+}
+.news__first {
+  grid-column: span 3;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+}
+.news__first h3, .news__first .h3 {
+  font-size: var(--fs-600);
+}
+.news__first .news__inner {
+  grid-template-rows: auto 1fr auto;
+}
+.news__item:not(.news__first) {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+.news__item:not(.news__first) .news__image {
+  margin-bottom: 0.5rem;
+}
+.news__image {
+  position: relative;
+  width: 100%;
+}
+.news__img {
+  aspect-ratio: 16/9;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+.news .overlay {
+  background-color: var(--col-blue-400);
+  inset: 0;
+  position: absolute;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+.news .catflash {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background-color: var(--col-blue-400);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 100vw;
+  font-size: var(--fs-300);
+  font-weight: var(--fw-400);
+}
+.news__inner {
+  display: grid;
+  align-items: stretch;
+}
+.news__meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fs-300);
+  align-items: end;
+}
+.news__link {
+  position: relative;
+  display: inline-block;
+  padding-right: 1.5rem;
+}
+.news__link::after {
+  position: absolute;
+  content: "\f178";
+  font-family: var(--ff-fa);
+  font-weight: 600;
+  right: 0.5rem;
+  transition: transform var(--transition);
+}
+
 .home_hero {
   color: var(--col-light);
   position: relative;
@@ -22352,6 +22441,7 @@ header .dropdown.current-menu-item > .nav-link {
   position: relative;
   height: 400px;
   isolation: isolate;
+  overflow: hidden;
 }
 .page_hero__bg {
   position: absolute;
