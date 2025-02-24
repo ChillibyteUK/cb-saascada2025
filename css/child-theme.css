@@ -22383,6 +22383,14 @@ main {
     margin-top: var(--h-top-desktop);
   }
 }
+main.blog {
+  margin-top: calc(var(--h-top) + 1rem);
+}
+@media (min-width: 992px) {
+  main.blog {
+    margin-top: calc(var(--h-top-desktop) + 1rem);
+  }
+}
 main a {
   display: inline-block;
   font-weight: var(--fw-900);

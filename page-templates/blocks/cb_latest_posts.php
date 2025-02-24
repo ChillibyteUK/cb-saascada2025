@@ -7,7 +7,10 @@ if ($q->have_posts()) {
     ?>
 <section class="latest_posts">
     <div class="container-xl py-5">
-        <h2 class="has-blue-400-color">Latest News &amp; Blog</h2>
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <h2 class="has-blue-400-color mb-3">Latest News &amp; Blog</h2>
+            <a class="button button--sm" href="/insights/">All Insights</a>
+        </div>
         <div class="latest_posts__grid">
         <?php
         while($q->have_posts()) {
