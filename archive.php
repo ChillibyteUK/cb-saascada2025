@@ -5,6 +5,9 @@ defined('ABSPATH') || exit;
 $page_for_posts = get_option('page_for_posts');
 $bg = get_the_post_thumbnail($page_for_posts, 'full',['class' => 'page_hero__bg']);
 
+$category = get_queried_object(); // Get current category ID
+
+
 get_header();
 ?>
 <main id="main">
@@ -14,6 +17,7 @@ get_header();
     <?= $bg ?>
     <div class="container-xl">
         <h1 class="page_hero__title">SaaScada News and Insights</h1>
+        <h2 class="text-white"><?=$category->name?></h2>
         <a href="/contact/" class="button button-outline">Contact us</a>
     </div>
 </section>
@@ -30,9 +34,10 @@ get_header();
         ?>
         <div class="filters mb-4">
             <?php
-        echo '<a class="button button--sm active me-2 mb-2" href="/insights/">All</a>';
+        echo '<a class="button button--sm me-2 mb-2" href="/insights/">All</a>';
         foreach ($cats as $cat) {
-            echo '<a class="button button--sm me-2 mb-2" href="' . esc_url(get_category_link($cat->term_id)) . ' ">' . $cat->cat_name . '</a>';
+            $active_class = ($cat->term_id == $category->term_id) ? ' active' : ''; // Check if it's the current category
+            echo '<a class="button button--sm me-2 mb-2' . $active_class . '" href="' . esc_url(get_category_link($cat->term_id)) . '">' . esc_html($cat->cat_name) . '</a>';
         }
         ?>
         </div>

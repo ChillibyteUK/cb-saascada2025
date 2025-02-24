@@ -21907,6 +21907,10 @@ strong, .fw-bold, .fw-600 {
   background-color: var(--col-blue-400);
   color: var(--col-light);
 }
+.button--sm.active {
+  background-color: var(--col-blue-400);
+  color: var(--col-light);
+}
 
 header {
   background-color: white;
@@ -22613,49 +22617,9 @@ main a.anchor {
 }
 
 .pagination {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.pagination > * {
-  width: 32px;
-  height: 32px;
-  display: grid;
-  place-content: center;
-}
-@media (min-width: 768px) {
-  .pagination {
-    gap: 1rem;
-  }
-  .pagination > * {
-    width: 44px;
-    height: 44px;
-  }
-}
-.pagination .page-link {
-  background-color: transparent;
-  border: none;
-}
-
-.page-numbers:not(.prev):not(.next),
-.page-item {
-  position: relative;
-  text-decoration: none;
-  border: 2px solid var(--col-blue-700);
-  border-radius: 100vw;
-}
-.page-numbers:not(.prev):not(.next).current, .page-numbers:not(.prev):not(.next).active,
-.page-item.current,
-.page-item.active {
-  background-color: var(--col-blue-700);
-  color: white;
-}
-
-.page-numbers:not(.current):not(.dots) {
-  transition: background-color var(--transition);
-}
-.page-numbers:not(.current):not(.dots):hover {
-  background-color: var(--col-blue-200);
+  --bs-pagination-color: var(--col-blue-400);
+  --bs-pagination-active-bg: var(--col-blue-400);
+  --bs-pagination-active-border-color: var(--col-blue-400);
 }
 
 .wp-block-list li {

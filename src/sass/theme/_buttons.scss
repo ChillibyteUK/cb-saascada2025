@@ -42,5 +42,8 @@
         background-color: var(--col-blue-400);
         color: var(--col-light);
     }
-
+    &.active {
+        background-color: var(--col-blue-400);
+        color: var(--col-light);
+    }
 }

@@ -116,3 +116,43 @@
     }
     
 }
+
+
+// .pagination {
+//     width: fit-content;
+//     ul{
+//         list-style: none;
+//         display: flex;
+//         padding-inline-start: 0;
+//     }
+//     li {
+        
+//         border: 1px solid var(--col-blue-400);
+//         border-right: none;
+//         background-color: white;
+//         &.active {
+//             background-color: var(--col-blue-400);
+//             a {
+//                 cursor: default;
+//                 font-weight: 600;
+//             }
+//         }
+//         &:first-of-type {
+//             border-top-left-radius: 0.25rem;
+//             border-bottom-left-radius: 0.25rem;
+//         }
+//         &:last-of-type {
+//             border-top-right-radius: 0.25rem;
+//             border-bottom-right-radius: 0.25rem;
+//             border-right: 1px solid var(--col-blue-400);
+//         }
+//     }
+
+//     a {
+//         display: block;
+//         text-decoration: none;
+//         color: black;
+//         padding: 0.5rem 1rem;
+//     }
+
+// }
