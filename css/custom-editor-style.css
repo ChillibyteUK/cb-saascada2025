@@ -3,7 +3,7 @@
   /* Colours */
   --hsl-dark: 0 0% 20%;
   --col-dark: hsl(var(--hsl-dark));
-  --hsl-light: 0 0% 98%;
+  --hsl-light: 0 0% 97%;
   --col-light: hsl(var(--hsl-light));
   --hsl-grey-400: 0 0% 40%;
   --col-grey-400: hsl(var(--hsl-grey-400));

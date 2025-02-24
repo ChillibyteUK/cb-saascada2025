@@ -15,7 +15,7 @@
 
     }
     &__card {
-        background-color: white;
+        background-color: var(--col-light);
         text-decoration: none;
         display: grid;
         grid-template-rows: subgrid;
@@ -40,17 +40,21 @@
         font-size: var(--fs-400);
         color: var(--col-blue-400);
         margin-bottom: 0.5rem;
+        padding-inline: 0.5rem;
     }
     &__excerpt {
         font-size: var(--fs-300);
         font-weight: var(--fw-400);
         margin-bottom: 0.5rem;
         color: var(--col-dark);
+        padding-inline: 0.5rem;
     }
     &__date {
         align-self: end;
         color: var(--col-teal-400);
         font-size: var(--fs-300);
         font-weight: var(--fw-400);
+        padding-inline: 0.5rem;
+        padding-bottom: 0.5rem;
     }
 }

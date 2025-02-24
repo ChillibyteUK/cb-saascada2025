@@ -3,7 +3,7 @@
   /* Colours */
   --hsl-dark: 0 0% 20%;
   --col-dark: hsl(var(--hsl-dark));
-  --hsl-light: 0 0% 98%;
+  --hsl-light: 0 0% 97%;
   --col-light: hsl(var(--hsl-light));
   --hsl-grey-400: 0 0% 40%;
   --col-grey-400: hsl(var(--hsl-grey-400));
@@ -22110,12 +22110,13 @@ header .dropdown.current-menu-item > .nav-link {
   }
 }
 .news__item {
+  background-color: var(--col-light);
   text-decoration: none;
   color: inherit;
   font-weight: inherit;
 }
-.news__item:hover .overlay {
-  opacity: 0.4;
+.news__item:hover .news__img {
+  opacity: 0.8;
 }
 .news__item:hover .news__link::after {
   transform: translateX(0.5rem);
@@ -22144,6 +22145,7 @@ header .dropdown.current-menu-item > .nav-link {
 }
 .news__first .news__inner {
   grid-template-rows: auto 1fr auto;
+  padding: 1rem;
 }
 .news__item:not(.news__first) {
   display: grid;
@@ -22160,12 +22162,6 @@ header .dropdown.current-menu-item > .nav-link {
   aspect-ratio: 16/9;
   -o-object-fit: cover;
   object-fit: cover;
-}
-.news .overlay {
-  background-color: var(--col-blue-400);
-  inset: 0;
-  position: absolute;
-  opacity: 0;
   transition: opacity var(--transition);
 }
 .news .catflash {
@@ -22182,6 +22178,7 @@ header .dropdown.current-menu-item > .nav-link {
 .news__inner {
   display: grid;
   align-items: stretch;
+  padding: 0 0.5rem 0.5rem 0.5rem;
 }
 .news__meta {
   display: flex;
@@ -22397,7 +22394,7 @@ header .dropdown.current-menu-item > .nav-link {
   }
 }
 .latest_posts__card {
-  background-color: white;
+  background-color: var(--col-light);
   text-decoration: none;
   display: grid;
   grid-template-rows: subgrid;
@@ -22421,18 +22418,22 @@ header .dropdown.current-menu-item > .nav-link {
   font-size: var(--fs-400);
   color: var(--col-blue-400);
   margin-bottom: 0.5rem;
+  padding-inline: 0.5rem;
 }
 .latest_posts__excerpt {
   font-size: var(--fs-300);
   font-weight: var(--fw-400);
   margin-bottom: 0.5rem;
   color: var(--col-dark);
+  padding-inline: 0.5rem;
 }
 .latest_posts__date {
   align-self: end;
   color: var(--col-teal-400);
   font-size: var(--fs-300);
   font-weight: var(--fw-400);
+  padding-inline: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .site-wide_cta {

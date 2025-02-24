@@ -5,8 +5,8 @@ defined('ABSPATH') || exit;
 <div id="footer-top"></div>
 <footer class="footer pt-5 pb-4">
     <div class="container">
-        <div class="row g-4 g-lg-5 mb-5">
-            <div class="col-xl-2 text-center text-xl-start mb-3">
+        <div class="row g-4 g-lg-2 g-xxl-5 mb-5">
+            <div class="col-xl-2 text-center text-xl-start mb-3 pe-3">
                 <img src="<?=get_stylesheet_directory_uri()?>/img/saascada-logo.svg" alt="SaaScada" class="footer__logo">
                 <?=do_shortcode('[social_icons class="mt-4 d-flex justify-content-between fs-500 mx-auto"]')?>
             </div>
