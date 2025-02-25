@@ -58,10 +58,59 @@
           toggle.classList.remove('show');
           toggle.blur();
       });
-});
+    });
 
+    // document.addEventListener("DOMContentLoaded", () => {
+    //     // Create cursor element
+    //     const cursor = document.createElement("div");
+    //     cursor.classList.add("custom-cursor");
+    //     document.body.appendChild(cursor);
+    
+    //     // Move cursor with mouse
+    //     document.addEventListener("mousemove", (e) => {
+    //         cursor.style.left = `${e.clientX}px`;
+    //         cursor.style.top = `${e.clientY}px`;
+    //     });
+    
+    //     // Add active class on link hover
+    //     document.querySelectorAll("a").forEach((link) => {
+    //         link.addEventListener("mouseenter", () => cursor.classList.add("active"));
+    //         link.addEventListener("mouseleave", () => cursor.classList.remove("active"));
+    //     });
+    // });
 
+    document.addEventListener("DOMContentLoaded", () => {
+        const cursor = document.createElement("div");
+        cursor.classList.add("custom-cursor");
+        document.body.appendChild(cursor);
+    
+        const cards = document.querySelectorAll(".partners__card");
 
+        if (cards.length > 0) {
+            // Show custom cursor when entering any .partners__card
+            cards.forEach(card => {
+                card.addEventListener("mouseenter", () => {
+                    cursor.style.opacity = "1";
+                });
+    
+                card.addEventListener("mouseleave", () => {
+                    cursor.style.opacity = "0";
+                });
+    
+                // Move cursor inside the .partners__card
+                card.addEventListener("mousemove", (e) => {
+                    cursor.style.left = `${e.clientX}px`;
+                    cursor.style.top = `${e.clientY}px`;
+                });
+    
+                // // Enlarge cursor on links inside the card
+                // card.querySelectorAll("a").forEach(link => {
+                //     link.addEventListener("mouseenter", () => cursor.classList.add("active"));
+                //     link.addEventListener("mouseleave", () => cursor.classList.remove("active"));
+                // });
+            });
+        }
+    });
 
   // Toggle navdark class on nav toggle button click
 //   document.getElementById('navToggle').addEventListener('click', function() {

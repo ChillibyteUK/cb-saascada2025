@@ -7,6 +7,30 @@
 @import "news";
 @import "blocks/blocks";
 
+
+// body, a {
+//     cursor: none;
+// }
+// .custom-cursor {
+//     position: fixed;
+//     width: 12px;
+//     height: 12px;
+//     background-color: rgba(255, 255, 255, 0.7);
+//     border: 2px solid hsl( var(--hsl-dark) / 0.7);
+//     border-radius: 50%;
+//     pointer-events: none; /* Prevent interaction */
+//     transform: translate(-50%, -50%);
+//     transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
+//     z-index: 9999;
+// }
+
+// /* Cursor enlarges when hovering over a link */
+// .custom-cursor.active {
+//     width: 40px;
+//     height: 40px;
+//     background-color: hsl( var(--hsl-dark) / 0.2);
+// }
+
 main {
     margin-top: var(--h-top);
     @media (min-width:992px) {

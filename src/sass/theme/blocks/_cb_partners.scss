@@ -10,6 +10,10 @@
         }
     }
     &__card {
+
+        cursor: none;
+        position: relative;
+
         background-color: var(--col-light);
         text-decoration: none;
         display: grid;
@@ -95,3 +99,28 @@
         }
     }
 }
+
+/* Custom Cursor */
+.custom-cursor {
+    position: fixed;
+    width: 42px;
+    height: 42px;
+    background-color: hsl(var(--hsl-blue-400) / 0.7);
+    border-radius: 50%;
+    pointer-events: none; /* Ensures clicks pass through */
+    transform: translate(-50%, -50%);
+    transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
+    z-index: 9999;
+    opacity: 0;
+    &::after {
+        content: "\f08e";
+        font-family: var(--ff-fa);
+        font-weight: 600;
+        color: white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
