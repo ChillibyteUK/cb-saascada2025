@@ -1,91 +1,193 @@
 <!-- partners -->
 <section class="partners">
     <div class="container-xl">
-    <?php
-        $cats = get_categories( array( 'taxonomy' => 'partner-type'));
-        ?>
-        <div class="filters mb-4">
-            <select name="" id="filter-select" class="form-select">
-                <option value="all">All</option>
-            <?php
-        foreach ($cats as $cat) {
-            echo '<option value="' . cbslugify($cat->name) . '">' . $cat->cat_name . '</option>';
+        <?php
+        // Get all categories
+        $cats = get_categories(['taxonomy' => 'partner-type']);
+
+        // Get partners and determine valid letters for each category
+        $partners = new WP_Query([
+            'post_type' => 'partners',
+            'posts_per_page' => -1,
+            'post_status' => 'publish',
+            'orderby' => 'post_title',
+            'order' => 'asc',
+        ]);
+
+        $valid_filters = [];
+        while ($partners->have_posts()) {
+            $partners->the_post();
+            $title = get_the_title();
+            $first_letter = strtoupper(mb_substr($title, 0, 1));
+
+            if (!ctype_alpha($first_letter)) continue; // Ignore non-alpha titles
+
+            $terms = get_the_terms(get_the_ID(), 'partner-type');
+            $categories = $terms ? wp_list_pluck($terms, 'name') : [];
+
+            // Store valid category-letter combinations
+            foreach ($categories as $category) {
+                $slug = cbslugify($category);
+                $valid_filters[$slug][$first_letter] = true;
+            }
+
+            // Store valid letters globally
+            $valid_filters['all'][$first_letter] = true;
         }
+        wp_reset_postdata();
         ?>
-            </select>
+
+        <!-- Filters -->
+        <div class="filters mb-4">
+            <!-- A-Z Filter -->
+            <div>
+                <div class="filter-label">
+                    By Name
+                </div>
+                <div class="alphabet-filter">
+                    <?php foreach (range('A', 'Z') as $letter) : ?>
+                        <button class="alpha-btn" 
+                                data-letter="<?= $letter ?>" 
+                                <?= isset($valid_filters['all'][$letter]) ? '' : 'disabled' ?>>
+                            <?= $letter ?>
+                        </button>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <!-- Category Filter -->
+            <div>
+                <div class="filter-label">
+                    By Category
+                </div>
+                <select id="filter-select" class="form-select">
+                    <option value="all">All</option>
+                    <?php foreach ($cats as $cat) : ?>
+                        <option value="<?= cbslugify($cat->name) ?>"><?= $cat->cat_name ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <!-- Reset Button -->
+            <button id="reset-filters" class="button button--sm">Reset Filters</button>
         </div>
 
+        <!-- Partners Grid -->
         <div class="partners__grid pb-5" id="grid">
             <?php
-$q = new WP_Query(array(
-    'post_type' => 'partners',
-    'posts_per_page' => -1,
-    'post_status' => 'publish'
-));
-
-    while ($q->have_posts()) {
-        $q->the_post();
-        $url = get_field('url',get_the_ID()) ?? null;
-        $cats = get_the_terms( get_the_ID(), 'partner-type');
-        $category = wp_list_pluck($cats, 'name');
-        $flashcat = cbslugify($category[0]);
-        $catclass = implode(' ', array_map( 'cbslugify', $category ) );
-        $category = implode(', ',$category);
-        ?>
-<a class="grid-item partners__card <?=$catclass?>" href="<?=$url?>" target="_blank" rel="nofollow">
-    <?=get_the_post_thumbnail(get_the_ID(),'large',['class' => 'partners__logo', 'alt' => get_the_title()])?>
-    <div class="partners__inner"><?=get_field('description',get_the_ID())?></div>
-</a>
-        <?php
-    }
-wp_reset_postdata();
+            while ($partners->have_posts()) {
+                $partners->the_post();
+                $url = get_field('url', get_the_ID()) ?? null;
+                $terms = get_the_terms(get_the_ID(), 'partner-type');
+                $categories = $terms ? wp_list_pluck($terms, 'name') : [];
+                $catclass = implode(' ', array_map('cbslugify', $categories));
+                $first_letter = strtoupper(mb_substr(get_the_title(), 0, 1));
+                ?>
+                <a class="grid-item partners__card <?= $catclass ?>" 
+                   href="<?= $url ?>" 
+                   target="_blank" 
+                   rel="nofollow" 
+                   data-letter="<?= $first_letter ?>">
+                    <?= get_the_post_thumbnail(get_the_ID(), 'large', ['class' => 'partners__logo', 'alt' => get_the_title()]) ?>
+                    <div class="partners__inner">
+                        <?= get_field('description', get_the_ID()) ?>
+                        <div class="partners__cats"><?=implode(', ',$categories)?></div>
+                    </div>
+                </a>
+                <?php
+            }
+            wp_reset_postdata();
             ?>
         </div>
     </div>
 </section>
+
 <?php
 set_query_var('cta_title', 'Interested in becoming a partner?');
 set_query_var('cta_content', 'We have worked with a wide range of tech partners and we’re keen to work with partners who want to create great client outcomes for our mutual (or soon to be mutual) customers. Please contact us to discuss partnership possibilities.');
 set_query_var('cta_link', ['url' => '/contact/', 'target' => 'self', 'title' => 'Get in Touch']);
-// set_query_var('cta_background', 123); // Image ID
-
 get_template_part('page-templates/blocks/cb_site-wide_cta');
 
-
-add_action('wp_footer',function(){
+add_action('wp_footer', function () use ($valid_filters) {
     ?>
     <script>
-document.addEventListener('DOMContentLoaded', () => {
-    // Get the select dropdown element
-    const filterSelect = document.getElementById('filter-select');
-    
-    // Get all the grid items
-    const gridItems = document.querySelectorAll('.grid-item');
-    
-    // Function to show/hide grid items based on the class
-    function filterItems(filterClass) {
-        gridItems.forEach(item => {
-            if (filterClass === 'all' || item.classList.contains(filterClass)) {
-                item.style.display = 'block';
-                setTimeout(() => {
-                    item.classList.remove('hidden');
-                }, 0);
-            } else {
-                item.classList.add('hidden');
-                setTimeout(() => {
-                    item.style.display = 'none';
-                }, 0);
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterSelect = document.getElementById('filter-select');
+            const gridItems = document.querySelectorAll('.grid-item');
+            const alphaButtons = document.querySelectorAll('.alpha-btn');
+            const resetButton = document.getElementById('reset-filters');
+
+            // Valid category-letter map from PHP
+            const validFilters = <?= json_encode($valid_filters) ?>;
+
+            let activeLetter = null;
+            let activeCategory = 'all';
+
+            // Function to filter items
+            function filterItems() {
+                gridItems.forEach(item => {
+                    const matchesCategory = activeCategory === 'all' || item.classList.contains(activeCategory);
+                    const matchesLetter = !activeLetter || item.dataset.letter === activeLetter;
+
+                    if (matchesCategory && matchesLetter) {
+                        item.style.display = 'grid';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                updateLetterButtons();
             }
+
+            // Function to update letter button states
+            function updateLetterButtons() {
+                alphaButtons.forEach(button => {
+                    const letter = button.dataset.letter;
+                    if (validFilters[activeCategory] && validFilters[activeCategory][letter]) {
+                        button.disabled = false;
+                    } else {
+                        button.disabled = true;
+                    }
+                });
+            }
+
+            // Handle category filter change
+            filterSelect.addEventListener('change', () => {
+                activeCategory = filterSelect.value;
+                activeLetter = null;
+                alphaButtons.forEach(btn => btn.classList.remove('active'));
+                filterItems();
+            });
+
+            // Handle letter filter click
+            alphaButtons.forEach(button => {
+                if (!button.disabled) {
+                    button.addEventListener('click', () => {
+                        if (button.classList.contains('active')) {
+                            button.classList.remove('active');
+                            activeLetter = null;
+                        } else {
+                            alphaButtons.forEach(btn => btn.classList.remove('active'));
+                            button.classList.add('active');
+                            activeLetter = button.dataset.letter;
+                        }
+                        filterItems();
+                    });
+                }
+            });
+
+            // Handle reset button
+            resetButton.addEventListener('click', () => {
+                activeCategory = 'all';
+                activeLetter = null;
+                filterSelect.value = 'all';
+                alphaButtons.forEach(btn => btn.classList.remove('active'));
+                filterItems();
+            });
+
+            // Initial update to disable unavailable letters
+            updateLetterButtons();
         });
-    }
-
-    // Add event listener to the select dropdown
-    filterSelect.addEventListener('change', () => {
-        const filterClass = filterSelect.value; // Use the selected value as the filter class
-        filterItems(filterClass);
-    });
-
-});
     </script>
     <?php
 },9999);
