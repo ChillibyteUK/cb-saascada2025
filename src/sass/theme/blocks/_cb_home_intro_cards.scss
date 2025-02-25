@@ -18,15 +18,24 @@
             padding-top: 145px;
         }
     }
+
+    &__card {
+        display: grid;
+        gap: 0.5rem;
+        grid-template-rows: auto auto 1fr auto;
+        justify-content: center;
+        height: 100%;
+    }
+
     &__icon {
         max-width: min(185px, 50vw);
-        margin-bottom: 1rem;
+        margin-inline: auto;
     }
     .h4 {
         max-width: 14ch;
         line-height: 1.2;
         margin-inline: auto;
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.25rem;
     }
     .fs-300 {
         max-width: 35ch;
