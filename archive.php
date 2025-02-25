@@ -34,10 +34,10 @@ get_header();
         ?>
         <div class="filters mb-4">
             <?php
-        echo '<a class="button button--sm me-2 mb-2" href="/insights/">All</a>';
+        echo '<a class="button button--sm" href="/insights/">All</a>';
         foreach ($cats as $cat) {
             $active_class = ($cat->term_id == $category->term_id) ? ' active' : ''; // Check if it's the current category
-            echo '<a class="button button--sm me-2 mb-2' . $active_class . '" href="' . esc_url(get_category_link($cat->term_id)) . '">' . esc_html($cat->cat_name) . '</a>';
+            echo '<a class="button button--sm' . $active_class . '" href="' . esc_url(get_category_link($cat->term_id)) . '">' . esc_html($cat->cat_name) . '</a>';
         }
         ?>
         </div>

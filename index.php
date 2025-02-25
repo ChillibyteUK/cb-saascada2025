@@ -30,9 +30,9 @@ get_header();
         ?>
         <div class="filters mb-4">
             <?php
-        echo '<a class="button button--sm active me-2 mb-2" href="/insights/">All</a>';
+        echo '<a class="button button--sm active" href="/insights/">All</a>';
         foreach ($cats as $cat) {
-            echo '<a class="button button--sm me-2 mb-2" href="' . esc_url(get_category_link($cat->term_id)) . ' ">' . $cat->cat_name . '</a>';
+            echo '<a class="button button--sm" href="' . esc_url(get_category_link($cat->term_id)) . ' ">' . $cat->cat_name . '</a>';
         }
         ?>
         </div>
