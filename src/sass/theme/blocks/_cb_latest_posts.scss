@@ -23,10 +23,10 @@
         gap: 0;
         align-items: stretch;
         height: 100%;
+        border: 2px solid var(--col-light);
+        transition: border-color var(--transition);
         &:hover {
-            .latest_posts__image {
-                opacity: 0.6;
-            }
+            border-color: var(--col-blue-400);
         }
     }
     &__image {
@@ -34,7 +34,6 @@
         width: 100%;
         object-fit: cover;
         margin-bottom: 0.5rem;
-        transition: opacity var(--transition);
     }
     &__title {
         font-size: var(--fs-400);

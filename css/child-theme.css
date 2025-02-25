@@ -671,7 +671,6 @@ progress {
 .container-fluid,
 .container-xxl,
 .container-xl,
-.yoast-breadcrumbs,
 .container-lg,
 .container-md,
 .container-sm {
@@ -700,12 +699,12 @@ progress {
   }
 }
 @media (min-width: 1200px) {
-  .container-xl, .yoast-breadcrumbs, .container-lg, .container-md, .container-sm, .container {
+  .container-xl, .container-lg, .container-md, .container-sm, .container {
     max-width: 1170px;
   }
 }
 @media (min-width: 1400px) {
-  .container-xxl, .container-xl, .yoast-breadcrumbs, .container-lg, .container-md, .container-sm, .container {
+  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
     max-width: 1360px;
   }
 }
@@ -3811,7 +3810,6 @@ textarea.form-control-lg {
 .navbar > .container-md,
 .navbar > .container-lg,
 .navbar > .container-xl,
-.navbar > .yoast-breadcrumbs,
 .navbar > .container-xxl {
   display: flex;
   flex-wrap: inherit;
@@ -7715,7 +7713,7 @@ textarea.form-control-lg {
   margin-bottom: 1rem !important;
 }
 
-.mb-4, .yoast-breadcrumbs {
+.mb-4 {
   margin-bottom: 1.5rem !important;
 }
 
@@ -22119,9 +22117,11 @@ header .dropdown.current-menu-item > .nav-link {
   text-decoration: none;
   color: inherit;
   font-weight: inherit;
+  border: 2px solid var(--col-light);
+  transition: border-color var(--transition);
 }
-.news__item:hover .news__img {
-  opacity: 0.8;
+.news__item:hover {
+  border-color: var(--col-blue-400);
 }
 .news__item:hover .news__link::after {
   transform: translateX(0.5rem);
@@ -22167,7 +22167,6 @@ header .dropdown.current-menu-item > .nav-link {
   aspect-ratio: 16/9;
   -o-object-fit: cover;
   object-fit: cover;
-  transition: opacity var(--transition);
   width: 100%;
 }
 .news .catflash {
@@ -22243,9 +22242,11 @@ header .dropdown.current-menu-item > .nav-link {
   gap: 0;
   align-items: stretch;
   height: 100%;
+  border: 2px solid var(--col-light);
+  transition: border-color var(--transition);
 }
-.related__card:hover .related__image {
-  opacity: 0.6;
+.related__card:hover {
+  border-color: var(--col-blue-400);
 }
 .related__image {
   aspect-ratio: 16/9;
@@ -22349,10 +22350,10 @@ header .dropdown.current-menu-item > .nav-link {
   object-fit: cover;
   z-index: -1;
 }
-.two_col_feature .container-xl, .two_col_feature .yoast-breadcrumbs {
+.two_col_feature .container-xl {
   color: var(--col-light);
 }
-.two_col_feature .container-xl h2, .two_col_feature .yoast-breadcrumbs h2, .two_col_feature .container-xl .h2, .two_col_feature .yoast-breadcrumbs .h2, .two_col_feature .container-xl h3, .two_col_feature .yoast-breadcrumbs h3, .two_col_feature .container-xl .h3, .two_col_feature .yoast-breadcrumbs .h3 {
+.two_col_feature .container-xl h2, .two_col_feature .container-xl .h2, .two_col_feature .container-xl h3, .two_col_feature .container-xl .h3 {
   color: inherit;
 }
 
@@ -22472,9 +22473,11 @@ header .dropdown.current-menu-item > .nav-link {
   gap: 0;
   align-items: stretch;
   height: 100%;
+  border: 2px solid var(--col-light);
+  transition: border-color var(--transition);
 }
-.latest_posts__card:hover .latest_posts__image {
-  opacity: 0.6;
+.latest_posts__card:hover {
+  border-color: var(--col-blue-400);
 }
 .latest_posts__image {
   aspect-ratio: 16/9;
@@ -22482,7 +22485,6 @@ header .dropdown.current-menu-item > .nav-link {
   -o-object-fit: cover;
   object-fit: cover;
   margin-bottom: 0.5rem;
-  transition: opacity var(--transition);
 }
 .latest_posts__title {
   font-size: var(--fs-400);
@@ -22519,10 +22521,10 @@ header .dropdown.current-menu-item > .nav-link {
   object-fit: cover;
   z-index: -1;
 }
-.site-wide_cta .container-xl, .site-wide_cta .yoast-breadcrumbs {
+.site-wide_cta .container-xl {
   color: var(--col-light);
 }
-.site-wide_cta .container-xl h2, .site-wide_cta .yoast-breadcrumbs h2, .site-wide_cta .container-xl .h2, .site-wide_cta .yoast-breadcrumbs .h2 {
+.site-wide_cta .container-xl h2, .site-wide_cta .container-xl .h2 {
   color: inherit;
 }
 
@@ -22541,7 +22543,7 @@ header .dropdown.current-menu-item > .nav-link {
   object-fit: cover;
   z-index: -1;
 }
-.page_hero .container-xl, .page_hero .yoast-breadcrumbs {
+.page_hero .container-xl {
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -22553,6 +22555,65 @@ header .dropdown.current-menu-item > .nav-link {
   font-size: var(--fs-900);
   margin-bottom: 0;
   color: inherit;
+}
+
+.team_grid__grid {
+  display: grid;
+  gap: 2rem;
+}
+@media (min-width: 768px) {
+  .team_grid__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 992px) {
+  .team_grid__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.team_grid .person {
+  background-color: var(--col-light);
+  text-decoration: none;
+  display: grid;
+  gap: 0.5rem;
+  grid-template-rows: auto auto 1fr;
+  font-weight: var(--fw-400);
+  text-decoration: none;
+  color: var(--col-dark);
+  border: 2px solid var(--col-light);
+}
+.team_grid .person__meta {
+  display: flex;
+  justify-content: space-between;
+  padding-inline: 1rem;
+}
+.team_grid .person__title {
+  font-size: var(--fs-500);
+  font-weight: var(--fw-600);
+  color: var(--col-blue-400);
+}
+.team_grid .person__role {
+  font-size: var(--fs-300);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.team_grid .person__linkedin {
+  font-size: 1.5rem;
+}
+.team_grid .person__linkedin a {
+  transition: color var(--transition);
+}
+.team_grid .person__bio {
+  padding-inline: 1rem;
+  font-size: var(--fs-350);
+}
+.team_grid .person__img {
+  -o-object-fit: cover;
+  object-fit: cover;
+  -o-object-position: top center;
+  object-position: top center;
+  width: 100%;
+  aspect-ratio: 4/3;
 }
 
 .partners__grid {
@@ -22721,18 +22782,14 @@ main a.anchor {
 }
 
 #breadcrumbs {
-  font-size: var(--fs-200);
-}
-
-.container-xl .container-xl, .yoast-breadcrumbs .container-xl, .container-xl .yoast-breadcrumbs, .yoast-breadcrumbs .yoast-breadcrumbs {
-  padding-inline: 0;
-}
-
-.yoast-breadcrumbs {
   font-size: var(--fs-300);
 }
-.yoast-breadcrumbs a {
+#breadcrumbs a {
   text-decoration: none;
+}
+
+.container-xl .container-xl {
+  padding-inline: 0;
 }
 
 .investis_iframe {

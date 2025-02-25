@@ -64,7 +64,6 @@ get_header();
                     class="news__item <?=$class?>">
                     <div class="news__image">
                         <?=$img?>
-                        <div class="overlay"></div>
                         <div class="catflash">
                             <?=$flashcat?>
                         </div>
