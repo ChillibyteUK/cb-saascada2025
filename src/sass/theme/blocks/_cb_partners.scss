@@ -1,0 +1,28 @@
+.partners {
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+    &__card {
+        background-color: var(--col-light);
+        text-decoration: none;
+        display: block;
+        font-weight: var(--fw-400);
+        text-decoration: none;
+        color: var(--col-dark);
+        &:hover {
+            color: var(--col-dark);
+        }
+    }
+    &__logo {
+        background-color: white;
+        padding: 1rem 2rem;
+        object-fit: contain;
+        width: 100%;
+        aspect-ratio: 16/9;
+    }
+    &__inner {
+        padding: 1rem;
+    }
+}

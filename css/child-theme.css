@@ -21705,7 +21705,7 @@ body {
   font-size: var(--fs-400);
   line-height: 1.4;
   font-style: normal;
-  color: var(--col-darkest);
+  color: var(--col-dark);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -22212,6 +22212,8 @@ header .dropdown.current-menu-item > .nav-link {
   aspect-ratio: 16/9;
   width: 100%;
   margin-bottom: 1rem;
+  -o-object-fit: cover;
+  object-fit: cover;
 }
 .blog__meta {
   font-size: var(--fs-300);
@@ -22550,6 +22552,34 @@ header .dropdown.current-menu-item > .nav-link {
   font-size: var(--fs-900);
   margin-bottom: 0;
   color: inherit;
+}
+
+.partners__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+.partners__card {
+  background-color: var(--col-light);
+  text-decoration: none;
+  display: block;
+  font-weight: var(--fw-400);
+  text-decoration: none;
+  color: var(--col-dark);
+}
+.partners__card:hover {
+  color: var(--col-dark);
+}
+.partners__logo {
+  background-color: white;
+  padding: 1rem;
+  -o-object-fit: contain;
+  object-fit: contain;
+  width: 100%;
+  aspect-ratio: 16/9;
+}
+.partners__inner {
+  padding: 1rem;
 }
 
 main {

@@ -1,8 +1,8 @@
 <?php
-$title = get_field('cta_title','option') ?? null;
-$content = get_field('cta_content','option') ?? null;
-$link = get_field('cta_link','option') ?? null;
-$bg = get_field('cta_background','option') ?? null;
+$title   = get_query_var('cta_title', get_field('cta_title', 'option')) ?: null;
+$content = get_query_var('cta_content', get_field('cta_content', 'option')) ?: null;
+$link    = get_query_var('cta_link', get_field('cta_link', 'option')) ?: null;
+$bg      = get_query_var('cta_background', get_field('cta_background', 'option')) ?: null;
 ?>
 <section class="site-wide_cta">
     <?=wp_get_attachment_image($bg, 'full', false, ['class' => 'site-wide_cta__bg'])?>
