@@ -22843,10 +22843,10 @@ main a.anchor {
   }
 }
 
-#breadcrumbs {
+.breadcrumbs {
   font-size: var(--fs-300);
 }
-#breadcrumbs a {
+.breadcrumbs a {
   text-decoration: none;
 }
 
