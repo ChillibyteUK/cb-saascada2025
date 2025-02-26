@@ -1,0 +1,30 @@
+.icon_cards {
+    &__card {
+        display: flex;
+        flex-direction: column;
+        text-decoration: none;
+        border: 2px solid var(--col-light);
+        transition: border-color var(--transition);
+        font-weight: var(--fw-400);
+        color: var(--col-dark);
+        &:hover {
+            border-color: var(--col-blue-400);
+            color: var(--col-dark);
+        }
+    }
+    &__icon {
+        max-width: 150px;
+        margin-inline: auto;
+        display: block;
+    }
+    &__icon_container {
+        padding: 1rem;
+    }
+    &__inner {
+        background-color: var(--col-light);
+        padding: 1rem;
+        h3 {
+            font-size: var(--fs-500);
+        }
+    }
+}
