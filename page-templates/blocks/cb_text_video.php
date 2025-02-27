@@ -1,6 +1,6 @@
 <?php
-$txtcol = get_field('order') == 'Text/Video' ? 'order-2 order-lg-2' : 'order-2 order-lg-1';
-$vidcol = get_field('order') == 'Text/Video' ? 'order-1 order-lg-1' : 'order-1 order-lg-2';
+$txtcol = get_field('order') == 'Text/Video' ? 'order-1 order-lg-1' : 'order-1 order-lg-1';
+$vidcol = get_field('order') == 'Text/Video' ? 'order-2 order-lg-2' : 'order-2 order-lg-1';
 
 $txtcolwidth = get_field('split') == '50:50' ? 'col-lg-6' : 'col-lg-4';
 $vidcolwidth = get_field('split') == '50:50' ? 'col-lg-6' : 'col-lg-8';
