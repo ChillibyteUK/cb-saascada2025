@@ -1,10 +1,10 @@
 {
-    "key": "group_67b7595870382",
-    "title": "CB Text Video",
+    "key": "group_67c02eb47b608",
+    "title": "CB Text Image",
     "fields": [
         {
-            "key": "field_67b75958136e2",
-            "label": "CB Text Video",
+            "key": "field_67c02eb49cc2b",
+            "label": "CB Text Image",
             "name": "",
             "aria-label": "",
             "type": "message",
@@ -21,7 +21,7 @@
             "esc_html": 0
         },
         {
-            "key": "field_67b75969136e3",
+            "key": "field_67c02eb4a095f",
             "label": "Split",
             "name": "split",
             "aria-label": "",
@@ -47,7 +47,7 @@
             "save_other_choice": 0
         },
         {
-            "key": "field_67b75993136e4",
+            "key": "field_67c02eb4a452a",
             "label": "Order",
             "name": "order",
             "aria-label": "",
@@ -61,8 +61,8 @@
                 "id": ""
             },
             "choices": {
-                "Text\/Video": "Text\/Video",
-                "Video\/Text": "Video\/Text"
+                "Text\/Image": "Text\/Image",
+                "Image\/Text": "Image\/Text"
             },
             "default_value": "",
             "return_format": "value",
@@ -73,7 +73,7 @@
             "save_other_choice": 0
         },
         {
-            "key": "field_67b759af136e5",
+            "key": "field_67c02eb4a52e2",
             "label": "Background",
             "name": "background",
             "aria-label": "",
@@ -96,7 +96,7 @@
             "allow_in_bindings": 0
         },
         {
-            "key": "field_67b759e1136e6",
+            "key": "field_67c02eb4a8d83",
             "label": "Title",
             "name": "title",
             "aria-label": "",
@@ -117,7 +117,7 @@
             "append": ""
         },
         {
-            "key": "field_67c02d7506c21",
+            "key": "field_67c02eb4ac7f4",
             "label": "Content Colour",
             "name": "content_colour",
             "aria-label": "",
@@ -140,7 +140,7 @@
             "allow_in_bindings": 0
         },
         {
-            "key": "field_67c02da506c22",
+            "key": "field_67c02eb4b0351",
             "label": "Content Size",
             "name": "content_size",
             "aria-label": "",
@@ -166,7 +166,7 @@
             "save_other_choice": 0
         },
         {
-            "key": "field_67b759eb136e7",
+            "key": "field_67c02eb4b3d27",
             "label": "Content",
             "name": "content",
             "aria-label": "",
@@ -187,11 +187,11 @@
             "new_lines": "br"
         },
         {
-            "key": "field_67b759fe136e8",
-            "label": "Vimeo ID",
-            "name": "vimeo_id",
+            "key": "field_67c02f32453aa",
+            "label": "Image",
+            "name": "image",
             "aria-label": "",
-            "type": "text",
+            "type": "image",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -200,12 +200,17 @@
                 "class": "",
                 "id": ""
             },
-            "default_value": "",
-            "maxlength": "",
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "",
             "allow_in_bindings": 0,
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
+            "preview_size": "thumbnail"
         }
     ],
     "location": [
@@ -213,7 +218,7 @@
             {
                 "param": "block",
                 "operator": "==",
-                "value": "acf\/cb-text-video"
+                "value": "acf\/cb-text-image"
             }
         ]
     ],
@@ -226,5 +231,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1740647938
+    "modified": 1740649655
 }
