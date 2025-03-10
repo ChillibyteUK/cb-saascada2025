@@ -22421,7 +22421,10 @@ header .dropdown.current-menu-item > .nav-link {
 .four_list_cards__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
+  grid-template-rows: minmax(150px, 1fr) auto auto auto auto;
+  row-gap: 0.5rem;
+  -moz-column-gap: 2rem;
+  column-gap: 2rem;
   max-width: 100%;
 }
 @media (max-width: 1200px) {
@@ -22436,10 +22439,9 @@ header .dropdown.current-menu-item > .nav-link {
 }
 .four_list_cards__card {
   display: grid;
+  grid-template-rows: subgrid;
   grid-row: span 5;
-  align-items: stretch;
-  height: 100%;
-  row-gap: 0;
+  align-items: start;
 }
 .four_list_cards__image {
   aspect-ratio: 16/9;
@@ -22463,7 +22465,7 @@ header .dropdown.current-menu-item > .nav-link {
   margin-bottom: 2rem;
 }
 .four_list_cards .button, .four_list_cards .wp-block-search__button, .four_list_cards .gform_button.wp-block-search__button, .four_list_cards .gform_button.button.button {
-  align-self: self-end;
+  align-self: end;
 }
 
 .latest_posts__grid {
