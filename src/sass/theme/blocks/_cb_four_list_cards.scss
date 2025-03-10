@@ -15,7 +15,7 @@
     }
     &__card {
         display: grid;
-        grid-template-rows: subgrid;
+        // grid-template-rows: subgrid;
         grid-row: span 5;
         align-items: stretch;
         height: 100%;
