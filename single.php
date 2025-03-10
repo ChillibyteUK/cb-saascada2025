@@ -2,14 +2,14 @@
 // Exit if accessed directly.
 defined('ABSPATH') || exit;
 get_header();
-$img = get_the_post_thumbnail(get_the_ID(), 'full',['class' => 'blog__image']) ?: '';
+$img = get_the_post_thumbnail(get_the_ID(), 'full', ['class' => 'blog__image']) ?: '';
 ?>
 <main id="main" class="blog">
     <?php
     $content = get_the_content();
-    $blocks = parse_blocks($content);
-    $sidebar = array();
-    $after;
+$blocks = parse_blocks($content);
+$sidebar = array();
+$after;
 ?>
     <section class="breadcrumbs container-xl">
         <?php
@@ -26,10 +26,10 @@ if (function_exists('yoast_breadcrumb')) {
                 <div class="blog__meta">
                 <?php
         $count = estimate_reading_time_in_minutes(get_the_content(), 200, true, true) ?? null;
-        if ($count) {
-            echo $count;
-        }
-                ?>
+if ($count) {
+    echo $count;
+}
+?>
                 </div>
                 <?php
 
@@ -94,6 +94,15 @@ if ($r->have_posts()) {
         <?php
     }
     ?>
+    <a href="/contact/" class="related__card">
+        <img src="<?=get_stylesheet_directory_uri()?>/img/default-blog.jpg"
+            alt="" class="related__image">
+        <div class="related__content">
+            <h3 class="related__title">
+                Contact Us
+            </h3>
+        </div>
+    </a>
     </div>
     <?php
 }
