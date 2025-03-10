@@ -1,38 +1,38 @@
-<section class="logo_slider">
-    <?=wp_get_attachment_image(get_field('background'),'full',false,['class' => 'logo_slider__bg'])?>
+<section class="partners_slider">
+    <?=wp_get_attachment_image(get_field('background'), 'full', false, ['class' => 'partners_slider__bg'])?>
     <div class="container-xl py-5">
         <h2><?=get_field('title')?></h2>
-        <?php 
-$logos = get_field('logos'); // Retrieve the ACF gallery field
+        <?php
+$partners = get_field('partners');
 
-if ($logos) { ?>
-    <div class="splide" id="logos-slider">
+    if ($partners) { ?>
+    <div class="splide" id="partners-slider">
         <div class="splide__track">
             <ul class="splide__list">
                 <?php
-                foreach ($logos as $logo){
-                    ?>
+                    foreach ($partners as $partner) {
+                        ?>
                     <li class="splide__slide">
-                        <?=wp_get_attachment_image($logo,'large',false,['class' => 'logo_slider__logo'])?>
+                        <?=get_the_post_thumbnail($partner, 'large', false, ['class' => 'partners_slider__partner'])?>
                     </li>
                 <?php
-                }
-                ?>
+                    }
+        ?>
             </ul>
         </div>
     </div>
     <?php
     }
-?>
+    ?>
 
     </div>
 </section>
 <?php
-add_action('wp_footer', function(){
-    ?>
+    add_action('wp_footer', function () {
+        ?>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    new Splide('#logos-slider', {
+    new Splide('#partners-slider', {
         type: 'loop',
         autoplay: true,
         perPage: 5,
@@ -49,5 +49,5 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
     <?php
-});
-?>
+    });
+    ?>

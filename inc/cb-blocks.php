@@ -4,6 +4,17 @@ function acf_blocks()
     if (function_exists('acf_register_block_type')) {
 
         acf_register_block_type(array(
+            'name'                => 'cb_partners_slider', 
+            'title'               => __('CB Partners Slider'), 
+            'category'            => 'layout',
+            'icon'                => 'cover-image', 
+            'render_template'    => 'page-templates/blocks/cb_partners_slider.php', 
+            'mode'                => 'edit',
+            'supports'            => array('mode' => false, 'anchor' => true, 'className' => true),
+        ));
+
+
+        acf_register_block_type(array(
             'name'                => 'cb_icon_cards', 
             'title'               => __('CB Icon Cards'), 
             'category'            => 'layout',

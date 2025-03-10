@@ -1,10 +1,10 @@
 {
-    "key": "group_cb_logo_slider",
-    "title": "CB Logo Slider",
+    "key": "group_cb_partners_slider",
+    "title": "CB Partners Slider",
     "fields": [
         {
-            "key": "field_cb_logo_slider_title",
-            "label": "CB Logo Slider",
+            "key": "field_cb_partners_slider_title",
+            "label": "CB Partners Slider",
             "name": "",
             "aria-label": "",
             "type": "message",
@@ -42,11 +42,11 @@
             "append": ""
         },
         {
-            "key": "field_67b83faade07c",
-            "label": "Logos",
-            "name": "logos",
+            "key": "field_67cee98151481",
+            "label": "Partners",
+            "name": "partners",
             "aria-label": "",
-            "type": "gallery",
+            "type": "relationship",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -55,19 +55,21 @@
                 "class": "",
                 "id": ""
             },
+            "post_type": [
+                "partners"
+            ],
+            "post_status": "",
+            "taxonomy": "",
+            "filters": [
+                "search"
+            ],
             "return_format": "id",
-            "library": "all",
             "min": "",
             "max": "",
-            "min_width": "",
-            "min_height": "",
-            "min_size": "",
-            "max_width": "",
-            "max_height": "",
-            "max_size": "",
-            "mime_types": "",
-            "insert": "append",
-            "preview_size": "thumbnail"
+            "allow_in_bindings": 0,
+            "elements": "",
+            "bidirectional": 0,
+            "bidirectional_target": []
         },
         {
             "key": "field_67b840f5154c5",
@@ -101,7 +103,7 @@
             {
                 "param": "block",
                 "operator": "==",
-                "value": "acf\/cb-logo-slider"
+                "value": "acf\/cb-partners-slider"
             }
         ]
     ],
@@ -114,5 +116,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1740128530
+    "modified": 1741613662
 }
