@@ -132,6 +132,7 @@
 .related {
     display: grid;
     gap: 1rem;
+    margin-bottom: 1rem;
 
     @media (min-width:576px) {
         grid-template-columns: 1fr 1fr 1fr;
@@ -176,4 +177,32 @@
         padding-inline: 0.5rem;
         padding-bottom: 0.5rem;
     }
+}
+
+.blog_cta {
+    width: 100%;
+    background-color: var(--col-light);
+    text-decoration: none;
+    border: 2px solid var(--col-light);
+    transition: border-color var(--transition);
+    &:hover {
+        border-color: var(--col-blue-400);
+    }
+
+    &__image {
+        width: 100%;
+        object-fit: cover;
+        object-position: center;
+        aspect-ratio: 2.35 / 1;
+        margin-bottom: 0.5rem;
+        @media (min-width:992px) {
+            aspect-ratio: 16 / 9;
+        }
+   }
+   &__title {
+    font-size: var(--fs-400);
+    color: var(--col-blue-400);
+    margin-bottom: 0.5rem;
+    padding-inline: 0.5rem;
+   }
 }

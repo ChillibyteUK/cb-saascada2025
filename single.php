@@ -98,11 +98,11 @@ if ($r->have_posts()) {
     <?php
 }
 ?>
-<a href="/contact-us/" class="related__card">
+<a href="/contact-us/" class="blog_cta">
     <img src="<?=get_stylesheet_directory_uri()?>/img/default-blog.jpg"
-        alt="" class="related__image">
-    <div class="related__content">
-        <h3 class="related__title">
+        alt="" class="blog_cta__image">
+    <div class="blog_cta__content">
+        <h3 class="blog_cta__title">
             Contact Us Today
         </h3>
     </div>

@@ -22226,6 +22226,7 @@ header .dropdown.current-menu-item > .nav-link {
 .related {
   display: grid;
   gap: 1rem;
+  margin-bottom: 1rem;
 }
 @media (min-width: 576px) {
   .related {
@@ -22271,6 +22272,37 @@ header .dropdown.current-menu-item > .nav-link {
   font-weight: var(--fw-400);
   padding-inline: 0.5rem;
   padding-bottom: 0.5rem;
+}
+
+.blog_cta {
+  width: 100%;
+  background-color: var(--col-light);
+  text-decoration: none;
+  border: 2px solid var(--col-light);
+  transition: border-color var(--transition);
+}
+.blog_cta:hover {
+  border-color: var(--col-blue-400);
+}
+.blog_cta__image {
+  width: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  -o-object-position: center;
+  object-position: center;
+  aspect-ratio: 2.35/1;
+  margin-bottom: 0.5rem;
+}
+@media (min-width: 992px) {
+  .blog_cta__image {
+    aspect-ratio: 16/9;
+  }
+}
+.blog_cta__title {
+  font-size: var(--fs-400);
+  color: var(--col-blue-400);
+  margin-bottom: 0.5rem;
+  padding-inline: 0.5rem;
 }
 
 .home_hero {
