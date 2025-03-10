@@ -69,7 +69,7 @@ register_post_type( "people", $args );
 add_action( 'init', 'cb_register_post_types' );
 
 add_action( 'after_switch_theme', 'cb_rewrite_flush' );
-function my_rewrite_flush() {
+function cb_rewrite_flush() {
     cb_register_post_types();
     flush_rewrite_rules();
 }
