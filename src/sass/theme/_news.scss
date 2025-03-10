@@ -123,6 +123,10 @@
     &__meta {
         font-size: var(--fs-300);
     }
+    .sidebar {
+        position: sticky;
+        top: var(--h-top);
+    }
 }
 
 .related {

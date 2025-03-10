@@ -22218,6 +22218,10 @@ header .dropdown.current-menu-item > .nav-link {
 .blog__meta {
   font-size: var(--fs-300);
 }
+.blog .sidebar {
+  position: sticky;
+  top: var(--h-top);
+}
 
 .related {
   display: grid;
