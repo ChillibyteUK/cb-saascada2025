@@ -29,7 +29,6 @@ $merged_posts = array_merge(
     ($remaining_posts > 0) ? $regular_query->posts : []
 );
 
-$n = 1;
 if (!empty($merged_posts)) {
     ?>
 <section class="latest_posts">
@@ -43,16 +42,14 @@ if (!empty($merged_posts)) {
             foreach ($merged_posts as $post) {
                 setup_postdata($post);
                 $title = get_field('title', $post->ID) ?: get_the_title($post->ID);
-                $excerpt = get_field('excerpt', $post->ID) ?: wp_trim_words(get_the_content(null, false, $post->ID), 30);
+                $excerpt = get_field('excerpt', $post->ID) ? wp_trim_words(get_field('excerpt', $post->ID), 30) : wp_trim_words(get_the_content(null, false, $post->ID), 30);
                 ?>
-            <a href="<?=get_the_permalink()?>" class="latest_posts__card">
+            <a href="<?=get_the_permalink($post->ID)?>" class="latest_posts__card">
                 <?=get_the_post_thumbnail($post->ID, 'medium', ['class' => 'latest_posts__image'])?>
                 <h3 class="latest_posts__title"><?=$title?> <?=$n?></h3>
                 <div class="latest_posts__excerpt"><?=$excerpt?></div>
-                <div class="latest_posts__date"><?=get_the_date('j F Y')?></div>
             </a>
                 <?php
-                $n++;
             }
     wp_reset_postdata();
     ?>

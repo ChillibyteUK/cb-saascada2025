@@ -22471,7 +22471,10 @@ header .dropdown.current-menu-item > .nav-link {
 .latest_posts__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
+  grid-template-rows: minmax(150px, 1fr) auto auto;
+  row-gap: 0.5rem;
+  -moz-column-gap: 2rem;
+  column-gap: 2rem;
   max-width: 100%;
 }
 @media (max-width: 1200px) {
@@ -22488,9 +22491,10 @@ header .dropdown.current-menu-item > .nav-link {
   background-color: var(--col-light);
   text-decoration: none;
   display: grid;
+  grid-template-rows: subgrid;
   grid-row: span 4;
-  gap: 0;
-  align-items: stretch;
+  row-gap: 0.5rem;
+  align-items: start;
   height: 100%;
   border: 2px solid var(--col-light);
   transition: border-color var(--transition);
