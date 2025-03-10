@@ -22548,9 +22548,37 @@ header .dropdown.current-menu-item > .nav-link {
 .page_hero {
   color: var(--col-light);
   position: relative;
-  height: 400px;
+  height: min(400px, 66vh);
   isolation: isolate;
   overflow: hidden;
+}
+.page_hero::before {
+  content: "";
+  background-image: url(../img/dna.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position-x: right;
+  position: absolute;
+  top: 25%;
+  left: 0%;
+  width: 150px;
+  height: 66%;
+  z-index: 0;
+  opacity: 0.8;
+}
+.page_hero::after {
+  content: "";
+  background-image: url(../img/dna.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position-x: left;
+  position: absolute;
+  bottom: 25%;
+  right: 0%;
+  width: 150px;
+  height: 66%;
+  z-index: 0;
+  opacity: 0.8;
 }
 .page_hero__bg {
   position: absolute;
@@ -22565,8 +22593,10 @@ header .dropdown.current-menu-item > .nav-link {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
   height: 100%;
   row-gap: 1rem;
+  z-index: 2;
 }
 .page_hero__title {
   font-size: var(--fs-900);
