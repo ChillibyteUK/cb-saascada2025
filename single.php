@@ -2,7 +2,7 @@
 // Exit if accessed directly.
 defined('ABSPATH') || exit;
 get_header();
-$img = get_the_post_thumbnail(get_the_ID(), 'full', ['class' => 'blog__image']) ?: '';
+
 ?>
 <main id="main" class="blog">
     <?php
@@ -18,6 +18,17 @@ if (function_exists('yoast_breadcrumb')) {
 }
 ?>
     </section>
+    <?php
+// echo '<pre>';
+// print_r($blocks);
+// echo '</pre>';
+
+if (has_block('core/embed', get_the_ID()) || has_block('acf/cb-video', get_the_ID())) {
+    $img = '';
+} else {
+    $img = get_the_post_thumbnail(get_the_ID(), 'full', ['class' => 'blog__image']) ?: '';
+}
+?>
     <div class="container-xl">
         <div class="row g-4 pb-4">
             <div class="col-lg-9">
@@ -25,7 +36,7 @@ if (function_exists('yoast_breadcrumb')) {
                 <?=$img?>
                 <div class="blog__meta">
                 <?php
-        $count = estimate_reading_time_in_minutes(get_the_content(), 200, true, true) ?? null;
+    $count = estimate_reading_time_in_minutes(get_the_content(), 200, true, true) ?? null;
 if ($count) {
     echo $count;
 }
@@ -33,9 +44,10 @@ if ($count) {
                 </div>
                 <?php
 
-foreach ($blocks as $block) {
-    echo render_block($block);
-}
+echo apply_filters('the_content', get_the_content());
+// foreach ($blocks as $block) {
+//     echo render_block($block);
+// }
 
 
 $prev = get_previous_post();

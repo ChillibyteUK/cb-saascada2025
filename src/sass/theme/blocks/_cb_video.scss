@@ -1,0 +1,45 @@
+.video {
+    position: relative;
+    .video__container {
+        position: relative;
+        z-index: 0;
+        cursor: pointer;
+        .play {
+            position: absolute;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            font-size: 3rem;
+            transition: all 0.3s ease;
+            img {
+                width:160px;
+                height:160px;
+            }
+        }
+        &:hover {
+            .play {
+                color: $teal;
+            }
+        }
+    }
+    iframe {
+        border-radius: 0.25rem;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    }
+    &__image {
+        width: 100%;
+        // aspect-ratio: 6/4;
+        background-size: cover;
+        background-position: center;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+        border-radius: 0.25rem;
+        position: relative;
+        cursor: pointer;
+    }
+}

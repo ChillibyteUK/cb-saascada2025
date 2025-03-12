@@ -121,7 +121,7 @@ function widgets_init()
                 'name'  => 'Amber 400',
                 'slug'  => 'amber-400',
                 'color' => '#FFA100',
-            ),            
+            ),
         )
     );
 }
@@ -145,7 +145,7 @@ function register_cb_dashboard_widget()
 
 function cb_dashboard_widget_display()
 {
-?>
+    ?>
     <div style="display: flex; align-items: center; justify-content: space-around;">
         <img style="width: 50%;"
             src="<?= get_stylesheet_directory_uri() . '/img/cb-full.jpg'; ?>">
@@ -249,6 +249,7 @@ function cb_theme_enqueue()
 add_action('wp_enqueue_scripts', 'cb_theme_enqueue');
 
 
+
 add_theme_support('disable-theme-editor');
 
 add_action('admin_init', function () {
@@ -267,5 +268,3 @@ add_action('admin_init', function () {
 //     return $items;
 // }
 // add_filter('wp_nav_menu_items', 'add_custom_menu_item', 10, 2);
-
-
