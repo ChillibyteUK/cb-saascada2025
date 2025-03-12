@@ -3,7 +3,7 @@
 defined('ABSPATH') || exit;
 
 $page_for_posts = get_option('page_for_posts');
-$bg = get_the_post_thumbnail($page_for_posts, 'full',['class' => 'page_hero__bg']);
+$bg = get_the_post_thumbnail($page_for_posts, 'full', ['class' => 'page_hero__bg']);
 
 $category = get_queried_object(); // Get current category ID
 
@@ -29,37 +29,37 @@ get_header();
             echo '<div class="mb-5">' . get_the_content(null, false, $page_for_posts) . '</div>';
         }
 
-        // $cats = get_categories(array('exclude' => array(32)));
-        $cats = get_categories();
-        ?>
+// $cats = get_categories(array('exclude' => array(32)));
+$cats = get_categories();
+?>
         <div class="filters mb-4">
             <?php
-        echo '<a class="button button--sm" href="/insights/">All</a>';
-        foreach ($cats as $cat) {
-            $active_class = ($cat->term_id == $category->term_id) ? ' active' : ''; // Check if it's the current category
-            echo '<a class="button button--sm' . $active_class . '" href="' . esc_url(get_category_link($cat->term_id)) . '">' . esc_html($cat->cat_name) . '</a>';
-        }
-        ?>
+echo '<a class="button button--sm" href="/insights/">All</a>';
+foreach ($cats as $cat) {
+    $active_class = ($cat->term_id == $category->term_id) ? ' active' : ''; // Check if it's the current category
+    echo '<a class="button button--sm' . $active_class . '" href="' . esc_url(get_category_link($cat->term_id)) . '">' . esc_html($cat->cat_name) . '</a>';
+}
+?>
         </div>
         <div class="news__grid">
             <?php
-            $first = true;
-    while (have_posts()) {
-        the_post();
-        $img = get_the_post_thumbnail(get_the_ID(), 'large',['class' => 'news__img']) ?: '<img src="' . get_stylesheet_directory_uri() . '/img/default-blog.jpg" class="news__img">';
-        $cats = get_the_category();
-        $category = wp_list_pluck($cats, 'name');
-        $flashcat = $category[0];
+    $first = true;
+while (have_posts()) {
+    the_post();
+    $img = get_the_post_thumbnail(get_the_ID(), 'large', ['class' => 'news__img']) ?: '<img src="' . get_stylesheet_directory_uri() . '/img/default-blog.jpg" class="news__img">';
+    $cats = get_the_category();
+    $category = wp_list_pluck($cats, 'name');
+    $flashcat = $category[0];
 
-        $class = $first ? 'news__first' : '';
-        
-        if (has_category('event')) {
-            $the_date = get_field('start_date', get_the_ID());
-        } else {
-            $the_date = get_the_date('jS F, Y');
-        }
+    $class = $first ? 'news__first' : '';
 
-        ?>
+    if (has_category('event')) {
+        $the_date = get_field('start_date', get_the_ID());
+    } else {
+        $the_date = null;
+    }
+
+    ?>
                 <a href="<?=get_the_permalink()?>"
                     class="news__item <?=$class?>">
                     <div class="news__image">
@@ -71,15 +71,15 @@ get_header();
                     <div class="news__inner">
                         <h3><?= get_field('title') ?: get_the_title()?></h3>
                         <?php
-                        if ($first) {
-                            ?>
-                        <div><?= get_field('excerpt') ?: wp_trim_words(get_the_content(),25)?></div>
-                            <?php
-                        }
+                    if ($first) {
                         ?>
+                        <div><?= get_field('excerpt') ?: wp_trim_words(get_the_content(), 25)?></div>
+                            <?php
+                    }
+    ?>
                         <div class="news__meta">
                             <div class="news__date">
-                                <?=get_the_date('j F Y')?>
+                                <?=$the_date?>
                             </div>
                             <div class="news__link">Read More</div>
                         </div>
@@ -87,7 +87,7 @@ get_header();
                 </a>
         <?php
         $first = false;
-    }
+}
 ?>
         </div>
         <div class="mt-5">
