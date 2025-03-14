@@ -51,3 +51,26 @@ $l3 = get_field('card3_link') ?? null;
         </div>
     </div>
 </section>
+<?php
+add_action('wp_footer', function () {
+    ?>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let lastScrollY = window.scrollY;
+    let rotation = 0;
+    const dna = document.querySelector(".home_intro__dna");
+
+    window.addEventListener("scroll", function () {
+        let currentScrollY = window.scrollY;
+        let scrollDelta = currentScrollY - lastScrollY;
+
+        // Rotate based on scroll direction
+        rotation += scrollDelta * 0.3; // Adjust sensitivity (higher = faster rotation)
+        dna.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+
+        lastScrollY = currentScrollY;
+    });
+});
+</script>
+    <?php
+});
