@@ -37,15 +37,15 @@ $l3 = get_field('card3_link') ?? null;
         <div class="h2 text-center has-teal-400-color mb-4"><?=get_field('split_title')?></div>
         <div class="row g-5">
             <div class="col-md-4 text-center">
-                <h3 class="h5 has-purple-400-color"><?=get_field('card1_title')?></h2>
+                <h3 class="h5 has-purple-400-color"><?=get_field('card1_detail_title')?></h2>
                 <div class="fs-300 mb-4"><?=get_field('card1_detail')?></div>
             </div>
             <div class="col-md-4 text-center">
-                <h3 class="h5 has-teal-400-color"><?=get_field('card2_title')?></h2>
+                <h3 class="h5 has-teal-400-color"><?=get_field('card2_detail_title')?></h2>
                 <div class="fs-300 mb-4"><?=get_field('card2_detail')?></div>
             </div>
             <div class="col-md-4 text-center">
-                <h3 class="h5 has-amber-400-color"><?=get_field('card3_title')?></h2>
+                <h3 class="h5 has-amber-400-color"><?=get_field('card3_detail_title')?></h2>
                 <div class="fs-300 mb-4"><?=get_field('card3_detail')?></div>
             </div>
         </div>
