@@ -45,7 +45,7 @@ if (!empty($merged_posts)) {
         $title = get_field('title', $post->ID) ?: get_the_title($post->ID);
         $excerpt = get_field('excerpt', $post->ID) ? wp_trim_words(get_field('excerpt', $post->ID), 30) : wp_trim_words(get_the_content(null, false, $post->ID), 30);
         ?>
-            <a href="<?=get_the_permalink($post->ID)?>" class="latest_posts__card" data-aos="fade" data-aos-delay="<?= $c++ * 100 ?>">
+            <a href="<?=get_the_permalink($post->ID)?>" class="latest_posts__card" data-aos="fade" data-aos-delay="<?= $c++ * 200 ?>">
                 <?=get_the_post_thumbnail($post->ID, 'medium', ['class' => 'latest_posts__image'])?>
                 <h3 class="latest_posts__title"><?=$title?></h3>
                 <div class="latest_posts__excerpt"><?=$excerpt?></div>
