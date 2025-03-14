@@ -1,6 +1,6 @@
 // Add your custom JS here.
 AOS.init({
-  easing: 'ease-out',
+  easing: 'ease',
   once: true
 });
 
