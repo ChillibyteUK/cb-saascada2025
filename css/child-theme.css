@@ -22336,7 +22336,7 @@ header .dropdown.current-menu-item > .nav-link {
   left: 50%;
   transform: translate(-50%, -50%);
   transform-origin: left top;
-  animation: rotatoes 10s linear infinite;
+  animation: rotatoes 20s linear infinite;
 }
 .home_intro__lines {
   display: block;
