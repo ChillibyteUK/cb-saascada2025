@@ -4,12 +4,13 @@
         <div class="four_list_cards__grid g-5">
             <?php
             if (have_rows('cards')) {
-                while(have_rows('cards')) {
+                $c = 0;
+                while (have_rows('cards')) {
                     the_row();
                     $l = get_sub_field('link') ?? null;
                     ?>
-            <div class="four_list_cards__card">
-                <?=wp_get_attachment_image(get_sub_field('image'),'medium',false,['class' => 'four_list_cards__image'])?>
+            <div class="four_list_cards__card" data-aos="fade" data-aos-delay="<?= $c++ * 100 ?>">
+                <?=wp_get_attachment_image(get_sub_field('image'), 'medium', false, ['class' => 'four_list_cards__image'])?>
                 <h3 class="four_list_cards__title"><?=get_sub_field('title')?></h3>
                 <div class="four_list_cards__content"><?=get_sub_field('content')?></div>
                 <ul>
@@ -20,7 +21,7 @@
                 <?php
                 }
             }
-            ?>
+        ?>
         </div>
     </div>
 </section>
