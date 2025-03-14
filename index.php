@@ -38,7 +38,11 @@ foreach ($cats as $cat) {
         </div>
         <div class="news__grid">
             <?php
-    $first = true;
+$c = 0;
+$colCount = 0;
+$columnsPerRow = 3;
+$first = true;
+
 while (have_posts()) {
     the_post();
     $img = get_the_post_thumbnail(get_the_ID(), 'large', ['class' => 'news__img']) ?: '<img src="' . get_stylesheet_directory_uri() . '/img/default-blog.jpg" class="news__img">';
@@ -46,7 +50,18 @@ while (have_posts()) {
     $category = wp_list_pluck($cats, 'name');
     $flashcat = $category[0];
 
-    $class = $first ? 'news__first' : '';
+    if ($first) {
+        $class = 'news__first'; // First row class
+        $delay = 0; // First row has no delay
+    } else {
+        // ✅ Reset delay when starting a new row AFTER the first row
+        if (($colCount % $columnsPerRow) === 0) {
+            $c = 0;
+        }
+
+        $class = ''; // Normal rows
+        $delay = $c;
+    }
 
     if (has_category('event')) {
         $the_date = get_field('start_date', get_the_ID());
@@ -55,9 +70,13 @@ while (have_posts()) {
         // $the_date = get_the_date('jS F, Y');
     }
 
+    if ($colCount % $columnsPerRow === 0) {
+        $c = 0;
+    }
+
     ?>
                 <a href="<?=get_the_permalink()?>"
-                    class="news__item <?=$class?>">
+                    class="news__item <?=$class?>" data-aos="fade" data-aos-delay="<?= $c ?>">
                     <div class="news__image">
                         <?=$img?>
                         <div class="catflash">
@@ -82,7 +101,16 @@ while (have_posts()) {
                     </div>
                 </a>
         <?php
-        $first = false;
+
+if ($first) {
+    $first = false; // ✅ Mark first row as processed
+} else {
+    // ✅ Only increment delay for normal rows
+    $c += 200;
+    $colCount++;
+}
+
+
 }
 ?>
         </div>
