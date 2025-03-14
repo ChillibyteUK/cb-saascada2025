@@ -145,6 +145,27 @@
             "allow_in_bindings": 0
         },
         {
+            "key": "field_67d43372617e4",
+            "label": "Detail Title",
+            "name": "card1_detail_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
             "key": "field_67b74798c0cfc",
             "label": "Detail",
             "name": "card1_detail",
@@ -267,6 +288,27 @@
             },
             "return_format": "array",
             "allow_in_bindings": 0
+        },
+        {
+            "key": "field_67d433a0617e5",
+            "label": "Detail Title",
+            "name": "card2_detail_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
         },
         {
             "key": "field_67b74786c0cfb",
@@ -393,6 +435,27 @@
             "allow_in_bindings": 0
         },
         {
+            "key": "field_67d43462617e6",
+            "label": "Detail Title",
+            "name": "card3_detail_title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
             "key": "field_67b747a7c0cfd",
             "label": "Detail",
             "name": "card3_detail",
@@ -432,5 +495,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1740065174
+    "modified": 1741960306
 }
