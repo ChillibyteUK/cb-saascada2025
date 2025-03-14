@@ -46,7 +46,7 @@ if (!empty($merged_posts)) {
                 ?>
             <a href="<?=get_the_permalink($post->ID)?>" class="latest_posts__card">
                 <?=get_the_post_thumbnail($post->ID, 'medium', ['class' => 'latest_posts__image'])?>
-                <h3 class="latest_posts__title"><?=$title?> <?=$n?></h3>
+                <h3 class="latest_posts__title"><?=$title?></h3>
                 <div class="latest_posts__excerpt"><?=$excerpt?></div>
             </a>
                 <?php

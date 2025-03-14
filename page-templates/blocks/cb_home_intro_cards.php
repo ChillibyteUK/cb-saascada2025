@@ -13,7 +13,7 @@ $l3 = get_field('card3_link') ?? null;
                     <img src="<?=get_field('card1_icon')?>" alt="" class="home_intro__icon">
                     <h2 class="h4 has-purple-400-color"><?=get_field('card1_title')?></h2>
                     <div class="fs-300 mb-4"><?=get_field('card1_content')?></div>
-                    <a href="<?=$l1['url']?>" target="<?=$l1['targt']?>" class="button button--sm"><?=$l1['title']?></a>
+                    <a href="<?=$l1['url']?>" target="<?=$l1['target']?>" class="button button--sm"><?=$l1['title']?></a>
                 </div>
             </div>
             <div class="col-md-4 text-center">
@@ -21,7 +21,7 @@ $l3 = get_field('card3_link') ?? null;
                     <img src="<?=get_field('card2_icon')?>" alt="" class="home_intro__icon">
                     <h2 class="h4 has-teal-400-color"><?=get_field('card2_title')?></h2>
                     <div class="fs-300 mb-4"><?=get_field('card2_content')?></div>
-                    <a href="<?=$l1['url']?>" target="<?=$l1['targt']?>" class="button button--sm"><?=$l1['title']?></a>
+                    <a href="<?=$l1['url']?>" target="<?=$l1['target']?>" class="button button--sm"><?=$l1['title']?></a>
                 </div>
             </div>
             <div class="col-md-4 text-center">
@@ -29,7 +29,7 @@ $l3 = get_field('card3_link') ?? null;
                     <img src="<?=get_field('card3_icon')?>" alt="" class="home_intro__icon">
                     <h2 class="h4 has-amber-400-color"><?=get_field('card3_title')?></h2>
                     <div class="fs-300 mb-4"><?=get_field('card3_content')?></div>
-                    <a href="<?=$l1['url']?>" target="<?=$l1['targt']?>" class="button button--sm"><?=$l1['title']?></a>
+                    <a href="<?=$l1['url']?>" target="<?=$l1['target']?>" class="button button--sm"><?=$l1['title']?></a>
                 </div>
             </div>
         </div>
