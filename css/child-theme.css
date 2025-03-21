@@ -35,7 +35,7 @@
   --ff-heading: "Lexend", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   --ff-fa: "Font Awesome 6 Free";
   /* Font Weights */
-  --fw-400: 400;
+  --fw-400: 300;
   --fw-600: 600;
   /* Effects */
   --transition: 250ms ease-out;
@@ -21674,13 +21674,13 @@ readers do not read off random characters that represent icons */
   display: block;
 }
 
-/* lexend-regular - latin */
+/* lexend-300 - latin */
 @font-face {
   font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
   font-family: "Lexend";
   font-style: normal;
-  font-weight: 400;
-  src: url("../fonts/lexend-v23-latin-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+  font-weight: 300;
+  src: url("../fonts/lexend-v24-latin-300.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 /* lexend-600 - latin */
 @font-face {
@@ -21936,7 +21936,7 @@ header .nav-item:last-child::after {
 header a.nav-link {
   color: var(--col-teal-400);
   font-size: var(--fs-300);
-  font-weight: var(--fs-600);
+  font-weight: var(--fw-600);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   transition: var(--transition);
