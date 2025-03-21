@@ -7,8 +7,8 @@ defined('ABSPATH') || exit;
     <div class="container">
         <div class="row g-4 g-lg-2 g-xxl-5 mb-5">
             <div class="col-xl-2 text-center text-xl-start mb-3 pe-3">
-                <img src="<?=get_stylesheet_directory_uri()?>/img/saascada-logo.svg" alt="SaaScada" class="footer__logo">
-                <?=do_shortcode('[social_icons class="mt-4 d-flex justify-content-around fs-500 mx-auto"]')?>
+                <img src="<?= get_stylesheet_directory_uri() ?>/img/saascada-logo.svg" alt="SaaScada" class="footer__logo">
+                <?= do_shortcode('[social_icons class="mt-4 d-flex justify-content-around fs-500 mx-auto"]') ?>
             </div>
             <div class="col-sm-6 col-xl-2">
                 <?= wp_nav_menu(array('theme_location' => 'footer_menu1', 'container_class' => 'footer__menu')) ?>
@@ -17,17 +17,17 @@ defined('ABSPATH') || exit;
                 <?= wp_nav_menu(array('theme_location' => 'footer_menu2', 'container_class' => 'footer__menu')) ?>
             </div>
             <div class="col-sm-6 col-xl-2 footer__address">
-                <?=cb_list(get_field('contact_address', 'option'))?>
+                <?= cb_list(get_field('contact_address', 'option')) ?>
             </div>
             <div class="col-sm-6 col-xl-2">
-                <a href="/contact/" class="button button-primary d-block">Contact Us</a>
+                <a href="/contact/" class="button button-primary fw-bold d-block">Contact Us</a>
                 <div class="footer__contact">
-                    <div>T: <?=do_shortcode('[contact_phone]')?></div>
-                    <div>E: <?=do_shortcode('[contact_email]')?></div>
+                    <div>T: <?= do_shortcode('[contact_phone]') ?></div>
+                    <div>E: <?= do_shortcode('[contact_email]') ?></div>
                 </div>
             </div>
             <div class="col-xl-2 text-center">
-                <img src="<?=get_stylesheet_directory_uri()?>/img/iso-logo.svg" alt="ISO 9001:2015 Certified" class="footer__iso">
+                <img src="<?= get_stylesheet_directory_uri() ?>/img/iso-logo.svg" alt="ISO 9001:2015 Certified" class="footer__iso">
             </div>
         </div>
 
