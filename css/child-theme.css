@@ -22171,10 +22171,14 @@ header .dropdown.current-menu-item > .nav-link {
   object-fit: cover;
   width: 100%;
 }
-.news .catflash {
+.news .pills {
   position: absolute;
   top: 1rem;
   left: 1rem;
+  display: flex;
+  gap: 0.25rem;
+}
+.news .pills .catflash {
   background-color: var(--col-blue-400);
   color: white;
   padding: 0.25rem 0.5rem;
