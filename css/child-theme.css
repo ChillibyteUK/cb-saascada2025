@@ -22028,7 +22028,7 @@ header .dropdown.current-menu-item > .nav-link {
 }
 .footer .colophon.cb,
 .footer .colophon a.cb {
-  content: url(../img/cb.png);
+  content: url(../img/cb-mono.png);
   opacity: 0.6;
   transition: all 0.3s ease;
 }
