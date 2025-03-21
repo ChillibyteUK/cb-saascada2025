@@ -1,7 +1,7 @@
 .button {
     display: inline-block;
     padding: 0.5rem 1rem;
-    border-radius: 1rem;
+    border-radius: var(--border-radius);
     align-self: center;
     text-align: center;
     text-decoration: none;
@@ -35,7 +35,7 @@
 }
 
 .button--sm {
-    border-radius: 0;
+    // border-radius: 0;
     border: 2px solid var(--col-teal-400);
     color: var(--col-blue-400);
     &:hover {

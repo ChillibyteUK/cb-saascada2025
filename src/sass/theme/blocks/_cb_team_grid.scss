@@ -20,7 +20,8 @@
         text-decoration: none;
         color: var(--col-dark);
         border: 2px solid var(--col-light);
-
+        border-radius: var(--border-radius);
+        overflow: hidden;
         &__meta {
             display: flex;
             justify-content: space-between;

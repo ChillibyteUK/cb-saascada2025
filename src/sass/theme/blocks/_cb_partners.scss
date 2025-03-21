@@ -23,6 +23,8 @@
         color: var(--col-dark);
         border: 2px solid var(--col-light);
         transition: border-color var(--transition);
+        border-radius: var(--border-radius);
+        overflow: hidden;
         &:hover {
             color: var(--col-dark);
             border-color: var(--col-blue-400);
@@ -85,6 +87,7 @@
         width: 38px;
         padding: 5px 10px;
         border: 1px solid #ccc;
+        border-radius: calc( var(--border-radius) / 2);
         background: #fff;
         cursor: pointer;
         transition: background var(--transition);

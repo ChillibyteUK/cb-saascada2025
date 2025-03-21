@@ -26,6 +26,8 @@
         align-items: start;
         height: 100%;
         border: 2px solid var(--col-light);
+        border-radius: var(--border-radius);
+        overflow: hidden;
         transition: border-color var(--transition);
         &:hover {
             border-color: var(--col-blue-400);

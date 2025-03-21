@@ -7,6 +7,9 @@
         transition: border-color var(--transition);
         font-weight: var(--fw-400);
         color: var(--col-dark);
+        height: 100%;
+        border-radius: var(--border-radius);
+        overflow: hidden;
         &:hover {
             border-color: var(--col-blue-400);
             color: var(--col-dark);
@@ -23,6 +26,7 @@
     &__inner {
         background-color: var(--col-light);
         padding: 1rem;
+        height: 100%;
         h3 {
             font-size: var(--fs-500);
         }

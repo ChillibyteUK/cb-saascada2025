@@ -42,6 +42,7 @@
   /* Site General */
   --h-top: 83px;
   --h-top-desktop: 83px;
+  --border-radius: 0.5rem;
 }
 
 *,

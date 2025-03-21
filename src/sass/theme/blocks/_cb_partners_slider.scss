@@ -19,6 +19,7 @@
         display: grid;
         place-content: center;
         padding: 1rem;
+        border-radius: var(--border-radius);
         img {
             width: 100%;
             aspect-ratio: 16 / 9;

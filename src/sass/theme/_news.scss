@@ -18,6 +18,8 @@
         font-weight: inherit;
         border: 2px solid var(--col-light);
         transition: border-color var(--transition);
+        border-radius: var(--border-radius);
+        overflow: hidden;
         &:hover {
             border-color: var(--col-blue-400);
             .news__link {

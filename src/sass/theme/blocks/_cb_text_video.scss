@@ -1,5 +1,7 @@
 .text_video {
     .vimeo-embed {
+        border-radius: var(--border-radius);
+        overflow: hidden;
         cursor: pointer;
         position: relative;
         &::after {
