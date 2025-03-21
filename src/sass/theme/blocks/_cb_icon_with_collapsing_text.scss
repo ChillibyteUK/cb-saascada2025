@@ -1,0 +1,15 @@
+.icon_collapse__card {
+  h2 {
+    a {
+      text-decoration: none;
+    }
+  }
+
+  .toggle-icon {
+    transition: transform 0.3s ease;
+  }
+
+  a:not(.collapsed) .toggle-icon {
+    transform: rotate(180deg);
+  }
+}

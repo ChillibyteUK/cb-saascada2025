@@ -22921,6 +22921,16 @@ header .dropdown.current-menu-item > .nav-link {
   cursor: pointer;
 }
 
+.icon_collapse__card h2 a, .icon_collapse__card .h2 a {
+  text-decoration: none;
+}
+.icon_collapse__card .toggle-icon {
+  transition: transform 0.3s ease;
+}
+.icon_collapse__card a:not(.collapsed) .toggle-icon {
+  transform: rotate(180deg);
+}
+
 main {
   margin-top: var(--h-top);
 }
