@@ -4,9 +4,15 @@
             <?php
             while (have_rows('cards')) {
                 the_row();
-                $l = get_sub_field('link') ?? null;
-                $tag = isset($l) ? '<a href="' . $l['url'] . '" target="' . $l['target'] . '" class="icon_cards__card">' : '<div class="icon_cards__card">';
-                $close = isset($l) ? '</a>' : '</div>';
+                $l = get_sub_field('link');
+                if (is_array($l)) {
+                    $tag = '<a href="' . esc_url($l['url']) . '" target="' . esc_attr($l['target']) . '" class="icon_cards__card">';
+                    $close = '</a>';
+                } else {
+                    $tag = '<div class="icon_cards__card">';
+                    $close = '</div>';
+                }
+
             ?>
                 <div class="col-sm-6 col-lg-4">
                     <?= $tag ?>
