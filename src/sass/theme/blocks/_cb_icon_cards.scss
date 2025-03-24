@@ -27,8 +27,14 @@
         background-color: var(--col-light);
         padding: 1rem;
         height: 100%;
-        h3 {
+        h2 {
             font-size: var(--fs-500);
+        }
+        h3 {
+            font-size: var(--fs-450);
+        }
+        p {
+            margin-bottom: 0.5rem;
         }
     }
 }

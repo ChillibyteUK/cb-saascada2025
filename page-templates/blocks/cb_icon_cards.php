@@ -12,7 +12,7 @@
                         <?=wp_get_attachment_image(get_sub_field('icon'),'large',false,['class' => 'icon_cards__icon'])?>
                     </div>
                     <div class="icon_cards__inner">
-                        <h3><?=get_sub_field('title')?></h3>
+                        <h2><?=get_sub_field('title')?></h2>
                         <div><?=get_sub_field('content')?></div>
                     </div>
                 </a>
