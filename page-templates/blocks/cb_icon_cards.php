@@ -4,20 +4,22 @@
             <?php
             while (have_rows('cards')) {
                 the_row();
-                $l = get_sub_field('link');
-                ?>
-            <div class="col-sm-6 col-lg-4">
-                <a href="<?=$l['url']?>" target="<?=$l['target']?>" class="icon_cards__card">
+                $l = get_sub_field('link') ?? null;
+                $tag = isset($l) ? '<a href="' . $l['url'] . '" target="' . $l['target'] . '" class="icon_cards__card">' : '<div class="icon_cards__card">';
+                $close = isset($l) ? '</a>' : '</div>';
+            ?>
+                <div class="col-sm-6 col-lg-4">
+                    <?= $tag ?>
                     <div class="icon_cards__icon_container">
-                        <?=wp_get_attachment_image(get_sub_field('icon'),'large',false,['class' => 'icon_cards__icon'])?>
+                        <?= wp_get_attachment_image(get_sub_field('icon'), 'large', false, ['class' => 'icon_cards__icon']) ?>
                     </div>
                     <div class="icon_cards__inner">
-                        <h2><?=get_sub_field('title')?></h2>
-                        <div><?=get_sub_field('content')?></div>
+                        <h2><?= get_sub_field('title') ?></h2>
+                        <div><?= get_sub_field('content') ?></div>
                     </div>
-                </a>
-            </div>
-                <?php
+                    <?= $close ?>
+                </div>
+            <?php
             }
             ?>
         </div>
