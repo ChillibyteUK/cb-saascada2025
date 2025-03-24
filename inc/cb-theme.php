@@ -268,3 +268,56 @@ add_action('admin_init', function () {
 //     return $items;
 // }
 // add_filter('wp_nav_menu_items', 'add_custom_menu_item', 10, 2);
+
+function extract_intro_content($content) {
+    $result = [
+        'first_heading' => '',
+        'intro_paragraphs' => '',
+        'rest_content' => ''
+    ];
+
+    libxml_use_internal_errors(true);
+    $doc = new DOMDocument();
+    $doc->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
+    libxml_clear_errors();
+
+    $body = $doc->getElementsByTagName('body')->item(0);
+    $children = $body->childNodes;
+
+    $found_heading = false;
+    $collect_paragraphs = false;
+    $rest_fragments = [];
+
+    foreach ($children as $node) {
+        // Skip non-element nodes (e.g. text nodes, comments)
+        if ($node->nodeType !== XML_ELEMENT_NODE) {
+            continue;
+        }
+
+        $tag = $node->nodeName;
+
+        if (!$found_heading && in_array($tag, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])) {
+            $result['first_heading'] = $doc->saveHTML($node);
+            $found_heading = true;
+            $collect_paragraphs = true;
+            continue;
+        }
+
+        if ($collect_paragraphs) {
+            if ($tag === 'p') {
+                $result['intro_paragraphs'] .= $doc->saveHTML($node);
+                continue;
+            } elseif (in_array($tag, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])) {
+                // Stop collecting once the next heading is found
+                $collect_paragraphs = false;
+            }
+        }
+
+        if (!$collect_paragraphs && $found_heading) {
+            $rest_fragments[] = $doc->saveHTML($node);
+        }
+    }
+
+    $result['rest_content'] = implode('', $rest_fragments);
+    return $result;
+}

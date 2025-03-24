@@ -22925,13 +22925,24 @@ header .dropdown.current-menu-item > .nav-link {
   cursor: pointer;
 }
 
-.icon_collapse__card h2 a, .icon_collapse__card .h2 a {
-  text-decoration: none;
+.icon_collapse__card .accordion-item {
+  border: none;
+}
+.icon_collapse__card h2, .icon_collapse__card .h2 {
+  font-size: var(--fs-600);
+}
+.icon_collapse__card h3, .icon_collapse__card .h3 {
+  font-size: var(--fs-500);
+}
+.icon_collapse__card__icon img {
+  max-width: 150px;
 }
 .icon_collapse__card .toggle-icon {
+  align-self: flex-start;
   transition: transform 0.3s ease;
+  color: var(--col-blue-400);
 }
-.icon_collapse__card a:not(.collapsed) .toggle-icon {
+.icon_collapse__card button:not(.collapsed) .toggle-icon {
   transform: rotate(180deg);
 }
 

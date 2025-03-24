@@ -1,15 +1,29 @@
 .icon_collapse__card {
+
+  .accordion-item {
+    border: none;
+  }
+  
   h2 {
-    a {
-      text-decoration: none;
+    font-size: var(--fs-600);
+  }
+  h3 {
+    font-size: var(--fs-500);
+  }
+
+  &__icon {
+    img {
+      max-width: 150px;
     }
   }
 
   .toggle-icon {
+    align-self: flex-start;
     transition: transform 0.3s ease;
+    color: var(--col-blue-400);
   }
 
-  a:not(.collapsed) .toggle-icon {
+  button:not(.collapsed) .toggle-icon {
     transform: rotate(180deg);
   }
 }
