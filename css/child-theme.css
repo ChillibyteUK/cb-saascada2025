@@ -22341,6 +22341,12 @@ header .dropdown.current-menu-item > .nav-link {
   position: absolute;
   left: 50%;
   transform: translate(-50%, -50%);
+  top: 50px;
+}
+@media (min-width: 768px) {
+  .home_intro__dna {
+    top: 0;
+  }
 }
 .home_intro__lines {
   display: block;
