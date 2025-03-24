@@ -4,6 +4,17 @@ function acf_blocks()
     if (function_exists('acf_register_block_type')) {
 
         acf_register_block_type(array(
+            'name'                => 'cb_buttons', 
+            'title'               => __('CB Buttons'), 
+            'category'            => 'layout',
+            'icon'                => 'cover-image', 
+            'render_template'    => 'page-templates/blocks/cb_buttons.php', 
+            'mode'                => 'edit',
+            'supports'            => array('mode' => false, 'anchor' => true, 'className' => true, 'align' => true),
+        ));
+
+
+        acf_register_block_type(array(
             'name'                => 'cb_icon_with_collapsing_text', 
             'title'               => __('CB Icon with Collapsing Text'), 
             'category'            => 'layout',
