@@ -11,7 +11,7 @@ $l3 = get_field('card3_link') ?? null;
             <div class="col-md-4 text-center">
                 <div class="home_intro__card" data-aos="fade">
                     <img src="<?=get_field('card1_icon')?>" alt="" class="home_intro__icon">
-                    <h2 class="h4 has-purple-400-color"><?=get_field('card1_title')?></h2>
+                    <h2 class="h4 has-blue-400-color"><?=get_field('card1_title')?></h2>
                     <div class="fs-300 mb-4"><?=get_field('card1_content')?></div>
                     <a href="<?=$l1['url']?>" target="<?=$l1['target']?>" class="button button--sm"><?=$l1['title']?></a>
                 </div>
@@ -27,7 +27,7 @@ $l3 = get_field('card3_link') ?? null;
             <div class="col-md-4 text-center">
                 <div class="home_intro__card" data-aos="fade" data-aos-delay="400">
                     <img src="<?=get_field('card3_icon')?>" alt="" class="home_intro__icon">
-                    <h2 class="h4 has-amber-400-color"><?=get_field('card3_title')?></h2>
+                    <h2 class="h4 has-red-400-color"><?=get_field('card3_title')?></h2>
                     <div class="fs-300 mb-4"><?=get_field('card3_content')?></div>
                     <a href="<?=$l1['url']?>" target="<?=$l1['target']?>" class="button button--sm"><?=$l1['title']?></a>
                 </div>
@@ -37,7 +37,7 @@ $l3 = get_field('card3_link') ?? null;
         <div class="h2 text-center has-teal-400-color mb-4"><?=get_field('split_title')?></div>
         <div class="row g-5">
             <div class="col-md-4 text-center" data-aos="fade">
-                <h3 class="h5 has-purple-400-color"><?=get_field('card1_detail_title')?></h2>
+                <h3 class="h5 has-blue-400-color"><?=get_field('card1_detail_title')?></h2>
                 <div class="fs-300 mb-4"><?=get_field('card1_detail')?></div>
             </div>
             <div class="col-md-4 text-center" data-aos="fade" data-aos-delay="200">
@@ -45,7 +45,7 @@ $l3 = get_field('card3_link') ?? null;
                 <div class="fs-300 mb-4"><?=get_field('card2_detail')?></div>
             </div>
             <div class="col-md-4 text-center" data-aos="fade" data-aos-delay="400">
-                <h3 class="h5 has-amber-400-color"><?=get_field('card3_detail_title')?></h2>
+                <h3 class="h5 has-red-400-color"><?=get_field('card3_detail_title')?></h2>
                 <div class="fs-300 mb-4"><?=get_field('card3_detail')?></div>
             </div>
         </div>

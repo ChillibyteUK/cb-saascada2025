@@ -19,6 +19,8 @@
   --col-turquoise-400: hsl(var(--hsl-turquoise-400));
   --hsl-amber-400: 39 100% 50%;
   --col-amber-400: hsl(var(--hsl-amber-400));
+  --hsl-red-400: 6 73% 54%;
+  --col-red-400: hsl(var(--hsl-red-400));
   /* Font Sizes */
   --base-font-size: 16px;
   --fs-300: 0.8rem;

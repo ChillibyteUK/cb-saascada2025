@@ -19,6 +19,8 @@
   --col-turquoise-400: hsl(var(--hsl-turquoise-400));
   --hsl-amber-400: 39 100% 50%;
   --col-amber-400: hsl(var(--hsl-amber-400));
+  --hsl-red-400: 6 73% 54%;
+  --col-red-400: hsl(var(--hsl-red-400));
   /* Font Sizes */
   --base-font-size: 16px;
   --fs-300: 0.8rem;
@@ -21862,6 +21864,16 @@ strong, .fw-bold, .fw-600 {
 .has-amber-400-background-color,
 .bg--amber-400 {
   background-color: var(--col-amber-400);
+}
+
+.has-red-400-color,
+.text--red-400 {
+  color: var(--col-red-400);
+}
+
+.has-red-400-background-color,
+.bg--red-400 {
+  background-color: var(--col-red-400);
 }
 
 .button, .wp-block-search__button, .gform_button.wp-block-search__button, .gform_button.button.button, .gform_button.wp-block-search__button, .gform_button.wp-block-search__button, .gform_button.wp-block-search__button, .gform_button.wp-block-search__button {
