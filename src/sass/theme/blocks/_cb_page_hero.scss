@@ -59,4 +59,9 @@
         color: inherit;
     }
 
+    &__content {
+        max-width: 92ch;
+        margin-inline: auto;
+    }
+
 }

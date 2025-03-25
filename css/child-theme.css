@@ -22653,6 +22653,10 @@ header .dropdown.current-menu-item > .nav-link {
   margin-bottom: 0;
   color: inherit;
 }
+.page_hero__content {
+  max-width: 92ch;
+  margin-inline: auto;
+}
 
 .team_grid__grid {
   display: grid;
