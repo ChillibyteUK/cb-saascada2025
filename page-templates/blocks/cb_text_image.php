@@ -26,6 +26,8 @@ switch ($split) {
 $vertical_align = get_field('vertical_align');
 $valign_class = $vertical_align === 'middle' ? 'justify-content-center' : 'justify-content-start';
 
+$vpadding = in_array('Yes', (array) get_field('vertical_padding')) ? 'py-5' : 'py-4';
+
 $bgcolour = get_field('background') ?: 'white';
 
 $ccolour = get_field('content_colour') ? 'has-' . get_field('content_colour') . '-color' : '';
@@ -51,7 +53,7 @@ if ($anchor) {
 
 ?>
 
-<section class="text_image py-5 bg--<?= $bgcolour ?>">
+<section class="text_image <?=$vpadding?> bg--<?= $bgcolour ?>">
     <div class="container-xl">
         <div class="row g-5">
             <div
