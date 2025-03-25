@@ -1,73 +1,73 @@
-$col-primary: #5D7F9C;
+$col-primary: #5d7f9c;
 $col-dark: #666666;
-$col-darkest: #4A4A4A;
-$col-light: #F2F2F2;
+$col-darkest: #4a4a4a;
+$col-light: #f2f2f2;
 
 :root {
+  /* Colours */
+  --hsl-dark: 0 0% 20%; // black
+  --col-dark: hsl(var(--hsl-dark));
 
-    /* Colours */
-    --hsl-dark: 0 0% 20%; // black
-    --col-dark: hsl(var(--hsl-dark));
-  
-    --hsl-light: 0 0% 97%; // light grey
-    --col-light: hsl(var(--hsl-light));
-  
-    --hsl-grey-400: 0 0% 40%; // mid grey
-    --col-grey-400: hsl(var(--hsl-grey-400));
-  
-    --hsl-grey-200: 0 0% 80%; // grey
-    --col-grey-200: hsl(var(--hsl-grey-200));
-    
-    --hsl-blue-400: 205 76% 28%;   // #11527F
-    --col-blue-400: hsl(var(--hsl-blue-400));
-    
-    --hsl-teal-400: 189 100% 34%;  // #0095AE
-    --col-teal-400: hsl(var(--hsl-teal-400));
-    
-    --hsl-purple-400: 267 30% 46%; // #6F539A
-    --col-purple-400: hsl(var(--hsl-purple-400));
-    
-    --hsl-turquoise-400: 178 100% 35%; // #00B1AE
-    --col-turquoise-400: hsl(var(--hsl-turquoise-400));
-    
-    --hsl-amber-400: 39 100% 50%;  // #FFA100
-    --col-amber-400: hsl(var(--hsl-amber-400));
-    
-    --hsl-red-400: 6 73% 54%;  // #e04735
-    --col-red-400: hsl(var(--hsl-red-400));
+  --hsl-light: 0 0% 97%; // light grey
+  --col-light: hsl(var(--hsl-light));
 
+  --hsl-grey-400: 0 0% 40%; // mid grey
+  --col-grey-400: hsl(var(--hsl-grey-400));
 
-    /* Font Sizes */
+  --hsl-grey-200: 0 0% 80%; // grey
+  --col-grey-200: hsl(var(--hsl-grey-200));
 
-    --base-font-size: 16px;
+  --hsl-blue-400: 205 76% 28%; // #11527F
+  --col-blue-400: hsl(var(--hsl-blue-400));
 
-    --fs-300: 0.8rem;  // 16px / 20 - nav/small text
-    --fs-350: 0.9rem;  // 16px / 20 - nav/small text
-    --fs-400: 1rem;    // 20px / 20 - body copy
-    --fs-450: 1.25rem; // 25px / 20 - large text
-    --fs-500: 1.55rem; // 31px / 20 - h5
-    --fs-600: 1.95rem; // 39px / 20 - h4
-    --fs-700: 2.45rem; // 49px / 20 - h3
-    --fs-800: 3.05rem; // 61px / 20 - h2
-    --fs-900: 3.8rem;  // 76px / 20 - h1
+  --hsl-teal-400: 189 100% 34%; // #0095AE
+  --col-teal-400: hsl(var(--hsl-teal-400));
 
-    /* Font Families */
-    --ff-body: 'Lexend', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    --ff-heading: 'Lexend', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --hsl-purple-400: 267 30% 46%; // #6F539A
+  --col-purple-400: hsl(var(--hsl-purple-400));
 
-    --ff-fa: 'Font Awesome 6 Free';
+  --hsl-turquoise-400: 178 100% 35%; // #00B1AE
+  --col-turquoise-400: hsl(var(--hsl-turquoise-400));
 
-    /* Font Weights */
-    --fw-400: 300; // regular
-    --fw-600: 600; // semibold 
+  --hsl-amber-400: 39 100% 50%; // #FFA100
+  --col-amber-400: hsl(var(--hsl-amber-400));
 
-    /* Effects */
-    --transition: 250ms ease-out;
+  --hsl-red-400: 6 73% 54%; // #e04735
+  --col-red-400: hsl(var(--hsl-red-400));
 
-    /* Site General */
-    --h-top: 83px;
-    --h-top-desktop: 83px;
+  --hsl-green-400: 174 42% 48%; // #47ada2;
+  --col-green-400: hsl(var(--hsl-green-400));
 
-    --border-radius: 0.5rem;
+  /* Font Sizes */
 
+  --base-font-size: 16px;
+
+  --fs-300: 0.8rem; // 16px / 20 - nav/small text
+  --fs-350: 0.9rem; // 16px / 20 - nav/small text
+  --fs-400: 1rem; // 20px / 20 - body copy
+  --fs-450: 1.25rem; // 25px / 20 - large text
+  --fs-500: 1.55rem; // 31px / 20 - h5
+  --fs-600: 1.95rem; // 39px / 20 - h4
+  --fs-700: 2.45rem; // 49px / 20 - h3
+  --fs-800: 3.05rem; // 61px / 20 - h2
+  --fs-900: 3.8rem; // 76px / 20 - h1
+
+  /* Font Families */
+  --ff-body: "Lexend", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --ff-heading: "Lexend", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
+  --ff-fa: "Font Awesome 6 Free";
+
+  /* Font Weights */
+  --fw-400: 300; // regular
+  --fw-600: 600; // semibold
+
+  /* Effects */
+  --transition: 250ms ease-out;
+
+  /* Site General */
+  --h-top: 83px;
+  --h-top-desktop: 83px;
+
+  --border-radius: 0.5rem;
 }

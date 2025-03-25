@@ -145,7 +145,7 @@ function register_cb_dashboard_widget()
 
 function cb_dashboard_widget_display()
 {
-    ?>
+?>
     <div style="display: flex; align-items: center; justify-content: space-around;">
         <img style="width: 50%;"
             src="<?= get_stylesheet_directory_uri() . '/img/cb-full.jpg'; ?>">
@@ -244,7 +244,6 @@ function cb_theme_enqueue()
     // wp_enqueue_script('parallax', get_stylesheet_directory_uri() . '/js/parallax.min.js', array('jquery'), null, true);
     wp_enqueue_style('splide-css', 'https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/css/splide.min.css', array(), '4.1.3');
     wp_enqueue_script('splide-js', 'https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.3/dist/js/splide.min.js', array(), '4.1.3', true);
-
 }
 add_action('wp_enqueue_scripts', 'cb_theme_enqueue');
 
@@ -269,7 +268,8 @@ add_action('admin_init', function () {
 // }
 // add_filter('wp_nav_menu_items', 'add_custom_menu_item', 10, 2);
 
-function extract_intro_content($content) {
+function extract_intro_content($content)
+{
     $result = [
         'first_heading' => '',
         'intro_paragraphs' => '',
@@ -278,7 +278,16 @@ function extract_intro_content($content) {
 
     libxml_use_internal_errors(true);
     $doc = new DOMDocument();
-    $doc->loadHTML(mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'));
+
+    $map = [
+        0x80,
+        0xFFFF, // Encode characters from 128 to 65535
+        0,
+        0xFFFF,    // Encode all characters
+    ];
+    $encoded_content = mb_encode_numericentity($content, $map, 'UTF-8');
+    $doc->loadHTML('<meta http-equiv="Content-Type" content="text/html; charset=utf-8">' . $encoded_content);
+
     libxml_clear_errors();
 
     $body = $doc->getElementsByTagName('body')->item(0);
