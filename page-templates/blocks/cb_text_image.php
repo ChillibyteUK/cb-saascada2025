@@ -55,11 +55,7 @@ if ($anchor) {
     <div class="container-xl">
         <div class="row g-5">
             <div
-<<<<<<< HEAD
                 class="<?=$txtcolwidth?> d-flex flex-column align-items-start <?=$valign_class?> <?=$txtcol?>">
-=======
-                class="<?= $txtcolwidth ?> d-flex flex-column justify-content-center align-items-start <?= $txtcol ?>">
->>>>>>> d76176d2b6ff8ef7ec914764fac2356196fc4662
                 <?php
                 if (get_field('title') ?? null) {
                 ?>
@@ -72,13 +68,8 @@ if ($anchor) {
                 <div class="<?= $ccolour ?> <?= $csize ?>"><?= get_field('content') ?></div>
             </div>
             <div
-<<<<<<< HEAD
                 class="<?=$imgcolwidth?> <?=$imgcol?> text_image__image d-flex flex-column align-items-start <?=$valign_class?>">
                 <?=$img?>
-=======
-                class="<?= $imgcolwidth ?> <?= $imgcol ?> text_image__image">
-                <?= $img ?>
->>>>>>> d76176d2b6ff8ef7ec914764fac2356196fc4662
             </div>
         </div>
     </div>
