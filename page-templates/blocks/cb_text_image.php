@@ -2,8 +2,29 @@
 $txtcol = get_field('order') == 'Text/Image' ? 'order-1 order-lg-1' : 'order-1 order-lg-2';
 $imgcol = get_field('order') == 'Text/Image' ? 'order-2 order-lg-2' : 'order-2 order-lg-1';
 
-$txtcolwidth = get_field('split') == '5050' ? 'col-lg-6' : 'col-lg-8';
-$imgcolwidth = get_field('split') == '5050' ? 'col-lg-6' : 'col-lg-4';
+$split = get_field('split');
+
+switch ($split) {
+    case '50:50':
+        $txtcolwidth = 'col-lg-6';
+        $imgcolwidth = 'col-lg-6';
+        break;
+    case '60:40':
+        $txtcolwidth = 'col-lg-4';
+        $imgcolwidth = 'col-lg-8';
+        break;
+    case '40:60':
+        $txtcolwidth = 'col-lg-8';
+        $imgcolwidth = 'col-lg-4';
+        break;
+    default:
+        // Fallback values if needed
+        $txtcolwidth = 'col-lg-6';
+        $imgcolwidth = 'col-lg-6';
+}
+
+$vertical_align = get_field('vertical_align');
+$valign_class = $vertical_align === 'middle' ? 'justify-content-center' : 'justify-content-start';
 
 $bgcolour = get_field('background') ?: 'white';
 
@@ -25,7 +46,7 @@ if ($anchor) {
     <div class="container-xl">
         <div class="row g-5">
             <div
-                class="<?=$txtcolwidth?> d-flex flex-column justify-content-center align-items-start <?=$txtcol?>">
+                class="<?=$txtcolwidth?> d-flex flex-column align-items-start <?=$valign_class?> <?=$txtcol?>">
                 <?php
     if (get_field('title') ?? null) {
         ?>
@@ -38,7 +59,7 @@ if ($anchor) {
                 <div class="<?=$ccolour?> <?=$csize?>"><?=get_field('content')?></div>
             </div>
             <div
-                class="<?=$imgcolwidth?> <?=$imgcol?> text_image__image">
+                class="<?=$imgcolwidth?> <?=$imgcol?> text_image__image d-flex flex-column align-items-start <?=$valign_class?>">
                 <?=$img?>
             </div>
         </div>

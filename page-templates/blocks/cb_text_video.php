@@ -2,8 +2,29 @@
 $txtcol = get_field('order') == 'Text/Video' ? 'order-1 order-lg-1' : 'order-1 order-lg-2';
 $vidcol = get_field('order') == 'Text/Video' ? 'order-2 order-lg-2' : 'order-2 order-lg-1';
 
-$txtcolwidth = get_field('split') == '50:50' ? 'col-lg-6' : 'col-lg-4';
-$vidcolwidth = get_field('split') == '50:50' ? 'col-lg-6' : 'col-lg-8';
+$split = get_field('split');
+
+switch ($split) {
+    case '50:50':
+        $txtcolwidth = 'col-lg-6';
+        $vidcolwidth = 'col-lg-6';
+        break;
+    case '60:40':
+        $txtcolwidth = 'col-lg-4';
+        $vidcolwidth = 'col-lg-8';
+        break;
+    case '40:60':
+        $txtcolwidth = 'col-lg-8';
+        $vidcolwidth = 'col-lg-4';
+        break;
+    default:
+        // Fallback values if needed
+        $txtcolwidth = 'col-lg-6';
+        $vidcolwidth = 'col-lg-6';
+}
+
+$vertical_align = get_field('vertical_align');
+$valign_class = $vertical_align === 'middle' ? 'justify-content-center' : 'justify-content-start';
 
 $bgcolour = get_field('background') ?: 'white';
 
@@ -25,7 +46,7 @@ if ($anchor) {
     <div class="container-xl">
         <div class="row g-5">
             <div
-                class="<?=$txtcolwidth?> d-flex flex-column justify-content-center align-items-start <?=$txtcol?>">
+                class="<?=$txtcolwidth?> d-flex flex-column align-items-start <?=$valign_class?> <?=$txtcol?>">
                 <?php
     if (get_field('title') ?? null) {
         ?>
@@ -38,7 +59,7 @@ if ($anchor) {
                 <div class="<?=$ccolour?> <?=$csize?>"><?=get_field('content')?></div>
             </div>
             <div
-                class="<?=$vidcolwidth?> <?=$vidcol?> text_video__video">
+                class="<?=$vidcolwidth?> <?=$vidcol?> text_video__video d-flex flex-column align-items-center <?=$valign_class?>">
                 <div class="vimeo-embed ratio ratio-16x9" id="<?=get_field('vimeo_id')?>" title="VIDEO"></div>
             </div>
         </div>
