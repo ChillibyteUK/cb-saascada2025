@@ -123,6 +123,8 @@
         width: 100%;
         margin-bottom: 1rem;
         object-fit: cover;
+        border-radius: var(--border-radius);
+        overflow: hidden;
     }
     &__meta {
         font-size: var(--fs-300);

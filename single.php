@@ -37,9 +37,9 @@ if (has_block('core/embed', get_the_ID()) || has_block('acf/cb-video', get_the_I
                 <div class="blog__meta">
                 <?php
     $count = estimate_reading_time_in_minutes(get_the_content(), 200, true, true) ?? null;
-if ($count) {
-    echo $count;
-}
+    if ( $count ) {
+        echo $count;
+    }
 ?>
                 </div>
                 <?php

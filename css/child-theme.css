@@ -22250,6 +22250,8 @@ header .dropdown.current-menu-item > .nav-link {
   margin-bottom: 1rem;
   -o-object-fit: cover;
   object-fit: cover;
+  border-radius: var(--border-radius);
+  overflow: hidden;
 }
 .blog__meta {
   font-size: var(--fs-300);
