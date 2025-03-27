@@ -22420,7 +22420,7 @@ header .dropdown.current-menu-item > .nav-link {
   width: 100%;
 }
 @media (max-width: 768px) {
-  .home_intro .col-md-4:first-of-type {
+  .home_intro .col-md-4.padme {
     margin-top: 140px;
   }
 }
@@ -22502,6 +22502,12 @@ header .dropdown.current-menu-item > .nav-link {
   grid-template-rows: subgrid;
   grid-row: span 5;
   align-items: start;
+  margin-bottom: 3rem;
+}
+@media (min-width: 768px) {
+  .four_list_cards__card {
+    margin-bottom: 0;
+  }
 }
 .four_list_cards__image {
   aspect-ratio: 16/9;

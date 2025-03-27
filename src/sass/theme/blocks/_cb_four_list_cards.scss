@@ -66,6 +66,10 @@
         grid-template-rows: subgrid;
         grid-row: span 5;
         align-items: start;
+        margin-bottom: 3rem;
+        @media (min-width: 768px) {
+            margin-bottom: 0;
+        }
     }
     &__image {
         aspect-ratio: 16 / 9;

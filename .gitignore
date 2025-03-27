@@ -50,5 +50,8 @@ phpcs.xml
 dist/
 dist-product/
 # **/img
-token
 
+# Track Prettier configuration files
+!.prettierignore
+!.prettierrc.json
+!.phpcs.xml.dist

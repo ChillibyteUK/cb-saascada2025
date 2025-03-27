@@ -7,8 +7,8 @@ $l3 = get_field('card3_link') ?? null;
     <div class="container-xl pb-5 mb-5">
         <img src="<?= get_stylesheet_directory_uri() ?>/img/dna.svg" alt="" class="home_intro__dna">
         <img src="<?= get_stylesheet_directory_uri() ?>/img/home_intro_lines.svg" alt="" class="home_intro__lines d-none d-md-block">
-        <div class="row g-5 pt-5 pt-md-0">
-            <div class="col-md-4 text-center">
+        <div class="row g-5 pt-5 pt-md-0 mb-4">
+            <div class="col-md-4 text-center padme">
                 <div class="home_intro__card" data-aos="fade">
                     <img src="<?= get_field('card1_icon') ?>" alt="" class="home_intro__icon">
                     <h2 class="h4 has-blue-400-color"><?= get_field('card1_title') ?></h2>
@@ -35,7 +35,7 @@ $l3 = get_field('card3_link') ?? null;
         </div>
         <img src="<?= get_stylesheet_directory_uri() ?>/img/home_intro_brace.svg" alt="" class="home_intro__brace">
         <div class="h2 text-center has-teal-400-color mb-4"><?= get_field('split_title') ?></div>
-        <div class="row g-5">
+        <div class="row gx-5">
             <div class="col-md-4 text-center" data-aos="fade">
                 <h3 class="h5 has-blue-400-color"><?= get_field('card1_detail_title') ?></h2>
                     <div class="fs-300 mb-4"><?= get_field('card1_detail') ?></div>
