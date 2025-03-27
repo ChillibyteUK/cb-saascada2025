@@ -22349,6 +22349,12 @@ header .dropdown.current-menu-item > .nav-link {
   font-size: var(--fs-900);
   color: inherit;
 }
+.home_hero__content {
+  font-size: clamp(1.1rem, -0.5vw + 1.7rem, 1.4rem);
+}
+.home_hero__content > .button, .home_hero__content > .wp-block-search__button, .home_hero__content > .gform_button.wp-block-search__button, .home_hero__content > .gform_button.button.button {
+  font-size: initial;
+}
 
 .home_intro {
   position: relative;
@@ -22635,7 +22641,7 @@ header .dropdown.current-menu-item > .nav-link {
 .page_hero__bg {
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 100% !important;
   -o-object-fit: cover;
   object-fit: cover;
   z-index: -1;

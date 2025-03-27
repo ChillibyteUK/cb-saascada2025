@@ -8,15 +8,14 @@ $bg = get_the_post_thumbnail($page_for_posts, 'full', ['class' => 'page_hero__bg
 get_header();
 ?>
 <main id="main">
-    <?php
-    ?>
     <section class="page_hero">
         <?= $bg ?>
         <div class="container-xl">
-            <h1 class="page_hero__title">SaaScada News and Insights</h1>
-            <a href="/contact/" class="button button-outline">Contact us</a>
+                <h1 class="page_hero__title">SaaScada News and Insights</h1>
+                <div class="page_hero__content"><a href="/contact/" class="button button-outline">Contact us</a></div>
         </div>
     </section>
+
 
 
     <div class="container-xl py-5 news">

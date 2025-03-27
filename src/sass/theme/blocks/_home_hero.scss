@@ -15,4 +15,10 @@
         font-size: var(--fs-900);
         color: inherit;
     }
+    &__content {
+        font-size: clamp(1.1rem, -0.5vw + 1.7rem, 1.4rem);
+    }
+    &__content > .button {
+        font-size: initial;
+    }
 }
