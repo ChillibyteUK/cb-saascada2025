@@ -22379,6 +22379,7 @@ header .dropdown.current-menu-item > .nav-link {
 .home_intro__dna {
   display: block;
   max-width: min(33%, 510px);
+  min-width: 190px;
   margin-inline: auto;
   position: absolute;
   left: 50%;
@@ -22431,14 +22432,6 @@ header .dropdown.current-menu-item > .nav-link {
   }
 }
 
-@keyframes rotatoes {
-  0% {
-    rotate: 0deg;
-  }
-  100% {
-    rotate: 360deg;
-  }
-}
 .two_col_feature {
   position: relative;
   isolation: isolate;

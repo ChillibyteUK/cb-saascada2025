@@ -3,12 +3,11 @@
     &__dna {
         display: block;
         max-width: min(33%, 510px);
+        min-width: 190px;
         margin-inline: auto;
         position: absolute;
         left: 50%;
         transform: translate(-50%, -50%);
-        // transform-origin: left top;
-        // animation: rotatoes 20s linear infinite;
         top: 50px;
         @media (min-width: 768px) {
             top: 0;
@@ -56,14 +55,5 @@
         .col-md-4.padme {
             margin-top: 140px;
         }
-    }
-}
-
-@keyframes rotatoes {
-    0% {
-        rotate: 0deg;
-    }
-    100% {
-        rotate: 360deg;
     }
 }
