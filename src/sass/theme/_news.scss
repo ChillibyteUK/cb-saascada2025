@@ -154,7 +154,9 @@
         gap: 0;
         align-items: stretch;
         // height: 100%;
+        border-radius: var(--border-radius);
         border: 2px solid var(--col-light);
+        overflow: hidden;
         transition: border-color var(--transition);
         &:hover {
             border-color: var(--col-blue-400);
@@ -189,6 +191,8 @@
     text-decoration: none;
     border: 2px solid var(--col-light);
     transition: border-color var(--transition);
+    border-radius: var(--border-radius);
+    overflow: hidden;
     &:hover {
         border-color: var(--col-blue-400);
     }

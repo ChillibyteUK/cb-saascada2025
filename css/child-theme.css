@@ -22281,7 +22281,9 @@ header .dropdown.current-menu-item > .nav-link {
   grid-row: span 4;
   gap: 0;
   align-items: stretch;
+  border-radius: var(--border-radius);
   border: 2px solid var(--col-light);
+  overflow: hidden;
   transition: border-color var(--transition);
 }
 .related__card:hover {
@@ -22316,6 +22318,8 @@ header .dropdown.current-menu-item > .nav-link {
   text-decoration: none;
   border: 2px solid var(--col-light);
   transition: border-color var(--transition);
+  border-radius: var(--border-radius);
+  overflow: hidden;
 }
 .blog_cta:hover {
   border-color: var(--col-blue-400);
