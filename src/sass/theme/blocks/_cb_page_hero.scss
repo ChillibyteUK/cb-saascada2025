@@ -5,33 +5,35 @@
     isolation: isolate;
     overflow: hidden;
 
-    &::before {
-        content: "";
-        background-image: url(../img/dna.svg);
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position-x: right;
-        position: absolute;
-        top: 25%;
-        left: 0%;
-        width: 150px;
-        height: 66%;
-        z-index: 0;
-        opacity: 0.8;
-    }
-    &::after {
-        content: "";
-        background-image: url(../img/dna.svg);
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position-x: left;
-        position: absolute;
-        bottom: 25%;
-        right: 0%;
-        width: 150px;
-        height: 66%;
-        z-index: 0;
-        opacity: 0.8;
+    @media (min-width:992px) {
+        &::before {
+            content: "";
+            background-image: url(../img/dna.svg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position-x: right;
+            position: absolute;
+            top: 25%;
+            left: 0%;
+            width: 150px;
+            height: 66%;
+            z-index: 0;
+            opacity: 0.8;
+        }
+        &::after {
+            content: "";
+            background-image: url(../img/dna.svg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position-x: left;
+            position: absolute;
+            bottom: 25%;
+            right: 0%;
+            width: 150px;
+            height: 66%;
+            z-index: 0;
+            opacity: 0.8;
+        }
     }
 
     &__bg {
@@ -62,6 +64,7 @@
     &__content {
         max-width: 92ch;
         margin-inline: auto;
+        font-size: clamp(1.1rem, -0.5vw + 1.7rem, 1.4rem);
     }
 
 }

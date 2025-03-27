@@ -28,12 +28,12 @@
   --fs-300: 0.8rem;
   --fs-350: 0.9rem;
   --fs-400: 1rem;
-  --fs-450: 1.25rem;
-  --fs-500: 1.55rem;
-  --fs-600: 1.95rem;
-  --fs-700: 2.45rem;
-  --fs-800: 3.05rem;
-  --fs-900: 3.8rem;
+  --fs-450: clamp(1.1rem, 0.6vw + 0.9rem, 1.25rem);
+  --fs-500: clamp(1.25rem, 1vw + 0.8rem, 1.55rem);
+  --fs-600: clamp(1.6rem, 1.2vw + 1rem, 1.95rem);
+  --fs-700: clamp(2rem, 1.4vw + 1.2rem, 2.45rem);
+  --fs-800: clamp(2.5rem, 1.6vw + 1.5rem, 3.05rem);
+  --fs-900: clamp(3.2rem, 2vw + 1.8rem, 3.8rem);
   /* Font Families */
   --ff-body: "Lexend", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   --ff-heading: "Lexend", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -22602,33 +22602,35 @@ header .dropdown.current-menu-item > .nav-link {
   isolation: isolate;
   overflow: hidden;
 }
-.page_hero::before {
-  content: "";
-  background-image: url(../img/dna.svg);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position-x: right;
-  position: absolute;
-  top: 25%;
-  left: 0%;
-  width: 150px;
-  height: 66%;
-  z-index: 0;
-  opacity: 0.8;
-}
-.page_hero::after {
-  content: "";
-  background-image: url(../img/dna.svg);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position-x: left;
-  position: absolute;
-  bottom: 25%;
-  right: 0%;
-  width: 150px;
-  height: 66%;
-  z-index: 0;
-  opacity: 0.8;
+@media (min-width: 992px) {
+  .page_hero::before {
+    content: "";
+    background-image: url(../img/dna.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position-x: right;
+    position: absolute;
+    top: 25%;
+    left: 0%;
+    width: 150px;
+    height: 66%;
+    z-index: 0;
+    opacity: 0.8;
+  }
+  .page_hero::after {
+    content: "";
+    background-image: url(../img/dna.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position-x: left;
+    position: absolute;
+    bottom: 25%;
+    right: 0%;
+    width: 150px;
+    height: 66%;
+    z-index: 0;
+    opacity: 0.8;
+  }
 }
 .page_hero__bg {
   position: absolute;
@@ -22656,6 +22658,7 @@ header .dropdown.current-menu-item > .nav-link {
 .page_hero__content {
   max-width: 92ch;
   margin-inline: auto;
+  font-size: clamp(1.1rem, -0.5vw + 1.7rem, 1.4rem);
 }
 
 .team_grid__grid {

@@ -5,7 +5,7 @@ defined('ABSPATH') || exit;
 <div id="footer-top"></div>
 <footer class="footer pt-5 pb-4">
     <div class="container">
-        <div class="row g-4 g-lg-2 g-xxl-5 mb-5">
+        <div class="row gx-4 g-lg-2 g-xxl-5 mb-5">
             <div class="col-xl-2 text-center text-xl-start mb-3 pe-3">
                 <img src="<?= get_stylesheet_directory_uri() ?>/img/saascada-logo.svg" alt="SaaScada" class="footer__logo">
                 <?= do_shortcode('[social_icons class="mt-4 d-flex justify-content-around fs-500 mx-auto"]') ?>
@@ -16,7 +16,7 @@ defined('ABSPATH') || exit;
             <div class="col-sm-6 col-xl-2">
                 <?= wp_nav_menu(array('theme_location' => 'footer_menu2', 'container_class' => 'footer__menu')) ?>
             </div>
-            <div class="col-sm-6 col-xl-2 footer__address">
+            <div class="col-sm-6 col-xl-2 footer__address mb-4">
                 <?= cb_list(get_field('contact_address', 'option')) ?>
             </div>
             <div class="col-sm-6 col-xl-2">
