@@ -59,12 +59,15 @@
         }
         @media (max-width: 768px) {
             grid-template-columns: repeat(1, 1fr);
+            grid-template-rows: auto;
         }
     }
     &__card {
         display: grid;
-        grid-template-rows: subgrid;
-        grid-row: span 5;
+        @media (min-width: 768px) {
+            grid-template-rows: subgrid;
+            grid-row: span 5;
+        }
         align-items: start;
         margin-bottom: 3rem;
         @media (min-width: 768px) {

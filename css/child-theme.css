@@ -22495,14 +22495,19 @@ header .dropdown.current-menu-item > .nav-link {
 @media (max-width: 768px) {
   .four_list_cards__grid {
     grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: auto;
   }
 }
 .four_list_cards__card {
   display: grid;
-  grid-template-rows: subgrid;
-  grid-row: span 5;
   align-items: start;
   margin-bottom: 3rem;
+}
+@media (min-width: 768px) {
+  .four_list_cards__card {
+    grid-template-rows: subgrid;
+    grid-row: span 5;
+  }
 }
 @media (min-width: 768px) {
   .four_list_cards__card {
@@ -22537,7 +22542,6 @@ header .dropdown.current-menu-item > .nav-link {
 .latest_posts__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: minmax(150px, 1fr) auto auto;
   row-gap: 0.5rem;
   -moz-column-gap: 2rem;
   column-gap: 2rem;
@@ -22557,8 +22561,7 @@ header .dropdown.current-menu-item > .nav-link {
   background-color: var(--col-light);
   text-decoration: none;
   display: grid;
-  grid-template-rows: subgrid;
-  grid-row: span 4;
+  grid-template-rows: auto auto 1fr;
   row-gap: 0.5rem;
   align-items: start;
   height: 100%;
