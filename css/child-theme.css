@@ -22488,7 +22488,7 @@ header .dropdown.current-menu-item > .nav-link {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: minmax(150px, 1fr) auto auto auto auto;
-  row-gap: 0.5rem;
+  row-gap: 2rem;
   -moz-column-gap: 2rem;
   column-gap: 2rem;
   max-width: 100%;
@@ -22513,6 +22513,7 @@ header .dropdown.current-menu-item > .nav-link {
   .four_list_cards__card {
     grid-template-rows: subgrid;
     grid-row: span 5;
+    row-gap: 0.5rem;
   }
 }
 @media (min-width: 768px) {

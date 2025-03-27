@@ -50,7 +50,7 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         grid-template-rows: minmax(150px, 1fr) auto auto auto auto; // Set fixed image height
-        row-gap: 0.5rem;
+        row-gap: 2rem;
         column-gap: 2rem;
         max-width: 100%;
 
@@ -67,6 +67,7 @@
         @media (min-width: 768px) {
             grid-template-rows: subgrid;
             grid-row: span 5;
+            row-gap: 0.5rem;
         }
         align-items: start;
         margin-bottom: 3rem;
