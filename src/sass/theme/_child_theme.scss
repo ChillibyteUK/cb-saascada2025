@@ -173,6 +173,15 @@ main {
     @extend .button;
 }
 
+.show-on-touch {
+    display: none;
+}
+@media (pointer: coarse) {
+    .show-on-touch {
+        display: block;
+    }
+}
+
 // show stuff that overflows horizontally
 // * {
 //     outline: 1px solid #f00 !important;

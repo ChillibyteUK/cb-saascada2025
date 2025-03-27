@@ -22,6 +22,7 @@
                     <div class="icon_cards__inner">
                         <h2><?= get_sub_field('title') ?></h2>
                         <div><?= get_sub_field('content') ?></div>
+                        <div class="show-on-touch fw-bold text-end pt-3 mt-auto">Read More</div>
                     </div>
                     <?= $close ?>
                 </div>
