@@ -18,8 +18,8 @@
             font-size: 3rem;
             transition: all 0.3s ease;
             img {
-                width:160px;
-                height:160px;
+                width: 160px;
+                height: 160px;
             }
         }
         &:hover {
@@ -30,14 +30,18 @@
     }
     iframe {
         border-radius: 0.25rem;
-        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+        box-shadow:
+            rgba(0, 0, 0, 0.16) 0px 3px 6px,
+            rgba(0, 0, 0, 0.23) 0px 3px 6px;
     }
     &__image {
         width: 100%;
         // aspect-ratio: 6/4;
         background-size: cover;
         background-position: center;
-        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+        box-shadow:
+            rgba(0, 0, 0, 0.16) 0px 3px 6px,
+            rgba(0, 0, 0, 0.23) 0px 3px 6px;
         border-radius: 0.25rem;
         position: relative;
         cursor: pointer;

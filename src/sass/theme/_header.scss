@@ -9,7 +9,7 @@ header {
     .nav-item {
         position: relative;
         &::after {
-            content: "";
+            content: '';
             position: absolute;
             right: 0;
             top: 0;
@@ -34,12 +34,11 @@ header {
         height: 50px;
         display: grid;
         place-content: center;
-        @media (min-width:992px) {
+        @media (min-width: 992px) {
             &:hover {
                 color: var(--col-blue-400);
             }
         }
-
     }
 
     .logo-container {
@@ -85,8 +84,6 @@ header {
     .current_page_parent > .nav-link,
     .dropdown.current-page-ancestor > .nav-link,
     .dropdown.current-menu-item > .nav-link {
-        color: var(--col-purple-400);
-    }  
-   
-
+        color: var(--col-blue-400);
+    }
 }

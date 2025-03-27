@@ -1,12 +1,11 @@
-@import "typography";
-@import "colours";
-@import "buttons";
-@import "header";
-@import "footer";
-@import "forms";
-@import "news";
-@import "blocks/blocks";
-
+@import 'typography';
+@import 'colours';
+@import 'buttons';
+@import 'header';
+@import 'footer';
+@import 'forms';
+@import 'news';
+@import 'blocks/blocks';
 
 // body, a {
 //     cursor: none;
@@ -33,25 +32,26 @@
 
 main {
     margin-top: var(--h-top);
-    @media (min-width:992px) {
+    @media (min-width: 992px) {
         margin-top: var(--h-top-desktop);
     }
 
     &.blog {
         margin-top: calc(var(--h-top) + 1rem);
-        @media (min-width:992px) {
+        @media (min-width: 992px) {
             margin-top: calc(var(--h-top-desktop) + 1rem);
         }
-    
     }
 
     a {
         display: inline-block;
         font-weight: var(--fw-900);
         transition: color var(--transition);
-        &:hover, &:focus-visible, &:active {
+        &:hover,
+        &:focus-visible,
+        &:active {
             color: inherit;
-        }  
+        }
     }
 
     a {
@@ -74,10 +74,9 @@ main {
         top: -60px; // calc(var(--h-top) * -1);
         visibility: hidden;
     }
-        
 }
 
-@media (min-width:992px) {
+@media (min-width: 992px) {
     .cols-lg-2 {
         columns: 2;
     }
@@ -96,7 +95,6 @@ main {
     z-index: 1000;
 }
 
-
 .breadcrumbs {
     font-size: var(--fs-300);
     a {
@@ -110,17 +108,15 @@ main {
 
 .investis_iframe {
     height: 950px;
-    @media (min-width:754px) {
+    @media (min-width: 754px) {
         height: 800px;
     }
 }
 
-
-
-[class^="icon-"] {
+[class^='icon-'] {
     position: relative;
     &::after {
-        content: "";        
+        content: '';
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
@@ -148,7 +144,6 @@ main {
 .icon-search::after {
     background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11.4351 10.0629H10.7124L10.4563 9.81589C11.3528 8.77301 11.8925 7.4191 11.8925 5.94625C11.8925 2.66209 9.23042 0 5.94625 0C2.66209 0 0 2.66209 0 5.94625C0 9.23042 2.66209 11.8925 5.94625 11.8925C7.4191 11.8925 8.77301 11.3528 9.81589 10.4563L10.0629 10.7124V11.4351L14.6369 16L16 14.6369L11.4351 10.0629ZM5.94625 10.0629C3.66838 10.0629 1.82962 8.22413 1.82962 5.94625C1.82962 3.66838 3.66838 1.82962 5.94625 1.82962C8.22413 1.82962 10.0629 3.66838 10.0629 5.94625C10.0629 8.22413 8.22413 10.0629 5.94625 10.0629Z' fill='black'/%3E%3C/svg%3E%0A");
 }
-
 
 .pagination {
     --bs-pagination-color: var(--col-blue-400);

@@ -114,10 +114,7 @@
                 "id": ""
             },
             "default_value": "",
-            "allowed_colors": [
-                "dark",
-                "light"
-            ],
+            "allowed_colors": ["dark", "light"],
             "exclude_colors": "",
             "return_format": "slug",
             "allow_in_bindings": 0
@@ -184,10 +181,7 @@
                 "id": ""
             },
             "default_value": "dark",
-            "allowed_colors": [
-                "dark",
-                "blue-400"
-            ],
+            "allowed_colors": ["dark", "blue-400"],
             "exclude_colors": "",
             "return_format": "slug",
             "allow_in_bindings": 0

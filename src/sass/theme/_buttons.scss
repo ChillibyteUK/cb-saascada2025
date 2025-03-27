@@ -5,7 +5,10 @@
     align-self: center;
     text-align: center;
     text-decoration: none;
-    transition: border-color var(--transition), color var(--transition), background-color var(--transition);
+    transition:
+        border-color var(--transition),
+        color var(--transition),
+        background-color var(--transition);
     &:disabled {
         border-color: var(--col-grey-200);
         background-color: var(--col-grey-200);

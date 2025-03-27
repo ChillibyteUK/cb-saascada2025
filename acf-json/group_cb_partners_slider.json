@@ -55,14 +55,10 @@
                 "class": "",
                 "id": ""
             },
-            "post_type": [
-                "partners"
-            ],
+            "post_type": ["partners"],
             "post_status": "",
             "taxonomy": "",
-            "filters": [
-                "search"
-            ],
+            "filters": ["search"],
             "return_format": "id",
             "min": "",
             "max": "",

@@ -2,7 +2,7 @@
     position: relative;
     &__dna {
         display: block;
-        max-width: min(33%,510px);
+        max-width: min(33%, 510px);
         margin-inline: auto;
         position: absolute;
         left: 50%;
@@ -10,7 +10,7 @@
         // transform-origin: left top;
         // animation: rotatoes 20s linear infinite;
         top: 50px;
-        @media (min-width:768px) {
+        @media (min-width: 768px) {
             top: 0;
         }
     }
@@ -20,7 +20,7 @@
         margin-inline: auto;
 
         padding-top: 95px;
-        @media (min-width:992px) {
+        @media (min-width: 992px) {
             padding-top: 145px;
         }
     }
@@ -52,12 +52,11 @@
         width: 100%;
     }
 
-    @media (max-width:768px) {
+    @media (max-width: 768px) {
         .col-md-4:first-of-type {
             margin-top: 140px;
         }
     }
-
 }
 
 @keyframes rotatoes {

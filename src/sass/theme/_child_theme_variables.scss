@@ -2,20 +2,26 @@
 // To overwrite a Bootstrap variable you don´t have to touch the Bootstrap folder.
 // Just copy a variable from src/sass/assets/bootstrap5/_variables.scss, paste it here and edit the value.
 
-
-@import "props";
+@import 'props';
 
 $primary: $col-primary;
 $secondary: $col-dark;
 
-@import "../assets/bootstrap5/functions";
-@import "../assets/bootstrap5/variables";
-@import "../assets/bootstrap5/maps";
-@import "../assets/bootstrap5/utilities";
+@import '../assets/bootstrap5/functions';
+@import '../assets/bootstrap5/variables';
+@import '../assets/bootstrap5/maps';
+@import '../assets/bootstrap5/utilities';
 
-$utilities: map-merge( 
-$utilities, ( "width": map-merge( 
-    map-get( $utilities, "width"), ( responsive: true ),),)
+$utilities: map-merge(
+    $utilities,
+    (
+        'width': map-merge(
+                map-get($utilities, 'width'),
+                (
+                    responsive: true
+                )
+            )
+    )
 );
 
 $container-max-widths: (
@@ -23,4 +29,5 @@ $container-max-widths: (
     md: 750px,
     lg: 970px,
     xl: 1170px,
-    xxl: 1360px);
+    xxl: 1360px
+);

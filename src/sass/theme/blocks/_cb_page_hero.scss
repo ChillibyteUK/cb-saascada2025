@@ -1,13 +1,13 @@
 .page_hero {
     color: var(--col-light);
     position: relative;
-    height: min(400px,66vh);
+    height: min(400px, 66vh);
     isolation: isolate;
     overflow: hidden;
 
-    @media (min-width:992px) {
+    @media (min-width: 992px) {
         &::before {
-            content: "";
+            content: '';
             background-image: url(../img/dna.svg);
             background-size: cover;
             background-repeat: no-repeat;
@@ -21,7 +21,7 @@
             opacity: 0.8;
         }
         &::after {
-            content: "";
+            content: '';
             background-image: url(../img/dna.svg);
             background-size: cover;
             background-repeat: no-repeat;
@@ -54,7 +54,7 @@
         row-gap: 1rem;
         z-index: 2;
     }
-    
+
     &__title {
         font-size: var(--fs-900);
         margin-bottom: 0;
@@ -69,5 +69,4 @@
     &__content > .button {
         font-size: initial;
     }
-
 }

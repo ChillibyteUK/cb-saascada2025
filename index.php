@@ -15,7 +15,17 @@ get_header();
                 <div class="page_hero__content"><a href="/contact/" class="button button-outline">Contact us</a></div>
         </div>
     </section>
-    <div class="container-xl py-5 news">
+    <section class="breadcrumbs py-4">
+        <div class="container-xl">
+            <?php
+            if (function_exists('yoast_breadcrumb')) {
+                yoast_breadcrumb();
+            }
+        ?>
+        </div>
+    </section>
+    <div class="container-xl pb-5 news">
+
         <?php
         if (get_the_content(null, false, $page_for_posts)) {
             echo '<div class="mb-5">' . get_the_content(null, false, $page_for_posts) . '</div>';

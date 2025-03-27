@@ -1,29 +1,28 @@
 .icon_collapse__card {
-
-  .accordion-item {
-    border: none;
-  }
-  
-  h2 {
-    font-size: var(--fs-600);
-  }
-  h3 {
-    font-size: var(--fs-500);
-  }
-
-  &__icon {
-    img {
-      max-width: 150px;
+    .accordion-item {
+        border: none;
     }
-  }
 
-  .toggle-icon {
-    align-self: flex-start;
-    transition: transform 0.3s ease;
-    color: var(--col-blue-400);
-  }
+    h2 {
+        font-size: var(--fs-600);
+    }
+    h3 {
+        font-size: var(--fs-500);
+    }
 
-  button:not(.collapsed) .toggle-icon {
-    transform: rotate(180deg);
-  }
+    &__icon {
+        img {
+            max-width: 150px;
+        }
+    }
+
+    .toggle-icon {
+        align-self: flex-start;
+        transition: transform 0.3s ease;
+        color: var(--col-blue-400);
+    }
+
+    button:not(.collapsed) .toggle-icon {
+        transform: rotate(180deg);
+    }
 }

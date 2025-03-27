@@ -29,7 +29,6 @@
         max-width: 200px;
     }
 
-
     &__contact {
         margin-top: 2rem;
         font-weight: var(--fw-600);
@@ -61,25 +60,23 @@
 
         &.cb {
             content: url(../img/cb-mono.png);
-            opacity: .6;
-            transition: all .3s ease;
+            opacity: 0.6;
+            transition: all 0.3s ease;
             &:hover {
                 opacity: 1;
             }
         }
 
         .text-end {
-            display: flex ;
+            display: flex;
             align-items: center;
             line-height: 1;
             gap: 0.25em;
 
             justify-content: center;
-            @media (min-width:992px) {
+            @media (min-width: 992px) {
                 justify-content: end;
             }
         }
     }
-
-
 }
