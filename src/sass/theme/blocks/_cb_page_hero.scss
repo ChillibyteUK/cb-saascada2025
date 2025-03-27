@@ -66,5 +66,8 @@
         margin-inline: auto;
         font-size: clamp(1.1rem, -0.5vw + 1.7rem, 1.4rem);
     }
+    &__content > .button {
+        font-size: initial;
+    }
 
 }

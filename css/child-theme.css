@@ -22666,6 +22666,9 @@ header .dropdown.current-menu-item > .nav-link {
   margin-inline: auto;
   font-size: clamp(1.1rem, -0.5vw + 1.7rem, 1.4rem);
 }
+.page_hero__content > .button, .page_hero__content > .wp-block-search__button, .page_hero__content > .gform_button.wp-block-search__button, .page_hero__content > .gform_button.button.button {
+  font-size: initial;
+}
 
 .team_grid__grid {
   display: grid;
