@@ -56,38 +56,37 @@ $colours = array();
 $fsizes = array();
 $fweights = array();
 
-foreach ($matches as $match) {
+foreach ( $matches as $match ) {
     $variableName = trim($match[1]);
     $variableValue = trim($match[2]);
     $variables[$variableName] = $variableValue;
 
-    if (preg_match('/^col/', $variableName )) {
+    if ( preg_match('/^col/', $variableName ) ) {
         $colours[$variableName] = $variableValue;
     }
 
-    if (preg_match('/^fs/', $variableName )) {
+    if ( preg_match('/^fs/', $variableName ) ) {
         $fsizes[$variableName] = $variableValue;
     }
 
-    if (preg_match('/^fw/', $variableName )) {
+    if ( preg_match('/^fw/', $variableName ) ) {
         $fweights[$variableName] = $variableValue;
     }
-
 }
 
 echo '<h2>Colours</h2>';
-foreach ($colours as $name => $value) {
+foreach ( $colours as $name => $value ) {
     echo colour($name, $value);
 }
 
 echo '<h2>Font Sizes</h2>';
 
-foreach (array_reverse($fsizes) as $name => $value) {
+foreach ( array_reverse($fsizes) as $name => $value ) {
     echo type($name, $value);
 }
 
 echo '<h2>Font Weights</h2>';
-foreach (array_reverse($fweights) as $name => $value) {
+foreach ( array_reverse($fweights) as $name => $value ) {
     echo weight($name, $value);
 }
 

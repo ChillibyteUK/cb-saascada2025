@@ -25,7 +25,7 @@ get_header();
 
     <div class="container-xl py-5 news">
         <?php
-        if (get_the_content(null, false, $page_for_posts)) {
+        if ( get_the_content(null, false, $page_for_posts) ) {
             echo '<div class="mb-5">' . get_the_content(null, false, $page_for_posts) . '</div>';
         }
 
@@ -35,7 +35,7 @@ get_header();
         <div class="filters mb-4">
             <?php
             echo '<a class="button button--sm" href="/insights/">All</a>';
-            foreach ($cats as $cat) {
+            foreach ( $cats as $cat ) {
                 $active_class = ($cat->term_id == $category->term_id) ? ' active' : ''; // Check if it's the current category
                 echo '<a class="button button--sm' . $active_class . '" href="' . esc_url(get_category_link($cat->term_id)) . '">' . esc_html($cat->cat_name) . '</a>';
             }
@@ -44,14 +44,14 @@ get_header();
         <div class="news__grid">
             <?php
             $first = true;
-            while (have_posts()) {
+            while ( have_posts() ) {
                 the_post();
                 $img = get_the_post_thumbnail(get_the_ID(), 'large', ['class' => 'news__img']) ?: '<img src="' . get_stylesheet_directory_uri() . '/img/default-blog.jpg" class="news__img">';
                 $cats = get_the_category();
                 $category = wp_list_pluck($cats, 'name');
                 $class = $first ? 'news__first' : '';
 
-                if (has_category('event')) {
+                if ( has_category('event') ) {
                     $the_date = get_field('start_date', get_the_ID());
                 } else {
                     $the_date = null;
@@ -63,9 +63,9 @@ get_header();
                     <div class="news__image">
                         <?= $img ?>
                         <?php
-                        if (!empty($category)) {
+                        if ( ! empty($category) ) {
                             echo '<div class="pills">';
-                            foreach ($category as $cat) {
+                            foreach ( $category as $cat ) {
                                 echo '<div class="catflash">' . $cat . '</div>';
                             }
                             echo '</div>';
@@ -75,7 +75,7 @@ get_header();
                     <div class="news__inner">
                         <h3><?= get_field('title') ?: get_the_title() ?></h3>
                         <?php
-                        if ($first) {
+                        if ( $first ) {
                         ?>
                             <div><?= get_field('excerpt') ?: wp_trim_words(get_the_content(), 25) ?></div>
                         <?php

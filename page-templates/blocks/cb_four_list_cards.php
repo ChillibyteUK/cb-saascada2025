@@ -3,9 +3,9 @@
         <h2 class="has-blue-400-color mb-5"><?=get_field('title')?></h2>
         <div class="four_list_cards__grid g-5">
             <?php
-            if (have_rows('cards')) {
+            if ( have_rows('cards') ) {
                 $c = 0;
-                while (have_rows('cards')) {
+                while ( have_rows('cards') ) {
                     the_row();
                     $l = get_sub_field('link') ?? null;
                     ?>

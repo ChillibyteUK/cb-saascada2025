@@ -18,7 +18,7 @@ get_header();
     <section class="breadcrumbs py-4">
         <div class="container-xl">
             <?php
-            if (function_exists('yoast_breadcrumb')) {
+            if ( function_exists('yoast_breadcrumb') ) {
                 yoast_breadcrumb();
             }
         ?>
@@ -27,7 +27,7 @@ get_header();
     <div class="container-xl pb-5 news">
 
         <?php
-        if (get_the_content(null, false, $page_for_posts)) {
+        if ( get_the_content(null, false, $page_for_posts) ) {
             echo '<div class="mb-5">' . get_the_content(null, false, $page_for_posts) . '</div>';
         }
 
@@ -37,7 +37,7 @@ get_header();
         <div class="filters mb-4">
             <?php
             echo '<a class="button button--sm active" href="/insights/">All</a>';
-            foreach ($cats as $cat) {
+            foreach ( $cats as $cat ) {
                 echo '<a class="button button--sm" href="' . esc_url(get_category_link($cat->term_id)) . ' ">' . $cat->cat_name . '</a>';
             }
             ?>
@@ -49,19 +49,19 @@ get_header();
             $columnsPerRow = 3;
             $first = true;
 
-            while (have_posts()) {
+            while ( have_posts() ) {
                 the_post();
                 $img = get_the_post_thumbnail(get_the_ID(), 'large', ['class' => 'news__img']) ?: '<img src="' . get_stylesheet_directory_uri() . '/img/default-blog.jpg" class="news__img">';
                 $cats = get_the_category();
                 $category = wp_list_pluck($cats, 'name');
                 // $flashcat = $category[0];
 
-                if ($first) {
+                if ( $first ) {
                     $class = 'news__first'; // First row class
                     $delay = 0; // First row has no delay
                 } else {
                     // ✅ Reset delay when starting a new row AFTER the first row
-                    if (($colCount % $columnsPerRow) === 0) {
+                    if ( ($colCount % $columnsPerRow) === 0 ) {
                         $c = 0;
                     }
 
@@ -69,14 +69,14 @@ get_header();
                     $delay = $c;
                 }
 
-                if (has_category('event')) {
+                if ( has_category('event') ) {
                     $the_date = get_field('start_date', get_the_ID());
                 } else {
                     $the_date = null;
                     // $the_date = get_the_date('jS F, Y');
                 }
 
-                if ($colCount % $columnsPerRow === 0) {
+                if ( $colCount % $columnsPerRow === 0 ) {
                     $c = 0;
                 }
 
@@ -86,9 +86,9 @@ get_header();
                     <div class="news__image">
                         <?= $img ?>
                         <?php
-                        if (!empty($category)) {
+                        if ( ! empty($category) ) {
                             echo '<div class="pills">';
-                            foreach ($category as $cat) {
+                            foreach ( $category as $cat ) {
                                 echo '<div class="catflash">' . $cat . '</div>';
                             }
                             echo '</div>';
@@ -98,7 +98,7 @@ get_header();
                     <div class="news__inner">
                         <h3><?= get_field('title') ?: get_the_title() ?></h3>
                         <?php
-                        if ($first) {
+                        if ( $first ) {
                         ?>
                             <div><?= get_field('excerpt') ?: wp_trim_words(get_the_content(), 25) ?></div>
                         <?php
@@ -114,7 +114,7 @@ get_header();
                 </a>
             <?php
 
-                if ($first) {
+                if ( $first ) {
                     $first = false; // ✅ Mark first row as processed
                 } else {
                     // ✅ Only increment delay for normal rows

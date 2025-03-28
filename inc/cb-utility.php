@@ -22,19 +22,19 @@ add_shortcode('contact_address', function () {
 });
 
 add_shortcode('contact_phone', function () {
-    if (get_field('contact_phone', 'option')) {
+    if ( get_field('contact_phone', 'option') ) {
         return '<a href="tel:' . parse_phone(get_field('contact_phone', 'option')) . '">' . get_field('contact_phone', 'option') . '</a>';
     }
     return;
 });
 add_shortcode('contact_email', function () {
-    if (get_field('contact_email', 'option')) {
+    if ( get_field('contact_email', 'option') ) {
         return '<a href="mailto:' . get_field('contact_email', 'option') . '">' . get_field('contact_email', 'option') . '</a>';
     }
     return;
 });
 add_shortcode('contact_email_icon', function () {
-    if (get_field('contact_email', 'option')) {
+    if ( get_field('contact_email', 'option') ) {
         return '<a href="mailto:' . get_field('contact_email', 'option') . '"><i class="fas fa-envelope"></i></a>';
     }
     return;
@@ -45,7 +45,7 @@ add_shortcode('contact_email_icon', function () {
 function lc_social_icon_shortcode($atts)
 {
     $atts = shortcode_atts(['type' => ''], $atts);
-    if (!$atts['type']) {
+    if ( ! $atts['type'] ) {
         return '';
     }
 
@@ -59,7 +59,7 @@ function lc_social_icon_shortcode($atts)
         'linkedin'  => $social['linkedin_url'] ?? '',
     ];
 
-    if (!isset($urls[$atts['type']]) || empty($urls[$atts['type']])) {
+    if ( ! isset($urls[$atts['type']]) || empty($urls[$atts['type']]) ) {
         return '';
     }
 
@@ -71,7 +71,7 @@ function lc_social_icon_shortcode($atts)
 
 // Register individual social icon shortcodes
 $social_types = ['facebook', 'instagram', 'twitter', 'pinterest', 'youtube', 'linkedin'];
-foreach ($social_types as $type) {
+foreach ( $social_types as $type ) {
     add_shortcode('social_' . $type . '_icon', function () use ($type) {
         return lc_social_icon_shortcode(['type' => $type]);
     });
@@ -84,7 +84,7 @@ add_shortcode('social_icons', function ($atts) {
     ], $atts, 'social_icons');
 
     $social = get_field('socials', 'option');
-    if (!$social) {
+    if ( ! $social ) {
         return '';
     }
 
@@ -98,8 +98,8 @@ add_shortcode('social_icons', function ($atts) {
         'linkedin'  => 'linkedin-in',
     ];
 
-    foreach ($social_map as $key => $icon) {
-        if (!empty($social[$key . '_url'])) {
+    foreach ( $social_map as $key => $icon ) {
+        if ( ! empty($social[$key . '_url']) ) {
             $url = esc_url($social[$key . '_url']);
             $icons[] = '<a href="' . $url . '" target="_blank" rel="nofollow noopener noreferrer"><i class="fa-brands fa-' . $icon . '"></i></a>';
         }
@@ -107,7 +107,7 @@ add_shortcode('social_icons', function ($atts) {
 
     $class = esc_attr(trim($atts['class']));
 
-    return !empty($icons) ? '<div class="social-icons ' . $class . '">' . implode(' ', $icons) . '</div>' : '';
+    return ! empty($icons) ? '<div class="social-icons ' . $class . '">' . implode(' ', $icons) . '</div>' : '';
 });
 
 
@@ -161,7 +161,7 @@ add_action('admin_head', 'cb_gutenberg_admin_styles');
 
 
 // disable full-screen editor view by default
-if (is_admin()) {
+if ( is_admin() ) {
     function cb_disable_editor_fullscreen_by_default()
     {
         $script = "jQuery( window ).load(function() { const isFullscreenMode = wp.data.select( 'core/edit-post' ).isFeatureActive( 'fullscreenMode' ); if ( isFullscreenMode ) { wp.data.dispatch( 'core/edit-post' ).toggleFeature( 'fullscreenMode' ); } });";
@@ -175,7 +175,7 @@ if (is_admin()) {
 // God I hate Gravity Forms
 // Change textarea rows to 4 instead of 10
 add_filter('gform_field_content', function ($field_content, $field) {
-    if ($field->type == 'textarea') {
+    if ( $field->type == 'textarea' ) {
         return str_replace("rows='10'", "rows='4'", $field_content);
     }
     return $field_content;
@@ -185,7 +185,7 @@ add_filter('gform_field_content', function ($field_content, $field) {
 function get_the_top_ancestor_id()
 {
     global $post;
-    if ($post->post_parent) {
+    if ( $post->post_parent ) {
         $ancestors = array_reverse(get_post_ancestors($post->ID));
         return $ancestors[0];
     } else {
@@ -240,7 +240,7 @@ function cbslugify($text, string $divider = '-')
     // lowercase
     $text = strtolower($text);
 
-    if (empty($text)) {
+    if ( empty($text) ) {
         return 'n-a';
     }
 
@@ -251,12 +251,12 @@ function random_str(
     int $length = 64,
     string $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 ): string {
-    if ($length < 1) {
+    if ( $length < 1 ) {
         throw new \RangeException("Length must be a positive integer");
     }
     $pieces = [];
     $max = mb_strlen($keyspace, '8bit') - 1;
-    for ($i = 0; $i < $length; ++$i) {
+    for ( $i = 0; $i < $length; ++$i ) {
         $pieces[] = $keyspace[random_int(0, $max)];
     }
     return implode('', $pieces);
@@ -293,8 +293,8 @@ function cb_list($field)
     ob_start();
     $field = strip_tags($field, '<br />');
     $bullets = preg_split("/\r\n|\n|\r/", $field);
-    foreach ($bullets as $b) {
-        if ($b == '') {
+    foreach ( $bullets as $b ) {
+        if ( $b == '' ) {
             continue;
         }
     ?>
@@ -315,7 +315,7 @@ function cb_list($field)
  */
 function formatBytes($size, $precision = 2)
 {
-    if ($size <= 0) {
+    if ( $size <= 0 ) {
         return '0 B'; // Return 0 bytes as a default value
     }
     
@@ -368,7 +368,7 @@ add_action('admin_init', function () {
     // Redirect any user trying to access comments page
     global $pagenow;
 
-    if ($pagenow === 'edit-comments.php') {
+    if ( $pagenow === 'edit-comments.php' ) {
         wp_safe_redirect(admin_url());
         exit;
     }
@@ -377,8 +377,8 @@ add_action('admin_init', function () {
     remove_meta_box('dashboard_recent_comments', 'dashboard', 'normal');
 
     // Disable support for comments and trackbacks in post types
-    foreach (get_post_types() as $post_type) {
-        if (post_type_supports($post_type, 'comments')) {
+    foreach ( get_post_types() as $post_type ) {
+        if ( post_type_supports($post_type, 'comments') ) {
             remove_post_type_support($post_type, 'comments');
             remove_post_type_support($post_type, 'trackbacks');
         }
@@ -399,7 +399,7 @@ add_action('admin_menu', function () {
 
 // Remove comments links from admin bar
 add_action('init', function () {
-    if (is_admin_bar_showing()) {
+    if ( is_admin_bar_showing() ) {
         remove_action('admin_bar_menu', 'wp_admin_bar_comments_menu', 60);
     }
 });
@@ -438,11 +438,11 @@ add_action('wp_dashboard_setup', 'lc_remove_dashboard_widgets');
 function estimate_reading_time_in_minutes($content = '', $words_per_minute = 300, $with_gutenberg = false, $formatted = false)
 {
     // In case if content is build with gutenberg parse blocks
-    if ($with_gutenberg) {
+    if ( $with_gutenberg ) {
         $blocks = parse_blocks($content);
         $contentHtml = '';
 
-        foreach ($blocks as $block) {
+        foreach ( $blocks as $block ) {
             $contentHtml .= render_block($block);
         }
 
@@ -453,7 +453,7 @@ function estimate_reading_time_in_minutes($content = '', $words_per_minute = 300
     $content = wp_strip_all_tags($content);
 
     // When content is empty return 0
-    if (!$content) {
+    if ( ! $content ) {
         return 0;
     }
 
@@ -463,7 +463,7 @@ function estimate_reading_time_in_minutes($content = '', $words_per_minute = 300
     // Calculate time for read all words and round
     $minutes = ceil($words_count / $words_per_minute);
 
-    if ($formatted) {
+    if ( $formatted ) {
         $minutes = '<p class="reading">Estimated reading time ' . $minutes . ' ' . pluralise($minutes, 'minute') . '</p>';
     }
 
@@ -472,11 +472,11 @@ function estimate_reading_time_in_minutes($content = '', $words_per_minute = 300
 
 function pluralise($quantity, $singular, $plural = null)
 {
-    if ($quantity == 1 || !strlen($singular)) return $singular;
+    if ($quantity == 1 || ! strlen($singular)) return $singular;
     if ($plural !== null) return $plural;
 
     $last_letter = strtolower($singular[strlen($singular) - 1]);
-    switch ($last_letter) {
+    switch ( $last_letter ) {
         case 'y':
             return substr($singular, 0, -1) . 'ies';
         case 's':
@@ -494,11 +494,11 @@ function get_all_block_names_from_content($id)
     $block_names = [];
 
     // Recursively find all block names
-    foreach ($blocks as $block) {
-        if (isset($block['blockName']) && !empty($block['blockName'])) {
+    foreach ( $blocks as $block ) {
+        if ( isset($block['blockName']) && ! empty($block['blockName']) ) {
             $block_names[] = $block['blockName'];
         }
-        if (isset($block['innerBlocks']) && !empty($block['innerBlocks'])) {
+        if ( isset($block['innerBlocks']) && ! empty($block['innerBlocks']) ) {
             $inner_block_names = get_all_block_names_from_content(serialize_blocks($block['innerBlocks']));
             $block_names = array_merge($block_names, $inner_block_names);
         }
@@ -528,13 +528,13 @@ function display_page_hierarchy($parent_id = 0)
 
     $output = '';
 
-    if (!empty($pages)) {
+    if ( ! empty($pages) ) {
         $output .= '<ul>';
-        foreach ($pages as $page) {
+        foreach ( $pages as $page ) {
             // check index status
             $noindex = get_post_meta($page->ID, '_yoast_wpseo_meta-robots-noindex', true);
 
-            if ($noindex != '1') {
+            if ( $noindex != '1' ) {
                 $output .= '<li><a href="' . get_permalink($page->ID) . '">' . $page->post_title . '</a>';
 
                 // Recursively display child pages, also sorted by title
@@ -576,20 +576,20 @@ function get_gutenberg_h2_headings_from_page() {
     $h2_headings = [];
     $stack = $blocks; // Use a stack to process blocks iteratively
 
-    while (!empty($stack)) {
+    while ( ! empty($stack) ) {
         $block = array_shift($stack); // Get the blocks in order
 
         // Check if it's a heading block
-        if ($block['blockName'] === 'core/heading') {
+        if ( $block['blockName'] === 'core/heading' ) {
             // Check the level attribute (assume default is 2 if not set)
             $level = $block['attrs']['level'] ?? 2;
 
-            if ($level === 2) {
+            if ( $level === 2 ) {
                 // Extract the rendered HTML
                 $html = $block['innerHTML'] ?? '';
 
                 // Extract the ID using regex
-                if (preg_match('/<h2[^>]*id=["\']([^"\']+)["\']/', $html, $matches)) {
+                if ( preg_match('/<h2[^>]*id=["\']([^"\']+)["\']/', $html, $matches) ) {
                     $id = $matches[1];
                 } else {
                     $id = null;
@@ -607,7 +607,7 @@ function get_gutenberg_h2_headings_from_page() {
         }
 
         // Add inner blocks to the stack
-        if (!empty($block['innerBlocks'])) {
+        if ( ! empty($block['innerBlocks']) ) {
             $stack = array_merge($stack, $block['innerBlocks']);
         }
     }

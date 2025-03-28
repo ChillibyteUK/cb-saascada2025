@@ -37,7 +37,7 @@ $theme = 'default';
 		$last_result = min($paged * $posts_per_page, $total_results);
 
 		// Display the results count
-		if ($total_results > 0) {
+		if ( $total_results > 0 ) {
 			echo '<div class="search-results-count fw-500">';
 			echo sprintf(
 				'Showing %d—%d of %d results for “%s”',
@@ -59,16 +59,16 @@ $theme = 'default';
 		<?php
 		$all_disclaimers = get_field('disclaimers', 'option');
 
-		if (have_posts()) {
-			while (have_posts()) {
+		if ( have_posts() ) {
+			while ( have_posts() ) {
 				the_post();
-				if (get_post_type() == 'document') {
+				if ( get_post_type() == 'document' ) {
 					$link = get_field('file');
 					$attachment_url = wp_get_attachment_url(get_field('file', get_the_ID()));
 
 					$disclaimers = get_field('disclaimers_selection', get_the_ID()) ?? null;
 
-					if (!empty($disclaimers) && is_array($disclaimers) && isset($disclaimers[0])) {
+					if ( ! empty($disclaimers) && is_array($disclaimers) && isset($disclaimers[0]) ) {
 
 						$id = esc_attr($link);
 		?>
@@ -85,10 +85,10 @@ $theme = 'default';
 									<div class="modal-body">
 										<div id="disclaimer-list-<?= $id ?>" class="disclaimer-list">
 											<?php
-											foreach ($disclaimers as $index => $disclaimer_name) {
+											foreach ( $disclaimers as $index => $disclaimer_name ) {
 
-												foreach ($all_disclaimers as $disclaimer) {
-													if ($disclaimer['disclaimer_name'] === $disclaimer_name) {
+												foreach ( $all_disclaimers as $disclaimer ) {
+													if ( $disclaimer['disclaimer_name'] === $disclaimer_name ) {
 											?>
 														<div class="disclaimer-container" id="disclaimer-<?= $id ?>">
 															<label for="disclaimer-<?= $id ?>-<?= $index ?>" class="switch-label">

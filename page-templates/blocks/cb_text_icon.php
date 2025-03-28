@@ -12,20 +12,20 @@ $link = get_field('link') ?? null;
             </div>
             <div class="col-sm-10">
                 <?php
-                if ($title) {
+                if ( $title ) {
                     ?>
                     <h2><?=$title?></h2>
                     <?php
-                    if ($subtitle) {
+                    if ( $subtitle ) {
                         ?>
                     <h3><?=$subtitle?></h3>
                         <?php
                     }
                 }
-                if ($content) {
+                if ( $content ) {
                     echo $content;
                 }
-                if ($link) {
+                if ( $link ) {
                     ?>
                     <a href="<?=$link['url']?>" target="<?=$link['target']?>" class="button button-primary"><?=$link['title']?></a>
                     <?php

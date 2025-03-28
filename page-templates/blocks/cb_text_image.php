@@ -4,7 +4,7 @@ $imgcol = get_field('order') == 'Text/Image' ? 'order-2 order-lg-2' : 'order-2 o
 
 $split = get_field('split');
 
-switch ($split) {
+switch ( $split ) {
     case '50:50':
         $txtcolwidth = 'col-lg-6';
         $imgcolwidth = 'col-lg-6';
@@ -37,7 +37,7 @@ $csize = get_field('content_size') ?: 'fs-400';
 
 $image_id = get_field('image');
 
-if ($image_id) {
+if ( $image_id ) {
     $img = wp_get_attachment_image($image_id, 'large', false, ['class' => 'text_image__img']);
 } else {
     $img = '<img src="' . get_stylesheet_directory_uri() . '/img/default-blog.jpg" class="text_image__img" alt="Placeholder image">';
@@ -45,7 +45,7 @@ if ($image_id) {
 
 
 $anchor = isset($block['anchor']) ? $block['anchor'] : '';
-if ($anchor) {
+if ( $anchor ) {
 ?>
     <a id="<?= $anchor ?>" class="anchor"></a>
 <?php
@@ -59,7 +59,7 @@ if ($anchor) {
             <div
                 class="<?=$txtcolwidth?> d-flex flex-column align-items-start <?=$valign_class?> <?=$txtcol?>">
                 <?php
-                if (get_field('title') ?? null) {
+                if ( get_field('title') ?? null ) {
                 ?>
                     <h2 class="mb-4 has-blue-400-color">
                         <?= get_field('title') ?>

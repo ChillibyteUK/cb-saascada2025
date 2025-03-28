@@ -25,8 +25,8 @@ session_start();
         href="<?=get_stylesheet_directory_uri()?>/fonts/lexend-v23-latin-600.woff2"
         as="font" type="font/woff2" crossorigin="anonymous">
     <?php
-if (!is_user_logged_in()) {
-    if (get_field('ga_property', 'options')) {
+if ( ! is_user_logged_in() ) {
+    if ( get_field('ga_property', 'options') ) {
         ?>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async
@@ -45,7 +45,7 @@ if (!is_user_logged_in()) {
     </script>
         <?php
     }
-    if (get_field('gtm_property', 'options')) {
+    if ( get_field('gtm_property', 'options') ) {
         ?>
     <!-- Google Tag Manager -->
     <script>
@@ -70,10 +70,10 @@ if (!is_user_logged_in()) {
         <?php
     }
 }
-if (get_field('google_site_verification', 'options')) {
+if ( get_field('google_site_verification', 'options') ) {
     echo '<meta name="google-site-verification" content="' . get_field('google_site_verification', 'options') . '" />';
 }
-if (get_field('bing_site_verification', 'options')) {
+if ( get_field('bing_site_verification', 'options') ) {
     echo '<meta name="msvalidate.01" content="' . get_field('bing_site_verification', 'options') . '" />';
 }
 
@@ -107,8 +107,8 @@ wp_head();
     <?php understrap_body_attributes(); ?>>
     <?php
 do_action('wp_body_open');
-if (!is_user_logged_in()) {
-    if (get_field('gtm_property', 'options')) {
+if ( ! is_user_logged_in() ) {
+    if ( get_field('gtm_property', 'options') ) {
         ?>
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe

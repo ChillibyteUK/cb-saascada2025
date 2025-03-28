@@ -54,18 +54,18 @@ class GetThemeModReturnType implements DynamicFunctionReturnTypeExtension {
 			$functionReflection->getVariants()
 		)->getReturnType();
 
-		if (!$argType instanceof ConstantStringType) {
+		if ( ! $argType instanceof ConstantStringType ) {
 			return $defaultType;
 		}
 
 		// Return the default value if it is not an Understrap specific theme mod.
-		if (!in_array($argType->getValue(), self::$themeMods, true)) {
+		if ( ! in_array($argType->getValue(), self::$themeMods, true) ) {
 			return $defaultType;
 		}
 
 		// Without second argument the default value is false, but can be filtered.
 		$defaultType = new MixedType();
-		if (count($functionCall->getArgs()) > 1) {
+		if ( count($functionCall->getArgs()) > 1 ) {
 			$defaultType = $scope->getType($functionCall->getArgs()[1]->value);
 		}
 

@@ -37,7 +37,7 @@ AOS.init({
   var toggleHeader = function(direction, curScroll) {
       if (direction === 2 && curScroll > 100) {
           // Replace 52 with the height of your header in px
-          if (!document.getElementById('navbar').classList.contains('show')) {
+          if ( ! document.getElementById('navbar').classList.contains('show')) {
               header.classList.add('hide');
               prevDirection = direction;
           }

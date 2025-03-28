@@ -2,9 +2,9 @@
     <div class="container-xl">
         <div id="iconCollapseAccordion">
             <?php
-            if (have_rows('cards')) {
+            if ( have_rows('cards') ) {
                 $card_index = 0;
-                while (have_rows('cards')) {
+                while ( have_rows('cards') ) {
                     the_row();
                     $icon = get_sub_field('icon');
                     $title = get_sub_field('title');

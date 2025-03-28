@@ -9,7 +9,7 @@ $width = get_field('width');
 <!-- video -->
 <section class="video py-5">
     <?php
-if (get_field('show_background')) {
+if ( get_field('show_background') ) {
     ?>
     <div class="overlay--dots"></div>
         <?php
@@ -17,7 +17,7 @@ if (get_field('show_background')) {
 ?>
     <div class="container-lg text-center">
         <?php
-    if (get_field('title')) {
+    if ( get_field('title') ) {
         echo '<' . $h . ' class="mb-4 ' . $hc . '">' . get_field('title') . '</' . $h . '>';
     }
 ?>

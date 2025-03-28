@@ -40,7 +40,7 @@ function remove_understrap_post_formats()
     remove_theme_support('post-formats', array('aside', 'image', 'video', 'quote', 'link'));
 }
 
-if (function_exists('acf_add_options_page')) {
+if ( function_exists('acf_add_options_page') ) {
     acf_add_options_page(
         array(
             'page_title'     => 'Site-Wide Settings',
@@ -195,7 +195,7 @@ function cb_dashboard_widget_display()
 
 function understrap_all_excerpts_get_more_link($post_excerpt)
 {
-    if (is_admin() || ! get_the_ID()) {
+    if ( is_admin() || ! get_the_ID() ) {
         return $post_excerpt;
     }
     return $post_excerpt;
@@ -205,7 +205,7 @@ function understrap_all_excerpts_get_more_link($post_excerpt)
 add_filter('the_content', 'wpdocs_remove_shortcode_from_index');
 function wpdocs_remove_shortcode_from_index($content)
 {
-    if (is_search()) {
+    if ( is_search() ) {
         $content = strip_shortcodes($content);
     }
     return $content;
@@ -252,7 +252,7 @@ add_action('wp_enqueue_scripts', 'cb_theme_enqueue');
 add_theme_support('disable-theme-editor');
 
 add_action('admin_init', function () {
-    if (current_theme_supports('disable-theme-editor')) {
+    if ( current_theme_supports('disable-theme-editor') ) {
         define('DISALLOW_FILE_EDIT', true);
     }
 });
@@ -297,32 +297,32 @@ function extract_intro_content($content)
     $collect_paragraphs = false;
     $rest_fragments = [];
 
-    foreach ($children as $node) {
+    foreach ( $children as $node ) {
         // Skip non-element nodes (e.g. text nodes, comments)
-        if ($node->nodeType !== XML_ELEMENT_NODE) {
+        if ( $node->nodeType !== XML_ELEMENT_NODE ) {
             continue;
         }
 
         $tag = $node->nodeName;
 
-        if (!$found_heading && in_array($tag, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])) {
+        if ( ! $found_heading && in_array($tag, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']) ) {
             $result['first_heading'] = $doc->saveHTML($node);
             $found_heading = true;
             $collect_paragraphs = true;
             continue;
         }
 
-        if ($collect_paragraphs) {
-            if ($tag === 'p') {
+        if ( $collect_paragraphs ) {
+            if ( $tag === 'p' ) {
                 $result['intro_paragraphs'] .= $doc->saveHTML($node);
                 continue;
-            } elseif (in_array($tag, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])) {
+            } elseif ( in_array($tag, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']) ) {
                 // Stop collecting once the next heading is found
                 $collect_paragraphs = false;
             }
         }
 
-        if (!$collect_paragraphs && $found_heading) {
+        if ( ! $collect_paragraphs && $found_heading ) {
             $rest_fragments[] = $doc->saveHTML($node);
         }
     }

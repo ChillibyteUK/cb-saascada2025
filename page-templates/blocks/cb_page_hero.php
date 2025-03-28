@@ -8,12 +8,12 @@ $link = get_field('cta') ?? null;
     <div class="container-xl">
             <h1 class="page_hero__title"><?= get_field('title') ?></h1>
             <?php
-            if ($content) {
+            if ( $content ) {
                 ?>
             <div class="page_hero__content"><?=$content?></div>
                 <?php
             }
-            if ($link) {
+            if ( $link ) {
                 ?>
             <a href="<?=$link['url']?>" target="<?=$link['target']?>" class="button button-outline"><?=$link['title']?></a>
                 <?php
@@ -24,7 +24,7 @@ $link = get_field('cta') ?? null;
 <section class="breadcrumbs py-4">
     <div class="container-xl">
         <?php
-        if (function_exists('yoast_breadcrumb')) {
+        if ( function_exists('yoast_breadcrumb') ) {
             yoast_breadcrumb();
         }
     ?>

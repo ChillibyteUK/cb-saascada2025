@@ -15,18 +15,18 @@
         ]);
 
         $valid_filters = [];
-        while ($partners->have_posts()) {
+        while ( $partners->have_posts() ) {
             $partners->the_post();
             $title = get_the_title();
             $first_letter = strtoupper(mb_substr($title, 0, 1));
 
-            if (!ctype_alpha($first_letter)) continue; // Ignore non-alpha titles
+            if ( ! ctype_alpha($first_letter)) continue; // Ignore non-alpha titles
 
             $terms = get_the_terms(get_the_ID(), 'partner-type');
             $categories = $terms ? wp_list_pluck($terms, 'name') : [];
 
             // Store valid category-letter combinations
-            foreach ($categories as $category) {
+            foreach ( $categories as $category ) {
                 $slug = cbslugify($category);
                 $valid_filters[$slug][$first_letter] = true;
             }
@@ -45,7 +45,7 @@
                     By Name
                 </div>
                 <div class="alphabet-filter">
-                    <?php foreach (range('A', 'Z') as $letter) : ?>
+                    <?php foreach ( range('A', 'Z') as $letter ) : ?>
                         <button class="alpha-btn" 
                                 data-letter="<?= $letter ?>" 
                                 <?= isset($valid_filters['all'][$letter]) ? '' : 'disabled' ?>>
@@ -62,7 +62,7 @@
                 </div>
                 <select id="filter-select" class="form-select">
                     <option value="all">All</option>
-                    <?php foreach ($cats as $cat) : ?>
+                    <?php foreach ( $cats as $cat ) : ?>
                         <option value="<?= cbslugify($cat->name) ?>"><?= $cat->cat_name ?></option>
                     <?php endforeach; ?>
                 </select>
@@ -75,7 +75,7 @@
         <!-- Partners Grid -->
         <div class="partners__grid pb-5" id="grid">
             <?php
-            while ($partners->have_posts()) {
+            while ( $partners->have_posts() ) {
                 $partners->the_post();
                 $url = get_field('url', get_the_ID()) ?? null;
                 $terms = get_the_terms(get_the_ID(), 'partner-type');

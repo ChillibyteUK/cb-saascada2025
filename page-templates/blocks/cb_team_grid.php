@@ -20,7 +20,7 @@ $q = new WP_Query(array(
     )
 ));
 
-while ($q->have_posts()) {
+while ( $q->have_posts() ) {
     $q->the_post();
     ?>
     <div class="person">

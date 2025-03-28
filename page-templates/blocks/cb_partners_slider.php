@@ -5,12 +5,12 @@
         <?php
 $partners = get_field('partners');
 
-    if ($partners) { ?>
+    if ( $partners ) { ?>
     <div class="splide" id="partners-slider">
         <div class="splide__track">
             <ul class="splide__list">
                 <?php
-                    foreach ($partners as $partner) {
+                    foreach ( $partners as $partner ) {
                         ?>
                     <li class="splide__slide">
                         <?=get_the_post_thumbnail($partner, 'large', false, ['class' => 'partners_slider__partner'])?>

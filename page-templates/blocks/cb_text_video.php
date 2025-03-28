@@ -4,7 +4,7 @@ $vidcol = get_field('order') == 'Text/Video' ? 'order-2 order-lg-2' : 'order-2 o
 
 $split = get_field('split');
 
-switch ($split) {
+switch ( $split ) {
     case '50:50':
         $txtcolwidth = 'col-lg-6';
         $vidcolwidth = 'col-lg-6';
@@ -38,7 +38,7 @@ $img = '<img src="' . get_stylesheet_directory_uri() . '/img/missing-image.png">
 // $img = wp_get_attachment_image(get_field('image'), 'full', false, array('class' => 'w-75 w-md-50 w-lg-100 mx-auto')) ?: '<img src="' . get_stylesheet_directory_uri() . '/img/missing-image.png">';
 
 $anchor = isset($block['anchor']) ? $block['anchor'] : '';
-if ($anchor) {
+if ( $anchor ) {
     ?>
 <a id="<?=$anchor?>" class="anchor"></a>
 <?php
@@ -50,7 +50,7 @@ if ($anchor) {
             <div
                 class="<?=$txtcolwidth?> d-flex flex-column align-items-start <?=$valign_class?> <?=$txtcol?>">
                 <?php
-    if (get_field('title') ?? null) {
+    if ( get_field('title') ?? null ) {
         ?>
                 <h2 class="mb-4 has-blue-400-color">
                     <?=get_field('title')?>

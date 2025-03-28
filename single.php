@@ -13,17 +13,15 @@ $after;
 ?>
     <section class="breadcrumbs container-xl">
         <?php
-if (function_exists('yoast_breadcrumb')) {
+if ( function_exists('yoast_breadcrumb') ) {
     yoast_breadcrumb('<p id="breadcrumbs">', '</p>');
 }
 ?>
     </section>
     <?php
-// echo '<pre>';
-// print_r($blocks);
-// echo '</pre>';
+$hero = get_field('show_hero_image') ? true : false;
 
-if (has_block('core/embed', get_the_ID()) || has_block('acf/cb-video', get_the_ID())) {
+if ( ! $hero || has_block('core/embed', get_the_ID()) || has_block('acf/cb-video', get_the_ID()) ) {
     $img = '';
 } else {
     $img = get_the_post_thumbnail(get_the_ID(), 'full', ['class' => 'blog__image']) ?: '';
@@ -37,9 +35,9 @@ if (has_block('core/embed', get_the_ID()) || has_block('acf/cb-video', get_the_I
                 <div class="blog__meta">
                 <?php
     $count = estimate_reading_time_in_minutes(get_the_content(), 200, true, true) ?? null;
-    if ( $count ) {
-        echo $count;
-    }
+if ( $count ) {
+    echo $count;
+}
 ?>
                 </div>
                 <?php
@@ -54,9 +52,9 @@ $prev = get_previous_post();
 $next = get_next_post();
 
 // Determine the correct Bootstrap class for alignment
-if ($prev && $next) {
+if ( $prev && $next ) {
     $justify_class = 'justify-content-between'; // Both buttons → space them apart
-} elseif ($next) {
+} elseif ( $next ) {
     $justify_class = 'justify-content-end'; // Only Next → Align right
 } else {
     $justify_class = 'justify-content-start'; // Only Previous → Align left
@@ -64,11 +62,11 @@ if ($prev && $next) {
 ?>
 
 <div class="post-navigation mt-4 d-flex <?= $justify_class; ?>">
-    <?php if ($prev): ?>
+    <?php if ( $prev ) : ?>
         <a href="<?= esc_url(get_permalink($prev)); ?>" class="button button--sm">← Previous</a>
     <?php endif; ?>
 
-    <?php if ($next): ?>
+    <?php if ( $next ) : ?>
         <a href="<?= esc_url(get_permalink($next)); ?>" class="button button--sm">Next →</a>
     <?php endif; ?>
 </div>
@@ -85,12 +83,12 @@ $r = new WP_Query(array(
     'posts_per_page' => 3,
     'post__not_in' => array(get_the_ID())
 ));
-if ($r->have_posts()) {
+if ( $r->have_posts() ) {
     ?>
     <div class="h5">Related News</div>
         <div class="related">
     <?php
-    while ($r->have_posts()) {
+    while ( $r->have_posts() ) {
         $r->the_post();
         ?>
             <a class="related__card"

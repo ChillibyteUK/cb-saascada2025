@@ -5,4 +5,5 @@ vendor/
 *.min.css
 css/
 js/
+acf-json/
 

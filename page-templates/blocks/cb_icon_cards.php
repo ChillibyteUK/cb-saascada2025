@@ -2,10 +2,10 @@
     <div class="container-xl">
         <div class="row justify-content-center g-5">
             <?php
-            while (have_rows('cards')) {
+            while ( have_rows('cards') ) {
                 the_row();
                 $l = get_sub_field('link');
-                if (is_array($l)) {
+                if ( is_array($l) ) {
                     $tag = '<a href="' . esc_url($l['url']) . '" target="' . esc_attr($l['target']) . '" class="icon_cards__card">';
                     $close = '</a>';
                 } else {

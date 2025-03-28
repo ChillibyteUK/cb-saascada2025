@@ -1,7 +1,7 @@
 <?php
 function acf_blocks()
 {
-    if (function_exists('acf_register_block_type')) {
+    if ( function_exists('acf_register_block_type') ) {
 
         acf_register_block_type(array(
             'name'                => 'cb_buttons', 
@@ -218,13 +218,13 @@ add_action('acf/init', 'acf_blocks');
 add_filter('register_block_type_args', 'core_image_block_type_args', 10, 3);
 function core_image_block_type_args($args, $name)
 {
-    if ($name == 'core/paragraph') {
+    if ( $name == 'core/paragraph' ) {
         $args['render_callback'] = 'modify_core_add_container';
     }
-    if ($name == 'core/heading') {
+    if ( $name == 'core/heading' ) {
         $args['render_callback'] = 'modify_core_add_container';
     }
-    if ($name == 'core/list') {
+    if ( $name == 'core/list' ) {
         $args['render_callback'] = 'modify_core_add_container';
     }
     // if ($name == 'yoast-seo/breadcrumbs') {
