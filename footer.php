@@ -36,6 +36,14 @@ defined('ABSPATH') || exit;
                 &copy; <?= date('Y') ?> SaaScada Ltd. Registered in England no. 09146473. VAT no. 244 0730 34.
             </div>
             <div class="col-lg-4 text-end">
+                <?php
+                if (get_field('slavery_statement', 'options') ?? null) {
+                    ?>
+                <a href="<?=$l['url']?>">Slavery &amp; Human Trafficking Statement</a> |
+                    <?php
+                }
+?>
+                <a href="/corporate-social-responsibility-policy/">CSR Policy</a> |
                 <a href="/privacy-policy/">Privacy &amp; Cookies</a> |
                 <a href="https://www.chillibyte.co.uk/" rel="nofollow noopener" target="_blank" class="cb" title="Digital Marketing by Chillibyte"></a>
             </div>

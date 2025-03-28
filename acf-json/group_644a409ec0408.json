@@ -165,6 +165,27 @@
             ]
         },
         {
+            "key": "field_67e68c45a2a38",
+            "label": "Slavery & Human Trafficking Statement",
+            "name": "slavery_statement",
+            "aria-label": "",
+            "type": "file",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "url",
+            "library": "all",
+            "min_size": "",
+            "max_size": "",
+            "mime_types": "",
+            "allow_in_bindings": 0
+        },
+        {
             "key": "field_6731f12ebc040",
             "label": "CTA Title",
             "name": "cta_title",
@@ -366,5 +387,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1740142576
+    "modified": 1743162471
 }
