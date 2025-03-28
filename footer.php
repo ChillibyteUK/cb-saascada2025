@@ -39,7 +39,7 @@ defined('ABSPATH') || exit;
                 <?php
                 if (get_field('slavery_statement', 'options') ?? null) {
                     ?>
-                <a href="<?=$l['url']?>">Slavery &amp; Human Trafficking Statement</a> |
+                <a href="<?=get_field('slavery_statement', 'options')?>">Slavery &amp; Human Trafficking Statement</a> |
                     <?php
                 }
 ?>
