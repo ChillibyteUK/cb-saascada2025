@@ -32,10 +32,10 @@ defined('ABSPATH') || exit;
         </div>
 
         <div class="row g-2 g-lg-5 colophon">
-            <div class="col-lg-8 text-center text-lg-start">
+            <div class="col-lg-7 text-center text-lg-start">
                 &copy; <?= date('Y') ?> SaaScada Ltd. Registered in England no. 09146473. VAT no. 244 0730 34.
             </div>
-            <div class="col-lg-4 text-end">
+            <div class="col-lg-5 text-end d-flex justify-content-center justify-content-lg-end flex-wrap">
                 <?php
                 if (get_field('slavery_statement', 'options') ?? null) {
                     ?>
