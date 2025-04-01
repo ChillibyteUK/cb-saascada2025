@@ -1,34 +1,46 @@
+<?php
+/**
+ * Partners Slider Template
+ *
+ * This template renders a slider for displaying partners.
+ *
+ * @package cb-saascada2025
+ */
+
+?>
 <section class="partners_slider">
-    <?=wp_get_attachment_image(get_field('background'), 'full', false, ['class' => 'partners_slider__bg'])?>
+    <?= wp_get_attachment_image( get_field( 'background' ), 'full', false, array( 'class' => 'partners_slider__bg' ) ); ?>
     <div class="container-xl py-5">
-        <h2><?=get_field('title')?></h2>
+        <h2><?= esc_html( get_field( 'title' ) ); ?></h2>
         <?php
-$partners = get_field('partners');
+		$partners = get_field( 'partners' );
 
-    if ( $partners ) { ?>
-    <div class="splide" id="partners-slider">
-        <div class="splide__track">
-            <ul class="splide__list">
-                <?php
-                    foreach ( $partners as $partner ) {
-                        ?>
-                    <li class="splide__slide">
-                        <?=get_the_post_thumbnail($partner, 'large', false, ['class' => 'partners_slider__partner'])?>
-                    </li>
-                <?php
-                    }
-        ?>
-            </ul>
-        </div>
-    </div>
-    <?php
-    }
-    ?>
-
+    	if ( $partners ) {
+			?>
+		<div class="splide" id="partners-slider">
+			<div class="splide__track">
+				<ul class="splide__list">
+					<?php
+					foreach ( $partners as $partner ) {
+						?>
+						<li class="splide__slide">
+							<?= get_the_post_thumbnail( $partner, 'large', false, array( 'class' => 'partners_slider__partner' ) ); ?>
+						</li>
+						<?php
+					}
+					?>
+				</ul>
+			</div>
+		</div>
+			<?php
+    	}
+    	?>
     </div>
 </section>
 <?php
-    add_action('wp_footer', function () {
+add_action(
+	'wp_footer',
+	function () {
         ?>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -48,6 +60,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }).mount();
 });
 </script>
-    <?php
-    });
-    ?>
+    	<?php
+    }
+);

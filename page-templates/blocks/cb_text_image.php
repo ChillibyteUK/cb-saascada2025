@@ -1,8 +1,14 @@
 <?php
-$txtcol = get_field('order') == 'Text/Image' ? 'order-1 order-lg-1' : 'order-1 order-lg-2';
-$imgcol = get_field('order') == 'Text/Image' ? 'order-2 order-lg-2' : 'order-2 order-lg-1';
+/**
+ * Template for displaying a text and image block.
+ *
+ * @package cb-saascada2025
+ */
 
-$split = get_field('split');
+$txtcol = get_field( 'order' ) === 'Text/Image' ? 'order-1 order-lg-1' : 'order-1 order-lg-2';
+$imgcol = get_field( 'order' ) === 'Text/Image' ? 'order-2 order-lg-2' : 'order-2 order-lg-1';
+
+$split = get_field( 'split' );
 
 switch ( $split ) {
     case '50:50':
@@ -18,60 +24,60 @@ switch ( $split ) {
         $imgcolwidth = 'col-lg-4';
         break;
     default:
-        // Fallback values if needed
+        // Fallback values if needed.
         $txtcolwidth = 'col-lg-6';
         $imgcolwidth = 'col-lg-6';
 }
 
-$vertical_align = get_field('vertical_align');
-$valign_class = $vertical_align === 'middle' ? 'justify-content-center' : 'justify-content-start';
+$vertical_align = get_field( 'vertical_align' );
+$valign_class   = 'middle' === $vertical_align ? 'justify-content-center' : 'justify-content-start';
 
-$vpadding = in_array('Yes', (array) get_field('vertical_padding')) ? 'py-5' : 'py-4';
+$vpadding = in_array( 'Yes', (array) get_field( 'vertical_padding' ), true ) ? 'py-5' : 'py-4';
 
-$bgcolour = get_field('background') ?: 'white';
+$bgcolour = get_field( 'background' ) ? get_field( 'background' ) : 'white';
 
-$ccolour = get_field('content_colour') ? 'has-' . get_field('content_colour') . '-color' : '';
-$csize = get_field('content_size') ?: 'fs-400';
+$ccolour = get_field( 'content_colour' ) ? 'has-' . get_field( 'content_colour' ) . '-color' : '';
+$csize   = get_field( 'content_size' ) ? get_field( 'content_size' ) : 'fs-400';
 
-// $img = wp_get_attachment_image(get_field('image'), 'large', false, ['class' => 'text_image__img']) ?: '<img src="' . get_stylesheet_directory_uri() . '/img/missing-image.png" class="text_image__img>';
-
-$image_id = get_field('image');
+$image_id = get_field( 'image' );
 
 if ( $image_id ) {
-    $img = wp_get_attachment_image($image_id, 'large', false, ['class' => 'text_image__img']);
+    $img = wp_get_attachment_image( $image_id, 'large', false, array( 'class' => 'text_image__img' ) );
 } else {
-    $img = '<img src="' . get_stylesheet_directory_uri() . '/img/default-blog.jpg" class="text_image__img" alt="Placeholder image">';
+    $img = '<img src="' . esc_url( get_stylesheet_directory_uri() ) . '/img/default-blog.jpg" class="text_image__img" alt="Placeholder image">';
 }
 
 
-$anchor = isset($block['anchor']) ? $block['anchor'] : '';
+$anchor = isset( $block['anchor'] ) ? $block['anchor'] : '';
 if ( $anchor ) {
-?>
-    <a id="<?= $anchor ?>" class="anchor"></a>
-<?php
+	?>
+    <a id="<?= esc_attr( $anchor ); ?>" class="anchor"></a>
+	<?php
 }
 
 ?>
 
-<section class="text_image <?=$vpadding?> bg--<?= $bgcolour ?>">
+<section class="text_image <?= esc_attr( $vpadding ); ?> bg--<?= esc_attr( $bgcolour ); ?>">
     <div class="container-xl">
         <div class="row g-5">
             <div
-                class="<?=$txtcolwidth?> d-flex flex-column align-items-start <?=$valign_class?> <?=$txtcol?>">
+                class="<?= esc_attr( $txtcolwidth ); ?> d-flex flex-column align-items-start <?= esc_attr( $valign_class ); ?> <?= esc_attr( $txtcol ); ?>">
                 <?php
-                if ( get_field('title') ?? null ) {
-                ?>
+                if ( get_field( 'title' ) ?? null ) {
+                	?>
                     <h2 class="mb-4 has-blue-400-color">
-                        <?= get_field('title') ?>
+                        <?= esc_html( get_field( 'title' ) ); ?>
                     </h2>
-                <?php
+                	<?php
                 }
                 ?>
-                <div class="<?= $ccolour ?> <?= $csize ?>"><?= get_field('content') ?></div>
+                <div class="<?= esc_attr( $ccolour ); ?> <?= esc_attr( $csize ); ?>"><?= wp_kses_post( get_field( 'content' ) ); ?></div>
             </div>
             <div
-                class="<?=$imgcolwidth?> <?=$imgcol?> text_image__image d-flex flex-column align-items-start <?=$valign_class?>">
-                <?=$img?>
+                class="<?= esc_attr( $imgcolwidth ); ?> <?= esc_attr( $imgcol ); ?> text_image__image d-flex flex-column align-items-start <?= esc_attr( $valign_class ); ?>">
+                <?=
+				$img; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				?>
             </div>
         </div>
     </div>

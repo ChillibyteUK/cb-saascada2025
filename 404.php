@@ -1,13 +1,20 @@
 <?php
-// Exit if accessed directly.
-defined('ABSPATH') || exit;
+/**
+ * 404 Page Template
+ *
+ * This template is displayed when a user tries to access a page that does not exist.
+ *
+ * @package cb-saascada2025
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 get_header();
 ?>
 <main id="main" class="padding-top">
 <?php
-$bg = wp_get_attachment_image_url( get_field('hero_image','options'), 'full' );
-?>    
+$bg = wp_get_attachment_image_url( get_field( 'hero_image', 'options' ), 'full' );
+?>
 <!-- hero -->
 <section id="hero" class="hero d-flex align-items-center hero--default mb-0">
     <div class="overlay"></div>
@@ -20,7 +27,7 @@ $bg = wp_get_attachment_image_url( get_field('hero_image','options'), 'full' );
                     <a class="btn btn-default--secondary mb-4" href="/">Return to Homepage</a>
                 </div>
             </div>
-            <div class="col-lg-6 hero__image order-1 order-lg-2" style="background-image:url(<?=$bg?>)">
+            <div class="col-lg-6 hero__image order-1 order-lg-2" style="background-image:url(<?= esc_url( $bg ); ?>)">
             </div>
         </div>
     </div>
