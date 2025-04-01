@@ -39,7 +39,7 @@ defined( 'ABSPATH' ) || exit;
                 <?= wp_kses_post( cb_list( get_field( 'contact_address', 'option' ) ) ); ?>
             </div>
             <div class="col-sm-6 col-xl-2">
-                <a href="/contact/" class="button button-primary fw-bold d-block">Contact Us</a>
+                <a href="/contact-us/" class="button button-primary fw-bold d-block">Contact Us</a>
                 <div class="footer__contact">
                     <div>T: <?= do_shortcode( '[contact_phone]' ); ?></div>
                     <div>E: <?= do_shortcode( '[contact_email]' ); ?></div>
