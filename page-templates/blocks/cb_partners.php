@@ -10,18 +10,35 @@
 <section class="partners">
     <div class="container-xl">
         <?php
-        // Get all categories.
-        $cats = get_categories( array( 'taxonomy' => 'partner-type' ) );
+        // Get all categories except 'Client'.
+		$clients_term = get_term_by( 'name', 'CLIENT', 'partner-type' );
+		$exclude_id   = $clients_term ? $clients_term->term_id : 0;
+
+		// Get all categories except the excluded one.
+		$cats = get_categories(
+			array(
+				'taxonomy' => 'partner-type',
+				'exclude'  => array( $exclude_id ),
+			)
+		);
 
         // Get partners and determine valid letters for each category.
-        $partners = new WP_Query(
+		$partners = new WP_Query(
 			array(
-            	'post_type'      => 'partners',
-            	'posts_per_page' => -1,
-            	'post_status'    => 'publish',
-            	'orderby'        => 'post_title',
-        	    'order'          => 'asc',
-    	    )
+				'post_type'      => 'partners',
+				'posts_per_page' => -1,
+				'post_status'    => 'publish',
+				'orderby'        => 'post_title',
+				'order'          => 'asc',
+				'tax_query'      => array(
+					array(
+						'taxonomy' => 'partner-type',
+						'field'    => 'term_id',
+						'terms'    => array( $exclude_id ),
+						'operator' => 'NOT IN',
+					),
+				),
+			)
 		);
 
         $valid_filters = array();

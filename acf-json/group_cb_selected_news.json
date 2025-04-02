@@ -1,10 +1,10 @@
 {
-    "key": "group_cb_partners_slider",
-    "title": "CB Partners Slider",
+    "key": "group_cb_selected_news",
+    "title": "CB Selected News",
     "fields": [
         {
-            "key": "field_cb_partners_slider_title",
-            "label": "CB Partners Slider",
+            "key": "field_cb_selected_news_title",
+            "label": "CB Selected News",
             "name": "",
             "aria-label": "",
             "type": "message",
@@ -21,7 +21,7 @@
             "new_lines": "wpautop"
         },
         {
-            "key": "field_67b83fa4de07b",
+            "key": "field_67ed006bf7abe",
             "label": "Title",
             "name": "title",
             "aria-label": "",
@@ -42,9 +42,9 @@
             "append": ""
         },
         {
-            "key": "field_67cee98151481",
-            "label": "Partners",
-            "name": "partners",
+            "key": "field_67ed008ef7abf",
+            "label": "Selected News",
+            "name": "selected_news",
             "aria-label": "",
             "type": "relationship",
             "instructions": "",
@@ -56,13 +56,12 @@
                 "id": ""
             },
             "post_type": [
-                "partners"
+                "post"
             ],
             "post_status": "",
             "taxonomy": "",
             "filters": [
-                "search",
-                "taxonomy"
+                "search"
             ],
             "return_format": "id",
             "min": "",
@@ -71,32 +70,6 @@
             "elements": "",
             "bidirectional": 0,
             "bidirectional_target": []
-        },
-        {
-            "key": "field_67b840f5154c5",
-            "label": "Background",
-            "name": "background",
-            "aria-label": "",
-            "type": "image",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "return_format": "id",
-            "library": "all",
-            "min_width": "",
-            "min_height": "",
-            "min_size": "",
-            "max_width": "",
-            "max_height": "",
-            "max_size": "",
-            "mime_types": "",
-            "allow_in_bindings": 0,
-            "preview_size": "thumbnail"
         }
     ],
     "location": [
@@ -104,7 +77,7 @@
             {
                 "param": "block",
                 "operator": "==",
-                "value": "acf\/cb-partners-slider"
+                "value": "acf\/cb-selected-news"
             }
         ]
     ],
@@ -117,5 +90,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1743585043
+    "modified": 1743585829
 }
