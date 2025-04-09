@@ -19,10 +19,10 @@ session_start();
         charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, minimum-scale=1">
     <link rel="preload"
-        href="<?= esc_url( get_stylesheet_directory_uri() ); ?>/fonts/lexend-v23-latin-regular.woff2"
+        href="<?= esc_url( get_stylesheet_directory_uri() . '/fonts/lexend-v23-latin-600.woff2' ); ?>"
         as="font" type="font/woff2" crossorigin="anonymous">
     <link rel="preload"
-        href="<?= esc_url( get_stylesheet_directory_uri() ); ?>/fonts/lexend-v23-latin-600.woff2"
+        href="<?= esc_url( get_stylesheet_directory_uri() ); ?>/fonts/lexend-v24-latin-300.woff2"
         as="font" type="font/woff2" crossorigin="anonymous">
     <?php
 	if ( ! is_user_logged_in() ) {
