@@ -37,7 +37,7 @@ $width = get_field( 'width' );
         <div class="ratio ratio-16x9 <?= esc_attr( $width ); ?> mx-auto" id="video<?= esc_attr( $uq ); ?>" style="display:none">
             <iframe
 				id="vid<?= esc_attr( $uq ); ?>"
-				src="<?= esc_url( 'https://player.vimeo.com/video/' . get_field( 'video_id' ) . '?byline=0&portrait=0"' ); ?>
+				src="<?= esc_url( 'https://player.vimeo.com/video/' . get_field( 'video_id' ) . '?byline=0&portrait=0' ); ?>"
 				allow="autoplay; fullscreen; picture-in-picture"
 				webkitallowfullscreen
 				mozallowfullscreen
