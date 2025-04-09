@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		v.innerHTML = `<img src="https://${poster}" alt="${v.title}" aria-label="Play">`;
 
 		v.children[0].addEventListener('click', () => {
-			v.innerHTML = `<iframe allow="autoplay" src="https://${src}/${v.id}?autoplay=1" allowfullscreen></iframe>`;
+			v.innerHTML = `<iframe src="https://${src}/${v.id}?autoplay=1" allowfullscreen></iframe>`;
 			v.classList.add('video-loaded');
 		});
   	});

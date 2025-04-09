@@ -382,16 +382,33 @@ function cb_social_share( $id ) {
 }
 
 
+// /**
+//  * Enables the Strict-Transport-Security (HSTS) header.
+//  *
+//  * This function sends the HSTS header to enforce HTTPS connections
+//  * for the site, with a max-age of 1 year.
+//  */
+// function enable_strict_transport_security_hsts_header() {
+//     header( 'Strict-Transport-Security: max-age=31536000; includeSubdomains; preload' );
+// }
+// add_action( 'send_headers', 'enable_strict_transport_security_hsts_header' );
+
 /**
- * Enables the Strict-Transport-Security (HSTS) header.
+ * Sends security headers to enhance the security of the website.
  *
- * This function sends the HSTS header to enforce HTTPS connections
- * for the site, with a max-age of 1 year.
+ * This function adds various HTTP security headers, such as HSTS, X-Frame-Options,
+ * X-Content-Type-Options, Referrer-Policy, Permissions-Policy, and X-XSS-Protection,
+ * to protect against common vulnerabilities.
  */
-function enable_strict_transport_security_hsts_header() {
-    header( 'Strict-Transport-Security: max-age=31536000' );
+function send_security_headers() {
+    header( 'Strict-Transport-Security: max-age=31536000; includeSubDomains; preload' );
+    header( 'X-Frame-Options: SAMEORIGIN' );
+    header( 'X-Content-Type-Options: nosniff' );
+    header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+    header( 'Permissions-Policy: geolocation=(), microphone=(), camera=()' );
+    header( 'X-XSS-Protection: 1; mode=block' ); // Mostly legacy, but harmless
 }
-add_action( 'send_headers', 'enable_strict_transport_security_hsts_header' );
+add_action( 'send_headers', 'send_security_headers' );
 
 
 /**

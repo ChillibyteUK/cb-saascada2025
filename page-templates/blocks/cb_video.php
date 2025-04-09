@@ -38,7 +38,7 @@ $width = get_field( 'width' );
             <iframe
 				id="vid<?= esc_attr( $uq ); ?>"
 				src="<?= esc_url( 'https://player.vimeo.com/video/' . get_field( 'video_id' ) . '?byline=0&portrait=0' ); ?>"
-				allow="autoplay; fullscreen; picture-in-picture"
+				allow="fullscreen; picture-in-picture"
 				webkitallowfullscreen
 				mozallowfullscreen
 				allowfullscreen
