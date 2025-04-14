@@ -57,7 +57,6 @@ defined( 'ABSPATH' ) || exit;
             <div class="col-lg-5 text-end d-flex justify-content-center justify-content-lg-end flex-wrap">
                 <?php
                 if ( get_field( 'slavery_statement', 'options' ) ?? null ) {
-                    var_dump(get_field( 'slavery_statement', 'options' ));
                     ?>
                 <a href="<?= esc_url( get_field( 'slavery_statement', 'options' ) ); ?>" target="_blank">Slavery &amp; Human Trafficking Statement</a> |
                     <?php
