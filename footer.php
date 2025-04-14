@@ -51,10 +51,10 @@ defined( 'ABSPATH' ) || exit;
         </div>
 
         <div class="row g-2 g-lg-5 colophon">
-            <div class="col-lg-7 text-center text-lg-start">
+            <div class="col-lg-6 text-center text-lg-start">
                 &copy; <?= esc_html( gmdate( 'Y' ) ); ?> SaaScada Ltd. Registered in England no. 09146473. VAT no. 244 0730 34.
             </div>
-            <div class="col-lg-5 text-end d-flex justify-content-center justify-content-lg-end flex-wrap">
+            <div class="col-lg-6 text-end d-flex justify-content-center justify-content-lg-end flex-wrap">
                 <?php
                 if ( get_field( 'slavery_statement', 'options' ) ?? null ) {
                     ?>
@@ -63,6 +63,7 @@ defined( 'ABSPATH' ) || exit;
                 }
 				?>
                 <a href="/corporate-social-responsibility-policy/">CSR Policy</a> |
+                <a href="/terms/">Website Terms</a> |
                 <a href="/privacy-policy/">Privacy &amp; Cookies</a> |
                 <a href="https://www.chillibyte.co.uk/" rel="nofollow noopener" target="_blank" class="cb" title="Digital Marketing by Chillibyte"></a>
             </div>
