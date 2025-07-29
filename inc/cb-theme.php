@@ -409,3 +409,66 @@ function extract_intro_content( $content ) {
     $result['rest_content'] = implode( '', $rest_fragments );
     return $result;
 }
+
+add_filter( 'wpseo_schema_webpage', 'force_article_schema', 99, 1 );
+add_filter( 'the_author', 'change_author_to_saascada', 99, 1 );
+add_filter( 'get_the_author_display_name', 'change_author_to_saascada', 99, 1 );
+add_filter( 'wpseo_meta_author', 'change_author_to_saascada', 99, 1 );
+add_filter( 'wpseo_schema_person_user_id', '__return_false', 99, 1 );
+
+/**
+ * Forces Article schema for single posts instead of WebPage schema.
+ *
+ * @param array $data The WebPage schema data from Yoast.
+ * @return array Modified schema data as Article.
+ */
+function force_article_schema( $data ) {
+	// Check if data is an array and we're on a single post page.
+	if ( ! is_singular( 'post' ) || ! is_array( $data ) ) {
+		return $data;
+	}
+	
+	// Change the type to Article.
+	$data['@type'] = 'Article';
+	
+	// Remove WebPage-specific properties.
+	unset( $data['breadcrumb'] );
+	unset( $data['primaryImageOfPage'] );
+	unset( $data['potentialAction'] );
+	unset( $data['isPartOf'] );
+	
+	// Add required Article properties.
+	$data['headline']      = get_the_title();
+	$data['datePublished'] = get_the_date( 'c' );
+	$data['dateModified']  = get_the_modified_date( 'c' );
+	
+	// Add author as Organization (replace any existing author reference).
+	$data['author'] = array(
+		'@type' => 'Organization',
+		'name'  => 'SaaScada',
+	);
+	
+	// Ensure we have proper image schema if image exists.
+	if ( isset( $data['image'] ) && is_array( $data['image'] ) ) {
+		// Remove alt property from ImageObject if it exists.
+		if ( isset( $data['image']['alt'] ) ) {
+			unset( $data['image']['alt'] );
+		}
+	}
+
+	return $data;
+}
+
+/**
+ * Changes author display name to SaaScada on single posts.
+ *
+ * @param string $author_name The original author name.
+ * @return string Modified author name.
+ */
+function change_author_to_saascada( $author_name ) {
+	// Only change on single post pages.
+	if ( is_singular( 'post' ) ) {
+		return 'SaaScada';
+	}
+	return $author_name;
+}

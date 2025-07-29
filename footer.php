@@ -57,7 +57,7 @@ defined( 'ABSPATH' ) || exit;
             <div class="col-lg-6 text-end d-flex justify-content-center justify-content-lg-end flex-wrap">
                 <?php
                 $slavery_statement = get_field( 'slavery_statement', 'options' );
-                if ( ! empty ( $slavery_statement ) ) {
+                if ( ! empty( $slavery_statement ) ) {
                     ?>
                 <a href="<?= esc_url( $slavery_statement ); ?>" target="_blank">Slavery &amp; Human Trafficking Statement</a> |
                     <?php
@@ -72,7 +72,7 @@ defined( 'ABSPATH' ) || exit;
 </footer>
 <?php wp_footer(); ?>
 <?php
-if ( ! is_user_logged_in()) {
+if ( ! is_user_logged_in() ) {
     ?>
 <!-- Start of HubSpot Embed Code -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/26035630.js"></script>

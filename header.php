@@ -9,9 +9,10 @@
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
+
 if ( session_status() === PHP_SESSION_NONE ) {
     session_start();
-};
+}
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -69,38 +70,36 @@ if ( session_status() === PHP_SESSION_NONE ) {
             );
     </script>
     <!-- End Google Tag Manager -->
+	<!-- Lead Forensics Tracking Code -->
+	<script type="text/javascript" src="https://secure.agile-company-365.com/js/264633.js"></script>
+	<script type="text/javascript">
+		function track_load (docloc, doctit) {
+			var trk_sw = escape(screen.width).substring(0, 6);
+			var trk_sh = escape(screen.height).substring(0, 6);
+			var trk_ref = escape(document.referrer).substring(0, 1100);
+			var trk_tit = escape(doctit).substring(0, 200);
+			trk_tit = trk_tit.replace(/\%u00a0/g, '');
+			trk_tit = trk_tit.replace(/\%u2122/g, '');
+			trk_tit = trk_tit.replace(/\%u[0-9][0-9][0-9][0-9]/g, '');
+			var trk_loc = escape(docloc).substring(0, 200);
+			var trk_agn = escape(navigator.appName).substring(0, 100);
+			var trk_agv = escape(navigator.userAgent + '.lfcd' + screen.colorDepth + '.lflng').substring(0, 1000);
+			var trk_dom = escape(document.domain).substring(0, 200);
+			var trk_user = '264633';
+			var trk_cookie = '';
+			var trk_guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+				var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+				return v.toString(16);
+			});
+			var trk_img = 'https://secure.leadforensics.com/Track/Capture.aspx';
+			var trk_link = trk_img + '?trk_user=' + trk_user + '&trk_sw=' + trk_sw + '&trk_sh=' + trk_sh + '&trk_ref=' + trk_ref + '&trk_tit=' + trk_tit + '&trk_loc=' + trk_loc + '&trk_agn=' + trk_agn + '&trk_agv=' + trk_agv + '&trk_dom=' + trk_dom + '&trk_guid=' + trk_guid + '&trk_cookie=NA';
+			var preload = new Image();
+			preload.src = trk_link;
+		}
+	</script>
+	<!-- End Lead Forensics Tracking Code -->
         	<?php
-    	}
-        ?>
-<!-- Lead Forensics Tracking Code -->
-<script type="text/javascript" src="https://secure.agile-company-365.com/js/264633.js"></script>
-<script type="text/javascript">
-     function track_load (docloc, doctit) {
-         var trk_sw = escape(screen.width).substring(0, 6);
-         var trk_sh = escape(screen.height).substring(0, 6);
-         var trk_ref = escape(document.referrer).substring(0, 1100);
-         var trk_tit = escape(doctit).substring(0, 200);
-         trk_tit = trk_tit.replace(/\%u00a0/g, '');
-         trk_tit = trk_tit.replace(/\%u2122/g, '');
-         trk_tit = trk_tit.replace(/\%u[0-9][0-9][0-9][0-9]/g, '');
-         var trk_loc = escape(docloc).substring(0, 200);
-         var trk_agn = escape(navigator.appName).substring(0, 100);
-         var trk_agv = escape(navigator.userAgent + '.lfcd' + screen.colorDepth + '.lflng').substring(0, 1000);
-         var trk_dom = escape(document.domain).substring(0, 200);
-         var trk_user = '264633';
-         var trk_cookie = '';
-         var trk_guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-             var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-             return v.toString(16);
-         });
-         var trk_img = 'https://secure.leadforensics.com/Track/Capture.aspx';
-         var trk_link = trk_img + '?trk_user=' + trk_user + '&trk_sw=' + trk_sw + '&trk_sh=' + trk_sh + '&trk_ref=' + trk_ref + '&trk_tit=' + trk_tit + '&trk_loc=' + trk_loc + '&trk_agn=' + trk_agn + '&trk_agv=' + trk_agv + '&trk_dom=' + trk_dom + '&trk_guid=' + trk_guid + '&trk_cookie=NA';
-         var preload = new Image();
-         preload.src = trk_link;
-     }
-</script>
-<!-- End Lead Forensics Tracking Code -->
-        <?php
+		}
 	}
 	if ( get_field( 'google_site_verification', 'options' ) ) {
 		echo '<meta name="google-site-verification" content="' . esc_attr( get_field( 'google_site_verification', 'options' ) ) . '" />';
@@ -110,7 +109,9 @@ if ( session_status() === PHP_SESSION_NONE ) {
 	}
 
 	wp_head();
-	?>
+
+	if ( is_front_page() || is_page( 'contact-us' ) ) {
+		?>
     <script type="application/ld+json">
         {
             "@context": "http://schema.org",
@@ -131,6 +132,9 @@ if ( session_status() === PHP_SESSION_NONE ) {
             "email": "enquiries@saascada.com"
         }
     </script>
+		<?php
+	}
+	?>
 </head>
 <body <?php body_class(); ?>
     <?php understrap_body_attributes(); ?>>
