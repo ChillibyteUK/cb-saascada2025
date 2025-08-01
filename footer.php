@@ -71,15 +71,9 @@ defined( 'ABSPATH' ) || exit;
         </div>
 </footer>
 <?php wp_footer(); ?>
-<?php
-if ( ! is_user_logged_in() ) {
-    ?>
 <!-- Start of HubSpot Embed Code -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/26035630.js"></script>
 <!-- End of HubSpot Embed Code -->
-    <?php
-}
-?>
 </body>
 
 </html>
