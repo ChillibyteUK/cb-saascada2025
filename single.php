@@ -110,15 +110,11 @@ get_header();
 	    				<?php
 					}
 					?>
-					<a href="/contact-us/" class="blog_cta">
-						<img src="<?= esc_url( get_stylesheet_directory_uri() ); ?>/img/default-blog.jpg"
-							alt="" class="blog_cta__image">
-						<div class="blog_cta__content">
-							<h3 class="blog_cta__title">
-								Contact Us Today
-							</h3>
-						</div>
-					</a>
+					<div class="text-center border rounded p-4 mb-4">
+						<img src="http://saascada.local/wp-content/themes/cb-saascada2025/img/saascada-logo.svg" alt="Saascada Logo" style="width:80%" class="d-block mx-auto mb-3">
+						<div class="mb-3"><strong>Contact us to discover how we can help you drive innovation.</strong></div>
+						<a href="/contact-us/" class="button button-primary fw-bold d-block">Contact Us Today</a>
+					</div>
 				</div>
             </div>
         </div>
