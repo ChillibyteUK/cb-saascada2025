@@ -69,6 +69,9 @@ defined( 'ABSPATH' ) || exit;
             </div>
         </div>
 </footer>
+<!-- Start of HubSpot Embed Code -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/26035630.js"></script>
+<!-- End of HubSpot Embed Code -->
 <?php wp_footer(); ?>
 </body>
 
