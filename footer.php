@@ -56,16 +56,17 @@ defined( 'ABSPATH' ) || exit;
             </div>
             <div class="col-lg-6 text-end d-flex justify-content-center justify-content-lg-end flex-wrap">
                 <?php
-                if ( get_field( 'slavery_statement', 'options' ) ?? null ) {
+                $slavery_statement = get_field( 'slavery_statement', 'options' );
+                if ( ! empty( $slavery_statement ) ) {
                     ?>
-                <a href="<?= esc_url( get_field( 'slavery_statement', 'options' ) ); ?>" target="_blank">Slavery &amp; Human Trafficking Statement</a> |
+                <a href="<?= esc_url( $slavery_statement ); ?>" target="_blank">Slavery &amp; Human Trafficking Statement</a> |
                     <?php
                 }
 				?>
                 <a href="/corporate-social-responsibility-policy/">CSR Policy</a> |
                 <a href="/terms/">Website Terms</a> |
                 <a href="/privacy-policy/">Privacy &amp; Cookies</a> |
-                <a href="https://www.chillibyte.co.uk/" rel="nofollow noopener" target="_blank" class="cb" title="Digital Marketing by Chillibyte"></a>
+                <a href="https://www.chillibyte.co.uk/" rel="nofollow noopener" target="_blank" class="cb" title="Digital Marketing by Chillibyte" aria-hidden="true"></a>
             </div>
         </div>
 </footer>

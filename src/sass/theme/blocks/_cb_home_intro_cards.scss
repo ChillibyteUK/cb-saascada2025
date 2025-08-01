@@ -4,13 +4,23 @@
         display: block;
         max-width: min(33%, 510px);
         min-width: 190px;
+        width: 100%;
+        height: auto;
         margin-inline: auto;
         position: absolute;
         left: 50%;
+        will-change: transform;
         transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
         top: 50px;
+        backface-visibility: hidden;
+        transform-style: preserve-3d;
         @media (min-width: 768px) {
             top: 0;
+        }
+        // Add Safari-specific fix
+        @supports (-webkit-transform: translateZ(0)) {
+            transform: translate(-50%, -50%) scale(1); // Ensure proper scaling
         }
     }
     &__lines {

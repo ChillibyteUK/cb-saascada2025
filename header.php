@@ -9,7 +9,10 @@
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
-session_start();
+
+if ( session_status() === PHP_SESSION_NONE ) {
+    session_start();
+}
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -67,11 +70,11 @@ session_start();
             );
     </script>
     <!-- End Google Tag Manager -->
-        	<?php
-    	}
-	}
+        <?php
+        }
+    }
     ?>
-<!-- Lead Forensics Tracking Code -->
+	<!-- Lead Forensics Tracking Code -->
 	<script type="text/javascript" src="https://secure.agile-company-365.com/js/264633.js"></script>
 	<script type="text/javascript">
 		function track_load (docloc, doctit) {
@@ -108,7 +111,9 @@ session_start();
 	}
 
 	wp_head();
-	?>
+
+	if ( is_front_page() || is_page( 'contact-us' ) ) {
+		?>
     <script type="application/ld+json">
         {
             "@context": "http://schema.org",
@@ -129,12 +134,12 @@ session_start();
             "email": "enquiries@saascada.com"
         }
     </script>
+		<?php
+	}
+	?>
 </head>
 <body <?php body_class(); ?>
     <?php understrap_body_attributes(); ?>>
-<!-- Lead Forensics Tracking Code (noscript) -->
-<noscript><img alt="" src="https://secure.agile-company-365.com/264633.png" style="display:none;" /></noscript>
-<!-- End Lead Forensics Tracking Code (noscript) -->
     <?php
 	do_action( 'wp_body_open' );
 	if ( ! is_user_logged_in() ) {
@@ -149,6 +154,9 @@ session_start();
 		}
 	}
 	?>
+<!-- Lead Forensics Tracking Code (noscript) -->
+<noscript><img alt="" src="https://secure.agile-company-365.com/264633.png" style="display:none;" /></noscript>
+<!-- End Lead Forensics Tracking Code (noscript) -->
 <header id="wrapper-navbar" class="fixed-top p-0">
     <nav class="navbar navbar-expand-xl p-0">
         <div class="container-xl py-3 nav-top align-items-center">
