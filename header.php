@@ -70,6 +70,10 @@ if ( session_status() === PHP_SESSION_NONE ) {
             );
     </script>
     <!-- End Google Tag Manager -->
+     <?php
+        }
+    }
+    ?>
 	<!-- Lead Forensics Tracking Code -->
 	<script type="text/javascript" src="https://secure.agile-company-365.com/js/264633.js"></script>
 	<script type="text/javascript">
@@ -98,9 +102,7 @@ if ( session_status() === PHP_SESSION_NONE ) {
 		}
 	</script>
 	<!-- End Lead Forensics Tracking Code -->
-        	<?php
-		}
-	}
+    <?php
 	if ( get_field( 'google_site_verification', 'options' ) ) {
 		echo '<meta name="google-site-verification" content="' . esc_attr( get_field( 'google_site_verification', 'options' ) ) . '" />';
 	}
@@ -150,13 +152,11 @@ if ( session_status() === PHP_SESSION_NONE ) {
 <!-- End Google Tag Manager (noscript) -->
     		<?php
 		}
-        ?>
+	}
+	?>
 <!-- Lead Forensics Tracking Code (noscript) -->
 <noscript><img alt="" src="https://secure.agile-company-365.com/264633.png" style="display:none;" /></noscript>
 <!-- End Lead Forensics Tracking Code (noscript) -->
-        <?php
-	}
-	?>
 <header id="wrapper-navbar" class="fixed-top p-0">
     <nav class="navbar navbar-expand-xl p-0">
         <div class="container-xl py-3 nav-top align-items-center">
