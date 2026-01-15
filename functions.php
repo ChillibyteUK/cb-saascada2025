@@ -8,9 +8,10 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-define( 'CB_THEME_DIR', WP_CONTENT_DIR . '/themes/cb-saascada2025' );
+define( 'CB_THEME_DIR', get_stylesheet_directory() );
 
 require_once CB_THEME_DIR . '/inc/cb-theme.php';
+require_once CB_THEME_DIR . '/inc/cb-block-usage.php';
 
 /**
  * Removes the parent themes stylesheet and scripts from inc/enqueue.php
@@ -21,34 +22,53 @@ function understrap_remove_scripts() {
 
 	wp_dequeue_script( 'understrap-scripts' );
 	wp_deregister_script( 'understrap-scripts' );
+
+	// Remove WordPress block library styles (mostly cruft).
+	wp_dequeue_style( 'wp-block-library' );
+	wp_dequeue_style( 'wp-block-library-theme' );
+	wp_dequeue_style( 'wc-blocks-style' );
 }
 add_action( 'wp_enqueue_scripts', 'understrap_remove_scripts', 20 );
-
 
 
 /**
  * Enqueue our stylesheet and javascript file
  */
-function theme_enqueue_styles() {
 
-	// Get the theme data.
-	$the_theme     = wp_get_theme();
-	$theme_version = $the_theme->get( 'Version' );
-
-	$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-	// Grab asset urls.
-	$theme_styles  = "/css/child-theme{$suffix}.css";
-	$theme_scripts = "/js/child-theme{$suffix}.js";
-
-	$css_version = $theme_version . '.' . filemtime( get_stylesheet_directory() . $theme_styles );
-
-	wp_enqueue_style( 'child-understrap-styles', get_stylesheet_directory_uri() . $theme_styles, array(), $css_version );
-
-	$js_version = $theme_version . '.' . filemtime( get_stylesheet_directory() . $theme_scripts );
-
-	wp_enqueue_script( 'child-understrap-scripts', get_stylesheet_directory_uri() . $theme_scripts, array(), $js_version, true );
+/**
+ * Enqueue child-theme.min.css with filemtime versioning.
+ * No dependencies to ensure immediate loading and prevent FOUC.
+ */
+function cb_enqueue_theme_css() {
+	$rel = '/css/child-theme.min.css';
+	$abs = get_stylesheet_directory() . $rel;
+	wp_enqueue_style(
+		'cb-theme',
+		get_stylesheet_directory_uri() . $rel,
+		array(), // No dependencies - load immediately.
+		file_exists( $abs ) ? filemtime( $abs ) : null
+	);
 }
-add_action( 'wp_enqueue_scripts', 'theme_enqueue_styles' );
+// Load at default priority (10) for early rendering, before parent removal at priority 20.
+add_action( 'wp_enqueue_scripts', 'cb_enqueue_theme_css' );
+
+/**
+ * Enqueue child-theme.min.js with filemtime versioning.
+ */
+function cb_enqueue_theme_js() {
+	$rel = '/js/child-theme.min.js';
+	$abs = get_stylesheet_directory() . $rel;
+	if ( file_exists( $abs ) ) {
+		wp_enqueue_script(
+			'cb-theme-js',
+			get_stylesheet_directory_uri() . $rel,
+			array(),
+			filemtime( $abs ),
+			true
+		);
+	}
+}
+add_action( 'wp_enqueue_scripts', 'cb_enqueue_theme_js', 20 );
 
 
 

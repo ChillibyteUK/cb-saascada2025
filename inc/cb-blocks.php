@@ -26,13 +26,18 @@ function acf_blocks() {
 				'title'           => __( 'CB Selected News' ),
 				'category'        => 'layout',
 				'icon'            => 'cover-image',
-				'render_template' => 'page-templates/blocks/cb-selected-news.php',
+				'render_template' => 'blocks/cb-selected-news.php',
 				'mode'            => 'edit',
 				'supports'        => array(
 					'mode'      => false,
 					'anchor'    => true,
 					'className' => true,
 					'align'     => true,
+					'color'     => array(
+						'gradients'  => false,
+						'text'       => true,
+						'background' => true,
+					),
 				),
 			)
 		);
@@ -43,7 +48,7 @@ function acf_blocks() {
 				'title'           => __( 'CB Buttons' ),
 				'category'        => 'layout',
 				'icon'            => 'cover-image',
-				'render_template' => 'page-templates/blocks/cb_buttons.php',
+				'render_template' => 'blocks/cb-buttons.php',
 				'mode'            => 'edit',
 				'supports'        => array(
 					'mode'      => false,
@@ -60,7 +65,7 @@ function acf_blocks() {
 				'title'           => __( 'CB Icon with Collapsing Text' ),
 				'category'        => 'layout',
 				'icon'            => 'cover-image',
-				'render_template' => 'page-templates/blocks/cb_icon_with_collapsing_text.php',
+				'render_template' => 'blocks/cb-icon-with-collapsing-text.php',
 				'mode'            => 'edit',
 				'supports'        => array(
 					'mode'      => false,
@@ -76,12 +81,17 @@ function acf_blocks() {
 				'title'           => __( 'CB Video' ),
 				'category'        => 'layout',
 				'icon'            => 'cover-image',
-				'render_template' => 'page-templates/blocks/cb_video.php',
+				'render_template' => 'blocks/cb-video.php',
 				'mode'            => 'edit',
 				'supports'        => array(
 					'mode'      => false,
 					'anchor'    => true,
 					'className' => true,
+					'color'     => array(
+						'gradients'  => false,
+						'text'       => true,
+						'background' => true,
+					),
 				),
 			)
 		);
@@ -92,7 +102,7 @@ function acf_blocks() {
 				'title'           => __( 'CB Partners Slider' ),
 				'category'        => 'layout',
 				'icon'            => 'cover-image',
-				'render_template' => 'page-templates/blocks/cb_partners_slider.php',
+				'render_template' => 'blocks/cb-partners-slider.php',
 				'mode'            => 'edit',
 				'supports'        => array(
 					'mode'      => false,
@@ -108,12 +118,17 @@ function acf_blocks() {
 				'title'           => __( 'CB Icon Cards' ),
 				'category'        => 'layout',
 				'icon'            => 'cover-image',
-				'render_template' => 'page-templates/blocks/cb_icon_cards.php',
+				'render_template' => 'blocks/cb-icon-cards.php',
 				'mode'            => 'edit',
 				'supports'        => array(
 					'mode'      => false,
 					'anchor'    => true,
 					'className' => true,
+					'color'     => array(
+						'gradients'  => false,
+						'text'       => true,
+						'background' => true,
+					),
 				),
 			)
 		);
@@ -124,7 +139,7 @@ function acf_blocks() {
 				'title'           => __( 'CB Hubspot Form' ),
 				'category'        => 'layout',
 				'icon'            => 'cover-image',
-				'render_template' => 'page-templates/blocks/cb_hubspot_form.php',
+				'render_template' => 'blocks/cb-hubspot-form.php',
 				'mode'            => 'edit',
 				'supports'        => array(
 					'mode'      => false,
@@ -140,7 +155,7 @@ function acf_blocks() {
 				'title'           => __( 'CB Team Grid' ),
 				'category'        => 'layout',
 				'icon'            => 'cover-image',
-				'render_template' => 'page-templates/blocks/cb_team_grid.php',
+				'render_template' => 'blocks/cb-team-grid.php',
 				'mode'            => 'edit',
 				'supports'        => array(
 					'mode'      => false,
@@ -156,7 +171,7 @@ function acf_blocks() {
 				'title'           => __( 'CB Partners' ),
 				'category'        => 'layout',
 				'icon'            => 'cover-image',
-				'render_template' => 'page-templates/blocks/cb_partners.php',
+				'render_template' => 'blocks/cb-partners.php',
 				'mode'            => 'edit',
 				'supports'        => array(
 					'mode'      => false,
@@ -172,12 +187,17 @@ function acf_blocks() {
 				'title'           => __( 'CB Text Icon' ),
 				'category'        => 'layout',
 				'icon'            => 'cover-image',
-				'render_template' => 'page-templates/blocks/cb_text_icon.php',
+				'render_template' => 'blocks/cb-text-icon.php',
 				'mode'            => 'edit',
 				'supports'        => array(
 					'mode'      => false,
 					'anchor'    => true,
 					'className' => true,
+					'color'     => array(
+						'gradients'  => false,
+						'text'       => true,
+						'background' => true,
+					),
 				),
 			)
 		);
@@ -188,7 +208,7 @@ function acf_blocks() {
 				'title'           => __( 'CB Page Hero' ),
 				'category'        => 'layout',
 				'icon'            => 'cover-image',
-				'render_template' => 'page-templates/blocks/cb_page_hero.php',
+				'render_template' => 'blocks/cb-page-hero.php',
 				'mode'            => 'edit',
 				'supports'        => array(
 					'mode'      => false,
@@ -204,7 +224,7 @@ function acf_blocks() {
 				'title'           => __( 'CB Site-Wide CTA' ),
 				'category'        => 'layout',
 				'icon'            => 'cover-image',
-				'render_template' => 'page-templates/blocks/cb_site-wide_cta.php',
+				'render_template' => 'blocks/cb-site-wide-cta.php',
 				'mode'            => 'edit',
 				'supports'        => array(
 					'mode'      => false,
@@ -220,7 +240,7 @@ function acf_blocks() {
 				'title'           => __( 'CB Latest Posts' ),
 				'category'        => 'layout',
 				'icon'            => 'cover-image',
-				'render_template' => 'page-templates/blocks/cb_latest_posts.php',
+				'render_template' => 'blocks/cb-latest-posts.php',
 				'mode'            => 'edit',
 				'supports'        => array(
 					'mode'      => false,
@@ -236,7 +256,7 @@ function acf_blocks() {
 				'title'           => __( 'CB Logo Slider' ),
 				'category'        => 'layout',
 				'icon'            => 'cover-image',
-				'render_template' => 'page-templates/blocks/cb_logo_slider.php',
+				'render_template' => 'blocks/cb-logo-slider.php',
 				'mode'            => 'edit',
 				'supports'        => array(
 					'mode'      => false,
@@ -252,12 +272,17 @@ function acf_blocks() {
 				'title'           => __( 'CB Four List Cards' ),
 				'category'        => 'layout',
 				'icon'            => 'cover-image',
-				'render_template' => 'page-templates/blocks/cb_four_list_cards.php',
+				'render_template' => 'blocks/cb-four-list-cards.php',
 				'mode'            => 'edit',
 				'supports'        => array(
 					'mode'      => false,
 					'anchor'    => true,
 					'className' => true,
+					'color'     => array(
+						'gradients'  => false,
+						'text'       => true,
+						'background' => true,
+					),
 				),
         	)
 		);
@@ -268,12 +293,17 @@ function acf_blocks() {
 				'title'           => __( 'CB Text Video' ),
 				'category'        => 'layout',
 				'icon'            => 'cover-image',
-				'render_template' => 'page-templates/blocks/cb_text_video.php',
+				'render_template' => 'blocks/cb-text-video.php',
 				'mode'            => 'edit',
 				'supports'        => array(
 					'mode'      => false,
 					'anchor'    => true,
 					'className' => true,
+					'color'     => array(
+						'gradients'  => false,
+						'text'       => true,
+						'background' => true,
+					),
 				),
 			)
 		);
@@ -284,12 +314,17 @@ function acf_blocks() {
 				'title'           => __( 'CB Text Image' ),
 				'category'        => 'layout',
 				'icon'            => 'cover-image',
-				'render_template' => 'page-templates/blocks/cb_text_image.php',
+				'render_template' => 'blocks/cb-text-image.php',
 				'mode'            => 'edit',
 				'supports'        => array(
 					'mode'      => false,
 					'anchor'    => true,
 					'className' => true,
+					'color'     => array(
+						'gradients'  => false,
+						'text'       => true,
+						'background' => true,
+					),
 				),
 			)
 		);
@@ -300,7 +335,7 @@ function acf_blocks() {
 				'title'           => __( 'CB Two Col Feature' ),
 				'category'        => 'layout',
 				'icon'            => 'cover-image',
-				'render_template' => 'page-templates/blocks/cb_two_col_feature.php',
+				'render_template' => 'blocks/cb-two-col-feature.php',
 				'mode'            => 'edit',
 				'supports'        => array(
 					'mode'      => false,
@@ -316,7 +351,7 @@ function acf_blocks() {
 				'title'           => __( 'CB Home Intro Cards' ),
 				'category'        => 'layout',
 				'icon'            => 'cover-image',
-				'render_template' => 'page-templates/blocks/cb_home_intro_cards.php',
+				'render_template' => 'blocks/cb-home-intro-cards.php',
 				'mode'            => 'edit',
 				'supports'        => array(
 					'mode' => false,
@@ -330,7 +365,7 @@ function acf_blocks() {
 				'title'           => __( 'CB Home Hero' ),
 				'category'        => 'layout',
 				'icon'            => 'cover-image',
-				'render_template' => 'page-templates/blocks/cb_home_hero.php',
+				'render_template' => 'blocks/cb-home-hero.php',
 				'mode'            => 'edit',
 				'supports'        => array(
 					'mode' => false,

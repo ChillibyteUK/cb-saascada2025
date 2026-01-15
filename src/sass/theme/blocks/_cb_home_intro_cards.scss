@@ -2,7 +2,7 @@
     position: relative;
     &__dna {
         display: block;
-        max-width: min(33%, 510px);
+        max-width: min(33%, 300px);
         min-width: 190px;
         width: 100%;
         height: auto;
@@ -30,8 +30,12 @@
 
         padding-top: 95px;
         @media (min-width: 992px) {
-            padding-top: 145px;
+            padding-top: 45px;
         }
+    }
+
+    &__cards {
+        margin-top: -100px;
     }
 
     &__card {
@@ -43,7 +47,7 @@
     }
 
     &__icon {
-        max-width: min(185px, 50vw);
+        max-width: min(115px, 50vw);
         margin-inline: auto;
     }
     .h4 {

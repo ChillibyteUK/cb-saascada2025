@@ -5,10 +5,16 @@
  * @package cb-saascada2025
  */
 
+// Support Gutenberg color picker.
+$bg         = ! empty( $block['backgroundColor'] ) ? 'has-' . $block['backgroundColor'] . '-background-color' : '';
+$fg         = ! empty( $block['textColor'] ) ? 'has-' . $block['textColor'] . '-color' : '';
+$headings   = ! empty( $fg ) ? $fg : 'has-blue-400-color';
+$section_id = $block['anchor'] ?? null;
+
 ?>
-<section class="four_list_cards">
+<section id="<?= esc_attr( $section_id ); ?>" class="four_list_cards <?= esc_attr( $bg . ' ' . $fg ); ?>">
     <div class="container-xl py-5">
-        <h2 class="has-blue-400-color mb-5"><?= esc_html( get_field( 'title' ) ); ?></h2>
+        <h2 class="<?= esc_attr( $headings ); ?> mb-5"><?= esc_html( get_field( 'title' ) ); ?></h2>
         <div class="four_list_cards__grid g-5">
             <?php
             if ( have_rows( 'cards' ) ) {

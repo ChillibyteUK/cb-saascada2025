@@ -1,0 +1,115 @@
+$col-primary: #5d7f9c;
+$col-dark: #666666;
+$col-darkest: #4a4a4a;
+$col-light: #f2f2f2;
+
+:root {
+  /* =========================
+     COLOURS (HSL + computed)
+     ========================= */
+
+  --col-white-hsl: 0 0% 100%; /* #FFFFFF – pure white */
+  --col-white: hsl(var(--col-white-hsl));
+
+  --col-black-hsl: 0 0% 0%; /* #000000 – pure black */
+  --col-black: hsl(var(--col-black-hsl));
+
+  --col-dark-hsl: 0 0% 20%; /* dark grey/black */
+  --col-dark: hsl(var(--col-dark-hsl));
+
+  --col-light-hsl: 0 0% 97%; /* light grey */
+  --col-light: hsl(var(--col-light-hsl));
+
+  --col-grey-400-hsl: 0 0% 40%; /* mid grey */
+  --col-grey-400: hsl(var(--col-grey-400-hsl));
+
+  --col-grey-200-hsl: 0 0% 80%; /* grey */
+  --col-grey-200: hsl(var(--col-grey-200-hsl));
+
+  --col-blue-400-hsl: 205 76% 28%; /* #11527F */
+  --col-blue-400: hsl(var(--col-blue-400-hsl));
+
+  --col-teal-400-hsl: 189 100% 34%; /* #0095AE */
+  --col-teal-400: hsl(var(--col-teal-400-hsl));
+
+  --col-purple-400-hsl: 267 30% 46%; /* #6F539A */
+  --col-purple-400: hsl(var(--col-purple-400-hsl));
+
+  --col-turquoise-400-hsl: 178 100% 35%; /* #00B1AE */
+  --col-turquoise-400: hsl(var(--col-turquoise-400-hsl));
+
+  --col-amber-400-hsl: 39 100% 50%; /* #FFA100 */
+  --col-amber-400: hsl(var(--col-amber-400-hsl));
+
+  --col-red-400-hsl: 6 73% 54%; /* #e04735 */
+  --col-red-400: hsl(var(--col-red-400-hsl));
+
+  --col-green-400-hsl: 174 42% 48%; /* #47ada2 */
+  --col-green-400: hsl(var(--col-green-400-hsl));
+
+  /* =========================
+     TYPOGRAPHY (families/weights)
+     ========================= */
+  --ff-heading: 'Lexend', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --ff-body: 'Lexend', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --ff-fa: 'Font Awesome 6 Free';
+
+  /* Font Weights */
+  --fw-bold: 700;
+  --fw-medium: 600; // semibold
+  --fw-regular: 400;
+  --fw-light: 300;
+
+  /* =========================
+    TYPOGRAPHY (sizes/line-heights)
+    ========================= */
+
+  /* body size defined globally */
+  --fs-base: 16px;
+
+  /* hierarchy */
+  --fs-900: clamp(3.2rem, 2vw + 1.8rem, 3.8rem); // h1 - 76px / 20
+  --lh-900: 1.2;
+  --fw-900: var(--fw-bold);
+
+  --fs-800: clamp(2.5rem, 1.6vw + 1.5rem, 3.05rem); // h2 - 61px / 20
+  --lh-800: 1.2;
+  --fw-800: var(--fw-bold);
+
+  --fs-700: clamp(2rem, 1.4vw + 1.2rem, 2.45rem); // h3 - 49px / 20
+  --lh-700: 1.2;
+  --fw-700: var(--fw-bold);
+
+  --fs-600: clamp(1.6rem, 1.2vw + 1rem, 1.95rem); // h4 - 39px / 20
+  --lh-600: 1.2;
+  --fw-600: var(--fw-bold);
+
+  --fs-500: clamp(1.25rem, 1vw + 0.8rem, 1.55rem); // h5 - 31px / 20
+  --lh-500: 1.2;
+  --fw-500: var(--fw-bold);
+
+  --fs-450: clamp(1.1rem, 0.6vw + 0.9rem, 1.25rem); // lead text - 25px / 20
+  --lh-450: 1.5;
+  --fw-450: var(--fw-medium);
+
+  --fs-400: 1rem; // body - 20px / 20
+  --lh-400: 1.5;
+  --fw-400: var(--fw-light);
+
+  --fs-350: 0.9rem; // small text - 18px / 20
+  --lh-350: 1.5;
+  --fw-350: var(--fw-regular);
+
+  --fs-300: 0.8rem; // nav/small text - 16px / 20
+  --lh-300: 1.5;
+  --fw-300: var(--fw-regular);
+
+  /* === Utilities === */
+  --transition: 250ms ease-out;
+
+  /* Site General */
+  --h-top: 83px;
+  --h-top-desktop: 83px;
+
+  --border-radius: 0.5rem;
+}

@@ -30,6 +30,12 @@
 //     background-color: hsl( var(--hsl-dark) / 0.2);
 // }
 
+// Adjust fixed header when admin bar is present
+.admin-bar header.fixed-top {
+  top: 32px; // Admin bar height
+}
+
+
 main {
     margin-top: var(--h-top);
     @media (min-width: 992px) {

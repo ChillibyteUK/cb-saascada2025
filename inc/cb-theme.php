@@ -10,10 +10,45 @@
 defined( 'ABSPATH' ) || exit;
 
 require_once CB_THEME_DIR . '/inc/cb-utility.php';
-require_once CB_THEME_DIR . '/inc/cb-blocks.php';
-require_once CB_THEME_DIR . '/inc/cb-news.php';
+require_once CB_THEME_DIR . '/inc/cb-acf-theme-palette.php';
 require_once CB_THEME_DIR . '/inc/cb-posttypes.php';
 require_once CB_THEME_DIR . '/inc/cb-taxonomies.php';
+require_once CB_THEME_DIR . '/inc/cb-blocks.php';
+require_once CB_THEME_DIR . '/inc/cb-news.php';
+
+/**
+ * Editor styles: opt-in so WP loads editor.css in the block editor.
+ * With theme.json present, this just adds your custom CSS on top (variables, helpers).
+ */
+add_action(
+	'after_setup_theme',
+	function () {
+		add_theme_support( 'editor-styles' );
+		add_editor_style( 'css/custom-editor-style.min.css' );
+	},
+	5
+);
+
+/**
+ * Neutralise legacy palette/font-size support (if parent/Understrap adds them).
+ * theme.json is authoritative, but some themes still register supports in PHP.
+ * Remove them AFTER the parent has added them (high priority).
+ */
+add_action(
+	'after_setup_theme',
+	function () {
+		remove_theme_support( 'editor-color-palette' );
+		remove_theme_support( 'editor-gradient-presets' );
+		remove_theme_support( 'editor-font-sizes' );
+	},
+	99
+);
+
+/**
+ * (Optional) Ensure custom colours *aren't* forcibly disabled by parent.
+ * If Understrap disables custom colours, this re-enables them so theme.json works fully.
+ */
+add_filter( 'should_load_separate_core_block_assets', '__return_true' ); // performance nicety.
 
 // Remove unwanted SVG filter injection WP.
 remove_action( 'wp_enqueue_scripts', 'wp_enqueue_global_styles' );
@@ -69,84 +104,27 @@ if ( function_exists( 'acf_add_options_page' ) ) {
 }
 
 /**
- * Initializes theme widgets and menus.
+ * Initializes widgets, menus, and theme supports.
  *
- * This function registers navigation menus, unregisters sidebars, and sets up theme support for custom colors and editor color palette.
+ * This function registers navigation menus, unregisters sidebars and menus.
  */
 function widgets_init() {
 
-    register_nav_menus(
+	register_nav_menus(
 		array(
 			'primary_nav'  => __( 'Primary Nav', 'cb-saascada2025' ),
 			'footer_menu1' => __( 'Footer Nav 1', 'cb-saascada2025' ),
 			'footer_menu2' => __( 'Footer Nav 2', 'cb-saascada2025' ),
-	    )
+		)
 	);
 
-    unregister_sidebar( 'hero' );
-    unregister_sidebar( 'herocanvas' );
-    unregister_sidebar( 'statichero' );
-    unregister_sidebar( 'left-sidebar' );
-    unregister_sidebar( 'right-sidebar' );
-    unregister_sidebar( 'footerfull' );
-    unregister_nav_menu( 'primary' );
-
-    add_theme_support( 'disable-custom-colors' );
-    add_theme_support(
-        'editor-color-palette',
-        array(
-            array(
-                'name'  => 'White',
-                'slug'  => 'white',
-                'color' => '#ffffff',
-            ),
-            array(
-                'name'  => 'Dark',
-                'slug'  => 'dark',
-                'color' => '#333333',
-            ),
-            array(
-                'name'  => 'Light',
-                'slug'  => 'light',
-                'color' => '#f4f4f4',
-            ),
-            array(
-                'name'  => 'Grey 400',
-                'slug'  => 'grey-400',
-                'color' => '#666666',
-            ),
-            array(
-                'name'  => 'Grey 200',
-                'slug'  => 'grey-200',
-                'color' => '#cccccc',
-            ),
-            array(
-                'name'  => 'Blue 400',
-                'slug'  => 'blue-400',
-                'color' => '#11527F',
-            ),
-            array(
-                'name'  => 'Teal 400',
-                'slug'  => 'teal-400',
-                'color' => '#0095AE',
-            ),
-            array(
-                'name'  => 'Purple 400',
-                'slug'  => 'purple-400',
-                'color' => '#6F539A',
-            ),
-            array(
-                'name'  => 'Turquoise 400',
-                'slug'  => 'turquoise-400',
-                'color' => '#00B1AE',
-            ),
-            array(
-                'name'  => 'Amber 400',
-                'slug'  => 'amber-400',
-                'color' => '#FFA100',
-            ),
-        )
-    );
+	unregister_sidebar( 'hero' );
+	unregister_sidebar( 'herocanvas' );
+	unregister_sidebar( 'statichero' );
+	unregister_sidebar( 'left-sidebar' );
+	unregister_sidebar( 'right-sidebar' );
+	unregister_sidebar( 'footerfull' );
+	unregister_nav_menu( 'primary' );
 }
 add_action( 'widgets_init', 'widgets_init', 11 );
 
@@ -427,27 +405,27 @@ function force_article_schema( $data ) {
 	if ( ! is_singular( 'post' ) || ! is_array( $data ) ) {
 		return $data;
 	}
-	
+
 	// Change the type to Article.
 	$data['@type'] = 'Article';
-	
+
 	// Remove WebPage-specific properties.
 	unset( $data['breadcrumb'] );
 	unset( $data['primaryImageOfPage'] );
 	unset( $data['potentialAction'] );
 	unset( $data['isPartOf'] );
-	
+
 	// Add required Article properties.
 	$data['headline']      = get_the_title();
 	$data['datePublished'] = get_the_date( 'c' );
 	$data['dateModified']  = get_the_modified_date( 'c' );
-	
+
 	// Add author as Organization (replace any existing author reference).
 	$data['author'] = array(
 		'@type' => 'Organization',
 		'name'  => 'SaaScada',
 	);
-	
+
 	// Ensure we have proper image schema if image exists.
 	if ( isset( $data['image'] ) && is_array( $data['image'] ) ) {
 		// Remove alt property from ImageObject if it exists.

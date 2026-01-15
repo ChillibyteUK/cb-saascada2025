@@ -13,7 +13,7 @@ $l3 = get_field( 'card3_link' ) ?? null;
     <div class="container-xl pb-5 mb-5">
         <img src="<?= esc_url( get_stylesheet_directory_uri() ); ?>/img/dna.svg" alt="" class="home_intro__dna" width="692.78" height="742.34">
         <img src="<?= esc_url( get_stylesheet_directory_uri() ); ?>/img/home_intro_lines.svg" alt="" class="home_intro__lines d-none d-md-block">
-        <div class="row g-5 pt-5 pt-md-0 mb-4">
+        <div class="row g-5 pt-5 pt-md-0 mb-4 home_intro__cards">
             <div class="col-md-4 text-center padme">
                 <div class="home_intro__card" data-aos="fade">
                     <img src="<?= esc_url( get_field( 'card1_icon' ) ); ?>" alt="" class="home_intro__icon">

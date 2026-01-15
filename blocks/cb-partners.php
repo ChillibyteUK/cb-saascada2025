@@ -30,7 +30,7 @@
 				'post_status'    => 'publish',
 				'orderby'        => 'post_title',
 				'order'          => 'asc',
-				'tax_query'      => array(
+				'tax_query'      => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 					array(
 						'taxonomy' => 'partner-type',
 						'field'    => 'term_id',

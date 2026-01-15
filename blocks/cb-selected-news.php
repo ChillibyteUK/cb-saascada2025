@@ -9,6 +9,11 @@
 
 $post_ids = get_field( 'selected_news' );
 
+// Support Gutenberg color picker.
+$bg         = ! empty( $block['backgroundColor'] ) ? 'has-' . $block['backgroundColor'] . '-background-color' : '';
+$fg         = ! empty( $block['textColor'] ) ? 'has-' . $block['textColor'] . '-color' : '';
+$section_id = $block['anchor'] ?? null;
+
 if ( $post_ids ) {
 
 	$posts_needed = 4;
@@ -43,7 +48,7 @@ if ( $post_ids ) {
 
 	if ( $final_posts ) {
 		?>
-<section class="latest_posts">
+<section id="<?= esc_attr( $section_id ); ?>" class="latest_posts <?= esc_attr( $bg . ' ' . $fg ); ?>">
     <div class="container-xl py-5">
         <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
             <h2 class="has-blue-400-color mb-3"><?= esc_html( get_field( 'title' ) ); ?></h2>
