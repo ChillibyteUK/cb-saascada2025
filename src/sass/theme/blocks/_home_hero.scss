@@ -1,9 +1,9 @@
 .home_hero {
     color: var(--col-light);
     position: relative;
-    min-height: 510px;
+    height: 510px;
     @media (min-width: 992px) {
-        min-height: 410px;
+        height: 410px;
     }
     isolation: isolate;
     &__bg {

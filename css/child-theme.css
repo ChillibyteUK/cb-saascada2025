@@ -46,7 +46,7 @@
   /* body size defined globally */
   --fs-base: 16px;
   /* hierarchy */
-  --fs-900: clamp(3.2rem, 2vw + 1.8rem, 3.8rem);
+  --fs-900: clamp(3rem, 2vw + 1.8rem, 3.8rem);
   --lh-900: 1.2;
   --fw-900: var(--fw-bold);
   --fs-800: clamp(2.5rem, 1.6vw + 1.5rem, 3.05rem);
@@ -11992,12 +11992,12 @@ header .dropdown.current-menu-item > .nav-link {
 .home_hero {
   color: var(--col-light);
   position: relative;
-  min-height: 510px;
+  height: 510px;
   isolation: isolate;
 }
 @media (min-width: 992px) {
   .home_hero {
-    min-height: 410px;
+    height: 410px;
   }
 }
 .home_hero__bg {
