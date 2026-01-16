@@ -32,9 +32,14 @@ switch ( $split ) {
 $vertical_align = get_field( 'vertical_align' );
 $valign_class   = 'middle' === $vertical_align ? 'justify-content-center' : 'justify-content-start';
 $vpadding       = in_array( 'Yes', (array) get_field( 'vertical_padding' ), true ) ? 'py-5' : 'py-4';
-$bgcolour       = get_field( 'background' ) ? get_field( 'background' ) : 'white';
-$ccolour        = get_field( 'content_colour' ) ? 'has-' . get_field( 'content_colour' ) . '-color' : '';
 $csize          = get_field( 'content_size' ) ? get_field( 'content_size' ) : 'fs-400';
+
+// Support Gutenberg color picker.
+$bg         = ! empty( $block['backgroundColor'] ) ? 'has-' . $block['backgroundColor'] . '-background-color' : '';
+$fg         = ! empty( $block['textColor'] ) ? 'has-' . $block['textColor'] . '-color' : '';
+$headings   = ! empty( $fg ) ? $fg : 'has-blue-400-color';
+$section_id = $block['anchor'] ?? null;
+
 
 $img = '<img src="' . esc_url( get_stylesheet_directory_uri() ) . '/img/missing-image.png">';
 
@@ -45,7 +50,7 @@ if ( $anchor ) {
 	<?php
 }
 ?>
-<section class="text_video <?= esc_attr( $vpadding ); ?> bg--<?= esc_attr( $bgcolour ); ?>">
+<section id="<?= esc_attr( $section_id ); ?>" class="text_video <?= esc_attr( $vpadding ); ?> <?= esc_attr( $bg . ' ' . $fg ); ?>">
     <div class="container-xl">
         <div class="row g-5">
             <div
@@ -53,13 +58,13 @@ if ( $anchor ) {
                 <?php
 				if ( get_field( 'title' ) ?? null ) {
 					?>
-				<h2 class="mb-4 has-blue-400-color">
+				<h2 class="<?= esc_attr( $headings ); ?> mb-4">
 					<?= esc_html( get_field( 'title' ) ); ?>
 				</h2>
 					<?php
 				}
 				?>
-                <div class="<?= esc_attr( $ccolour ); ?> <?= esc_attr( $csize ); ?>"><?= wp_kses_post( get_field( 'content' ) ); ?></div>
+                <div class="<?= esc_attr( $fg ); ?> <?= esc_attr( $csize ); ?>"><?= wp_kses_post( get_field( 'content' ) ); ?></div>
             </div>
             <div
                 class="<?= esc_attr( $vidcolwidth ); ?> <?= esc_attr( $vidcol ); ?> text_video__video d-flex flex-column align-items-center <?= esc_attr( $valign_class ); ?>">

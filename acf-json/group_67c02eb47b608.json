@@ -100,47 +100,6 @@
             "save_other_choice": 0
         },
         {
-            "key": "field_67c02eb4a52e2",
-            "label": "Background",
-            "name": "background",
-            "aria-label": "",
-            "type": "editor_palette",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "25",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "allowed_colors": ["dark", "light"],
-            "exclude_colors": "",
-            "return_format": "slug",
-            "allow_in_bindings": 0
-        },
-        {
-            "key": "field_67c02eb4a8d83",
-            "label": "Title",
-            "name": "title",
-            "aria-label": "",
-            "type": "text",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "75",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "maxlength": "",
-            "allow_in_bindings": 0,
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
-        },
-        {
             "key": "field_67e27604c77ae",
             "label": "Vertical Padding",
             "name": "vertical_padding",
@@ -167,24 +126,25 @@
             "custom_choice_button_text": "Add new choice"
         },
         {
-            "key": "field_67c02eb4ac7f4",
-            "label": "Content Colour",
-            "name": "content_colour",
+            "key": "field_67c02eb4a8d83",
+            "label": "Title",
+            "name": "title",
             "aria-label": "",
-            "type": "editor_palette",
+            "type": "text",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "50",
+                "width": "",
                 "class": "",
                 "id": ""
             },
-            "default_value": "dark",
-            "allowed_colors": ["dark", "blue-400"],
-            "exclude_colors": "",
-            "return_format": "slug",
-            "allow_in_bindings": 0
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
         },
         {
             "key": "field_67c02eb4b0351",
