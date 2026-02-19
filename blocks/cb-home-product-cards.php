@@ -12,7 +12,7 @@ $l3 = get_field( 'link_3' ) ?? null;
 <section class="home-product-cards py-5">
     <div class="container-xl">
         <div class="home-product-cards__grid">
-            <div class="home-product-cards__card" data-aos="fade">
+            <div class="home-product-cards__card" data-aos="fade-up">
 				<div class="home-product-cards__card-inner">
 					<div class="home-product-cards__card-front">
 						<img src="<?= esc_url( get_field( 'icon_1' ) ); ?>" alt="" class="home-product-cards__icon">
@@ -28,7 +28,7 @@ $l3 = get_field( 'link_3' ) ?? null;
 					</div>
 				</div>
             </div>
-            <div class="home-product-cards__card" data-aos="fade" data-aos-delay="200">
+            <div class="home-product-cards__card" data-aos="fade-up" data-aos-delay="200">
                 <div class="home-product-cards__card-inner">
                     <div class="home-product-cards__card-front">
                         <img src="<?= esc_url( get_field( 'icon_2' ) ); ?>" alt="" class="home-product-cards__icon">
@@ -44,7 +44,7 @@ $l3 = get_field( 'link_3' ) ?? null;
                     </div>
                 </div>
             </div>
-            <div class="home-product-cards__card" data-aos="fade" data-aos-delay="400">
+            <div class="home-product-cards__card" data-aos="fade-up" data-aos-delay="400">
                 <div class="home-product-cards__card-inner">
                     <div class="home-product-cards__card-front">
                         <img src="<?= esc_url( get_field( 'icon_3' ) ); ?>" alt="" class="home-product-cards__icon">

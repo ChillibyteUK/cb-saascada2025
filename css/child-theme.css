@@ -12790,7 +12790,7 @@ header .dropdown.current-menu-item > .nav-link {
 .home-product-cards__card-front, .home-product-cards__card-back {
   width: 100%;
   height: 100%;
-  border: 1px solid var(--col-grey-400);
+  border: 1px solid var(--col-teal-400);
   border-radius: var(--border-radius);
   padding: 2rem 1.5rem;
   background: white;

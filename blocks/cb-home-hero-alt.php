@@ -70,6 +70,8 @@ add_action(
 	display: inline-block;
 	overflow: hidden;
 	vertical-align: top;
+	padding-bottom: 0.2em;
+	margin-bottom: -0.2em;
 }
 .home-hero-alt__title .word {
 	display: inline-block;
