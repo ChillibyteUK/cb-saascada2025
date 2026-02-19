@@ -74,6 +74,16 @@ if ( $anchor ) {
                 }
                 ?>
                 <div class="<?= esc_attr( $fg ); ?> <?= esc_attr( $csize ); ?>"><?= wp_kses_post( get_field( 'content' ) ); ?></div>
+				<?php
+				if ( get_field( 'link' ) ) {
+					$l = get_field( 'link' );
+					?>
+					<a href="<?= esc_url( $l['url'] ); ?>" target="<?= esc_attr( $l['target'] ); ?>" class="button button--sm mt-4 me-auto">
+						<?= esc_html( $l['title'] ); ?>
+					</a>
+					<?php
+				}
+				?>
             </div>
             <div
                 class="<?= esc_attr( $imgcolwidth ); ?> <?= esc_attr( $imgcol ); ?> text_image__image d-flex flex-column align-items-start <?= esc_attr( $valign_class ); ?>">
