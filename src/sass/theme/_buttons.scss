@@ -50,3 +50,10 @@
         color: var(--col-light);
     }
 }
+
+.button-outline--alt {
+    color: var(--col-blue-400);
+    &:hover {
+        color: var(--col-white);
+    }
+}

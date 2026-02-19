@@ -28,7 +28,7 @@
                         <?= wp_get_attachment_image( get_sub_field( 'icon' ), 'large', false, array( 'class' => 'icon_cards__icon' ) ); ?>
                     </div>
                     <div class="icon_cards__inner">
-                        <h2><?= esc_html( get_sub_field( 'title' ) ); ?></h2>
+                        <h2><?= wp_kses_post( get_sub_field( 'title' ) ); ?></h2>
                         <div><?= wp_kses_post( get_sub_field( 'content' ) ); ?></div>
                         <div class="show-on-touch fw-bold text-end pt-3 mt-auto">Read More</div>
                     </div>

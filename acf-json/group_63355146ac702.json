@@ -37,7 +37,7 @@
                 "id": ""
             },
             "default_value": "",
-            "delay": 0,
+            "delay": 1,
             "tabs": "all",
             "toolbar": "full",
             "media_upload": 0

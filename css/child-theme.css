@@ -11505,6 +11505,13 @@ strong,
   color: var(--col-light);
 }
 
+.button-outline--alt {
+  color: var(--col-blue-400);
+}
+.button-outline--alt:hover {
+  color: var(--col-white);
+}
+
 header {
   background-color: white;
   transition: var(--transition);
@@ -12714,7 +12721,7 @@ header .dropdown.current-menu-item > .nav-link {
 .home-hero-alt {
   position: relative;
   overflow: hidden;
-  height: 510px;
+  min-height: 510px;
   display: grid;
   isolation: isolate;
 }
@@ -12735,19 +12742,83 @@ header .dropdown.current-menu-item > .nav-link {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(45deg, white 50%, rgba(255, 255, 255, 0.5));
+  background-image: linear-gradient(20deg, white 50%, rgba(255, 255, 255, 0.5));
   z-index: -1;
 }
 .home-hero-alt__title {
   padding-top: 4rem;
   font-size: var(--fs-900);
-  color: inherit;
+  color: var(--col-blue-400);
 }
 .home-hero-alt__content {
   font-size: clamp(1.1rem, -0.5vw + 1.7rem, 1.4rem);
 }
 .home-hero-alt__content > .button, .home-hero-alt__content > .wp-block-search__button, .home-hero-alt__content > .gform_button.wp-block-search__button, .home-hero-alt__content > .gform_button.button.button {
   font-size: initial;
+}
+.home-hero-alt__dna {
+  width: auto;
+  height: 100%;
+  max-height: 410px;
+  -o-object-fit: contain;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+.home-product-cards__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  text-align: center;
+  align-items: stretch;
+}
+@media (max-width: 767px) {
+  .home-product-cards__grid {
+    grid-template-columns: 1fr;
+  }
+}
+.home-product-cards__card {
+  perspective: 1000px;
+  display: flex;
+}
+.home-product-cards__card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.home-product-cards__card-front, .home-product-cards__card-back {
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--col-grey-400);
+  border-radius: var(--border-radius);
+  padding: 2rem 1.5rem;
+  background: white;
+  display: grid;
+  grid-template-rows: auto minmax(4.1em, auto) 1fr auto;
+  gap: 1rem;
+  transition: opacity 0.3s ease;
+}
+.home-product-cards__card-front {
+  position: relative;
+}
+.home-product-cards__card-back {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background-color: var(--col-light);
+}
+.home-product-cards__card:hover .home-product-cards__card-back {
+  opacity: 1;
+  pointer-events: auto;
+}
+.home-product-cards__icon {
+  max-width: min(115px, 50vw);
+  margin-inline: auto;
+}
+.home-product-cards__card-front h2, .home-product-cards__card-front .h2, .home-product-cards__card-back h3, .home-product-cards__card-back .h3 {
+  text-align: center;
 }
 
 .admin-bar header.fixed-top {

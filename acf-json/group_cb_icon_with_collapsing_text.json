@@ -110,7 +110,7 @@
                     "tabs": "all",
                     "toolbar": "full",
                     "media_upload": 1,
-                    "delay": 0,
+                    "delay": 1,
                     "parent_repeater": "field_67dd8a9d14b90"
                 }
             ]
