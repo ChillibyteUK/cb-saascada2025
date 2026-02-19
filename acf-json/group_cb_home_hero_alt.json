@@ -1,0 +1,23 @@
+{
+  "key": "group_cb_home_hero_alt",
+  "title": "CB Home Hero Alt",
+  "fields": [
+    {
+      "key": "field_cb_home_hero_alt_title",
+      "label": "CB Home Hero Alt",
+      "name": "title",
+      "type": "message"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "block",
+        "operator": "==",
+        "value": "acf/cb-home-hero-alt"
+      }
+    ]
+  ],
+  "active": 1,
+  "description": ""
+}

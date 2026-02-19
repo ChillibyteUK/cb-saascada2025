@@ -1,0 +1,35 @@
+.home-hero-alt {
+    position: relative;
+    overflow: hidden;
+    height: 510px;
+    display: grid;
+    @media (min-width: 992px) {
+        height: 410px;
+    }
+    isolation: isolate;
+    &__bg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+    }
+    &__overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(45deg, white 50%, rgba(255, 255, 255, 0.5));
+        z-index: -1;
+    }
+    &__title {
+        padding-top: 4rem;
+        font-size: var(--fs-900);
+        color: inherit;
+    }
+    &__content {
+        font-size: clamp(1.1rem, -0.5vw + 1.7rem, 1.4rem);
+    }
+    &__content > .button {
+        font-size: initial;
+    }
+}
