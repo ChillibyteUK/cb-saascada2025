@@ -52,7 +52,13 @@ if ( $post_ids ) {
     <div class="container-xl py-5">
         <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
             <h2 class="has-blue-400-color mb-3"><?= esc_html( get_field( 'title' ) ); ?></h2>
+			<?php
+			if ( get_field( 'show_all_insights_button' ) ) {
+				?>
             <a class="button button--sm" href="/insights/">All Insights</a>
+				<?php
+			}
+			?>
         </div>
         <div class="latest_posts__grid">
             <?php

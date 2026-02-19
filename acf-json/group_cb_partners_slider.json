@@ -30,7 +30,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "",
+                "width": "66",
                 "class": "",
                 "id": ""
             },
@@ -40,6 +40,33 @@
             "placeholder": "",
             "prepend": "",
             "append": ""
+        },
+        {
+            "key": "field_6996e405d0228",
+            "label": "Block Padding",
+            "name": "block_padding",
+            "aria-label": "",
+            "type": "radio",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "py-0": "None",
+                "py-4": "Tight",
+                "py-5": "Loose"
+            },
+            "default_value": "py-5",
+            "return_format": "value",
+            "allow_null": 0,
+            "other_choice": 0,
+            "allow_in_bindings": 0,
+            "layout": "horizontal",
+            "save_other_choice": 0
         },
         {
             "key": "field_67cee98151481",
@@ -82,7 +109,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -97,6 +124,33 @@
             "mime_types": "",
             "allow_in_bindings": 0,
             "preview_size": "thumbnail"
+        },
+        {
+            "key": "field_6996e4f930131",
+            "label": "Number of Slides",
+            "name": "number_of_slides",
+            "aria-label": "",
+            "type": "radio",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "5": "5",
+                "8": "8",
+                "10": "10"
+            },
+            "default_value": 5,
+            "return_format": "value",
+            "allow_null": 0,
+            "other_choice": 0,
+            "allow_in_bindings": 0,
+            "layout": "horizontal",
+            "save_other_choice": 0
         }
     ],
     "location": [
@@ -117,5 +171,6 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1743585043
+    "display_title": "",
+    "modified": 1771496751
 }

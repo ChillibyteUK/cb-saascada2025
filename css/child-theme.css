@@ -245,10 +245,8 @@ p {
 }
 
 abbr[title] {
-  -webkit-text-decoration: underline dotted;
   text-decoration: underline dotted;
   cursor: help;
-  -webkit-text-decoration-skip-ink: none;
   text-decoration-skip-ink: none;
 }
 
@@ -2081,8 +2079,6 @@ progress {
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #ced4da;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
   border-radius: 0.375rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -2112,10 +2108,6 @@ progress {
 .form-control::-webkit-date-and-time-value, #cmApp_signupEmail::-webkit-date-and-time-value, .ginput_container input:not([type=checkbox])::-webkit-date-and-time-value,
 .ginput_container textarea::-webkit-date-and-time-value {
   height: 1.5em;
-}
-.form-control::-moz-placeholder, #cmApp_signupEmail::-moz-placeholder, .ginput_container input:not([type=checkbox])::-moz-placeholder, .ginput_container textarea::-moz-placeholder {
-  color: #6c757d;
-  opacity: 1;
 }
 .form-control::placeholder, #cmApp_signupEmail::placeholder, .ginput_container input:not([type=checkbox])::placeholder,
 .ginput_container textarea::placeholder {
@@ -2246,8 +2238,6 @@ textarea.form-control-lg {
   border: 1px solid #ced4da;
   border-radius: 0.375rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -2320,10 +2310,7 @@ textarea.form-control-lg {
   background-position: center;
   background-size: contain;
   border: 1px solid rgba(0, 0, 0, 0.25);
-  -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
-  -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
 .form-check-input[type=checkbox] {
@@ -2418,8 +2405,6 @@ textarea.form-control-lg {
   height: 1.5rem;
   padding: 0;
   background-color: transparent;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
 }
 .form-range:focus {
@@ -2441,14 +2426,11 @@ textarea.form-control-lg {
   background-color: #5d7f9c;
   border: 0;
   border-radius: 1rem;
-  -webkit-transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  -webkit-appearance: none;
   appearance: none;
 }
 @media (prefers-reduced-motion: reduce) {
   .form-range::-webkit-slider-thumb {
-    -webkit-transition: none;
     transition: none;
   }
 }
@@ -2470,14 +2452,11 @@ textarea.form-control-lg {
   background-color: #5d7f9c;
   border: 0;
   border-radius: 1rem;
-  -moz-transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  -moz-appearance: none;
   appearance: none;
 }
 @media (prefers-reduced-motion: reduce) {
   .form-range::-moz-range-thumb {
-    -moz-transition: none;
     transition: none;
   }
 }
@@ -2539,17 +2518,10 @@ textarea.form-control-lg {
 .form-floating > .form-control-plaintext {
   padding: 1rem 0.75rem;
 }
-.form-floating > .form-control::-moz-placeholder, .form-floating > #cmApp_signupEmail::-moz-placeholder, .ginput_container .form-floating > input:not([type=checkbox])::-moz-placeholder, .ginput_container .form-floating > textarea::-moz-placeholder, .form-floating > .form-control-plaintext::-moz-placeholder {
-  color: transparent;
-}
 .form-floating > .form-control::placeholder, .form-floating > #cmApp_signupEmail::placeholder, .ginput_container .form-floating > input:not([type=checkbox])::placeholder,
 .ginput_container .form-floating > textarea::placeholder,
 .form-floating > .form-control-plaintext::placeholder {
   color: transparent;
-}
-.form-floating > .form-control:not(:-moz-placeholder), .form-floating > #cmApp_signupEmail:not(:-moz-placeholder), .ginput_container .form-floating > input:not(:-moz-placeholder):not([type=checkbox]), .ginput_container .form-floating > textarea:not(:-moz-placeholder), .form-floating > .form-control-plaintext:not(:-moz-placeholder) {
-  padding-top: 1.625rem;
-  padding-bottom: 0.625rem;
 }
 .form-floating > .form-control:focus, .form-floating > #cmApp_signupEmail:focus, .ginput_container .form-floating > input:focus:not([type=checkbox]),
 .ginput_container .form-floating > textarea:focus, .form-floating > .form-control:not(:placeholder-shown), .form-floating > #cmApp_signupEmail:not(:placeholder-shown), .ginput_container .form-floating > input:not(:placeholder-shown):not([type=checkbox]),
@@ -2568,10 +2540,6 @@ textarea.form-control-lg {
 .form-floating > .form-select {
   padding-top: 1.625rem;
   padding-bottom: 0.625rem;
-}
-.form-floating > .form-control:not(:-moz-placeholder) ~ label, .form-floating > #cmApp_signupEmail:not(:-moz-placeholder) ~ label, .ginput_container .form-floating > input:not(:-moz-placeholder):not([type=checkbox]) ~ label, .ginput_container .form-floating > textarea:not(:-moz-placeholder) ~ label {
-  opacity: 0.65;
-  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
 }
 .form-floating > .form-control:focus ~ label, .form-floating > #cmApp_signupEmail:focus ~ label, .ginput_container .form-floating > input:focus:not([type=checkbox]) ~ label,
 .ginput_container .form-floating > textarea:focus ~ label,
@@ -2927,8 +2895,6 @@ textarea.form-control-lg {
   text-decoration: none;
   vertical-align: middle;
   cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
   user-select: none;
   border: var(--bs-btn-border-width) solid var(--bs-btn-border-color);
   border-radius: var(--bs-btn-border-radius);
@@ -5289,8 +5255,6 @@ textarea.form-control-lg {
 }
 .btn-close:disabled, .btn-close.disabled {
   pointer-events: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
   user-select: none;
   opacity: 0.25;
 }
@@ -5337,7 +5301,6 @@ textarea.form-control-lg {
   --bs-toast-zindex: 1090;
   position: absolute;
   z-index: var(--bs-toast-zindex);
-  width: -moz-max-content;
   width: max-content;
   max-width: 100%;
   pointer-events: none;
@@ -6719,16 +6682,13 @@ textarea.form-control-lg {
   }
 }
 .placeholder-wave {
-  -webkit-mask-image: linear-gradient(130deg, #000 55%, rgba(0, 0, 0, 0.8) 75%, #000 95%);
   mask-image: linear-gradient(130deg, #000 55%, rgba(0, 0, 0, 0.8) 75%, #000 95%);
-  -webkit-mask-size: 200% 100%;
   mask-size: 200% 100%;
   animation: placeholder-wave 2s linear infinite;
 }
 
 @keyframes placeholder-wave {
   100% {
-    -webkit-mask-position: -200% 0%;
     mask-position: -200% 0%;
   }
 }
@@ -8293,20 +8253,14 @@ textarea.form-control-lg {
 }
 
 .user-select-all {
-  -webkit-user-select: all !important;
-  -moz-user-select: all !important;
   user-select: all !important;
 }
 
 .user-select-auto {
-  -webkit-user-select: auto !important;
-  -moz-user-select: auto !important;
   user-select: auto !important;
 }
 
 .user-select-none {
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
   user-select: none !important;
 }
 
@@ -11057,8 +11011,6 @@ body {
   border: 1px solid #ced4da;
   border-radius: 0.375rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -11839,7 +11791,6 @@ header .dropdown.current-menu-item > .nav-link {
 }
 .news__img {
   aspect-ratio: 16/9;
-  -o-object-fit: cover;
   object-fit: cover;
   width: 100%;
 }
@@ -11890,7 +11841,6 @@ header .dropdown.current-menu-item > .nav-link {
   aspect-ratio: 16/9;
   width: 100%;
   margin-bottom: 1rem;
-  -o-object-fit: cover;
   object-fit: cover;
   border-radius: var(--border-radius);
   overflow: hidden;
@@ -11936,7 +11886,6 @@ header .dropdown.current-menu-item > .nav-link {
 .related__image {
   aspect-ratio: 16/9;
   width: 100%;
-  -o-object-fit: cover;
   object-fit: cover;
   margin-bottom: 0.5rem;
   transition: opacity var(--transition);
@@ -11970,9 +11919,7 @@ header .dropdown.current-menu-item > .nav-link {
 }
 .blog_cta__image {
   width: 100%;
-  -o-object-fit: cover;
   object-fit: cover;
-  -o-object-position: center;
   object-position: center;
   aspect-ratio: 5/1;
   margin-bottom: 0.5rem;
@@ -12004,7 +11951,6 @@ header .dropdown.current-menu-item > .nav-link {
   position: absolute;
   width: 100%;
   height: 100%;
-  -o-object-fit: cover;
   object-fit: cover;
   z-index: -1;
 }
@@ -12103,7 +12049,6 @@ header .dropdown.current-menu-item > .nav-link {
   inset: 0;
   width: 100%;
   height: 100%;
-  -o-object-fit: cover;
   object-fit: cover;
   z-index: -1;
 }
@@ -12143,7 +12088,6 @@ header .dropdown.current-menu-item > .nav-link {
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: minmax(150px, 1fr) auto auto auto auto;
   row-gap: 2rem;
-  -moz-column-gap: 2rem;
   column-gap: 2rem;
   max-width: 100%;
 }
@@ -12178,7 +12122,6 @@ header .dropdown.current-menu-item > .nav-link {
 .four_list_cards__image {
   aspect-ratio: 16/9;
   width: 100%;
-  -o-object-fit: cover;
   object-fit: cover;
   margin-bottom: 0.5rem;
   border-radius: var(--border-radius);
@@ -12204,7 +12147,6 @@ header .dropdown.current-menu-item > .nav-link {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   row-gap: 0.5rem;
-  -moz-column-gap: 2rem;
   column-gap: 2rem;
   max-width: 100%;
 }
@@ -12237,7 +12179,6 @@ header .dropdown.current-menu-item > .nav-link {
 .latest_posts__image {
   aspect-ratio: 16/9;
   width: 100%;
-  -o-object-fit: cover;
   object-fit: cover;
   margin-bottom: 0.5rem;
 }
@@ -12272,7 +12213,6 @@ header .dropdown.current-menu-item > .nav-link {
   inset: 0;
   width: 100%;
   height: 100%;
-  -o-object-fit: cover;
   object-fit: cover;
   z-index: -1;
 }
@@ -12324,7 +12264,6 @@ header .dropdown.current-menu-item > .nav-link {
   position: absolute;
   width: 100%;
   height: 100% !important;
-  -o-object-fit: cover;
   object-fit: cover;
   z-index: -1;
 }
@@ -12405,9 +12344,7 @@ header .dropdown.current-menu-item > .nav-link {
   font-size: var(--fs-350);
 }
 .team_grid .person__img {
-  -o-object-fit: cover;
   object-fit: cover;
-  -o-object-position: top center;
   object-position: top center;
   width: 100%;
   aspect-ratio: 4/3;
@@ -12449,7 +12386,6 @@ header .dropdown.current-menu-item > .nav-link {
 .partners__logo {
   background-color: white;
   padding: 1rem 2rem;
-  -o-object-fit: contain;
   object-fit: contain;
   width: 100%;
   aspect-ratio: 16/9;
@@ -12596,7 +12532,6 @@ header .dropdown.current-menu-item > .nav-link {
   inset: 0;
   width: 100%;
   height: 100%;
-  -o-object-fit: cover;
   object-fit: cover;
   z-index: -1;
 }
@@ -12613,7 +12548,6 @@ header .dropdown.current-menu-item > .nav-link {
 .partners_slider .splide__slide img {
   width: 100%;
   aspect-ratio: 16/9;
-  -o-object-fit: contain;
   object-fit: contain;
 }
 
@@ -12730,11 +12664,9 @@ main a.anchor {
 
 @media (min-width: 992px) {
   .cols-lg-2 {
-    -moz-columns: 2;
     columns: 2;
   }
   .cols-lg-3 {
-    -moz-columns: 3;
     columns: 3;
   }
 }
