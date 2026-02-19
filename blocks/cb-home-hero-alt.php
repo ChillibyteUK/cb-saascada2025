@@ -7,7 +7,7 @@
 
 ?>
 <section class="home-hero-alt py-5">
-	<img fetchpriority="high" decoding="async" width="1801" height="763" src="http://saascada.local/wp-content/uploads/2025/02/home-hero.jpg" class="home-hero-alt__bg" alt="">
+	<img fetchpriority="high" decoding="async" width="1801" height="763" src="/wp-content/uploads/2025/02/home-hero.jpg" class="home-hero-alt__bg" alt="">
 	<div class="home-hero-alt__overlay"></div>
 	<div class="container-xl">
 		<div class="row g-5">
