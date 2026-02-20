@@ -11,8 +11,15 @@ defined( 'ABSPATH' ) || exit;
 $bg = ! empty( $block['backgroundColor'] ) ? 'has-' . $block['backgroundColor'] . '-background-color' : '';
 $fg = ! empty( $block['textColor'] ) ? 'has-' . $block['textColor'] . '-color' : '';
 
+$background = get_field( 'background' ) ?? null;
+
 ?>
 <section class="text-image-slider <?= esc_attr( $bg . ' ' . $fg ); ?>">
+	<?php
+	if ( $background ) {
+		echo wp_get_attachment_image( $background, 'full', false, array( 'class' => 'text-image-slider__bg' ) );
+	}
+	?>
 	<div class="container-xl py-5">
 		<?php if ( have_rows( 'slides' ) ) : ?>
 			<div class="splide" id="text-image-slider-<?= esc_attr( $block['id'] ); ?>">
@@ -27,7 +34,7 @@ $fg = ! empty( $block['textColor'] ) ? 'has-' . $block['textColor'] . '-color' :
 							$is_image  = in_array( $mime_type, array( 'image/jpeg', 'image/png' ), true );
 							?>
 							<li class="splide__slide">
-								<div class="row mx-5">
+								<div class="row justify-content-center mx-5">
 									<?php
 									if ( $is_image ) {
 										?>
@@ -38,7 +45,7 @@ $fg = ! empty( $block['textColor'] ) ? 'has-' . $block['textColor'] . '-color' :
 											}
 											?>
 										</div>
-										<div class="col-md-6">
+										<div class="col-md-6 text-image-slider__content">
 											<?php
 											if ( $content ) {
 												?>
@@ -53,8 +60,12 @@ $fg = ! empty( $block['textColor'] ) ? 'has-' . $block['textColor'] . '-color' :
 									}
 									else {
 										?>
-										<div class="col-12">
+										<div class="col-md-8">
 											<?php
+											if ( $image ) {
+												// if not an image, it's an icon.
+												echo wp_get_attachment_image( $image, 'full', false, array( 'class' => 'text-image-slider__icon' ) );
+											}
 											if ( $content ) {
 												?>
 												<div class="text-content">
