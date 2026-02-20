@@ -23165,6 +23165,7 @@ header .dropdown.current-menu-item > .nav-link {
   border-radius: var(--border-radius);
   height: 100%;
   overflow: hidden;
+  background-color: var(--col-white);
 }
 .image-cards__image-wrapper {
   width: 100%;

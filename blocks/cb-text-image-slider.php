@@ -21,29 +21,52 @@ $fg = ! empty( $block['textColor'] ) ? 'has-' . $block['textColor'] . '-color' :
 						<?php
 						while ( have_rows( 'slides' ) ) {
 							the_row();
-							$image   = get_sub_field( 'image' );
-							$content = get_sub_field( 'content' );
+							$image     = get_sub_field( 'image' );
+							$content   = get_sub_field( 'content' );
+							$mime_type = $image ? get_post_mime_type( $image ) : '';
+							$is_image  = in_array( $mime_type, array( 'image/jpeg', 'image/png' ), true );
 							?>
 							<li class="splide__slide">
 								<div class="row mx-5">
-									<div class="col-md-6">
-										<?php
-										if ( $image ) {
-											echo wp_get_attachment_image( $image, 'full', false, array( 'class' => 'text-image-slider__image' ) );
-										}
+									<?php
+									if ( $is_image ) {
 										?>
-									</div>
-									<div class="col-md-6">
-										<?php
-										if ( $content ) {
-											?>
-											<div class="text-content">
-												<?= wp_kses_post( $content ); ?>
-											</div>
+										<div class="col-md-6">
 											<?php
-										}
+											if ( $image ) {
+												echo wp_get_attachment_image( $image, 'full', false, array( 'class' => 'text-image-slider__image' ) );
+											}
+											?>
+										</div>
+										<div class="col-md-6">
+											<?php
+											if ( $content ) {
+												?>
+												<div class="text-content">
+													<?= wp_kses_post( $content ); ?>
+												</div>
+												<?php
+											}
+											?>
+										</div>
+										<?php
+									}
+									else {
 										?>
-									</div>
+										<div class="col-12">
+											<?php
+											if ( $content ) {
+												?>
+												<div class="text-content">
+													<?= wp_kses_post( $content ); ?>
+												</div>
+												<?php
+											}
+											?>
+										</div>
+										<?php
+									}
+									?>
 								</div>
 							</li>
 							<?php
