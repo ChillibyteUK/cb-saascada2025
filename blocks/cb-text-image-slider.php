@@ -57,8 +57,7 @@ $background = get_field( 'background' ) ?? null;
 											?>
 										</div>
 										<?php
-									}
-									else {
+									} else {
 										?>
 										<div class="col-md-8">
 											<?php
