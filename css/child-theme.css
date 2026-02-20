@@ -23295,6 +23295,22 @@ header .dropdown.current-menu-item > .nav-link {
   border-radius: var(--border-radius);
 }
 
+.text-image-slider__image {
+  border-radius: var(--border-radius);
+  aspect-ratio: 16/9;
+  width: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+.text-image-slider .splide__pagination {
+  position: relative;
+  bottom: auto;
+  padding: 1rem 0 0;
+}
+.text-image-slider .splide__pagination__page.is-active {
+  background-color: var(--col-blue-400);
+}
+
 .admin-bar header.fixed-top {
   top: 32px;
 }
