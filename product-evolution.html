@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaaScada — Agile Product Evolution</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --teal-dark: #0A6E6E;
+    --teal: #0D8B8B;
+    --teal-mid: #10A3A3;
+    --teal-light: #7FCFCF;
+    --teal-pale: #D4F0F0;
+    --teal-ghost: #EFF9F9;
+    --navy: #1A3247;
+    --navy-mid: #2C4A62;
+    --coral: #D94F4F;
+    --coral-light: #E87272;
+    --coral-bg: #FEF0F0;
+    --green: #27AE60;
+    --green-bg: #EAFAF1;
+    --amber: #E8950A;
+    --amber-bg: #FFF8E6;
+    --blue: #3498DB;
+    --blue-bg: #EBF5FB;
+    --purple: #8E44AD;
+    --purple-bg: #F4ECF7;
+    --white: #FFFFFF;
+    --bg: #F6F8FA;
+    --border: #E2E8F0;
+    --text-primary: #1A3247;
+    --text-secondary: #64788A;
+    --text-muted: #94A3B8;
+    --shadow-sm: 0 1px 3px rgba(26,50,71,0.06);
+    --shadow-md: 0 4px 16px rgba(26,50,71,0.08);
+    --shadow-lg: 0 8px 32px rgba(26,50,71,0.12);
+    --shadow-glow: 0 0 20px rgba(13,139,139,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px 24px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  /* ─── Header ─── */
+  .header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .logo-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .logo-img {
+    height: 30px;
+    border-radius: 6px;
+    object-fit: contain;
+  }
+
+  .header h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.3;
+  }
+
+  .header h1 em {
+    font-style: normal;
+    color: var(--teal);
+  }
+
+  .header p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-top: 4px;
+  }
+
+  /* ═══ EVOLUTION PROGRESS BAR ═══ */
+  .evo-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 24px;
+  }
+
+  .evo-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    opacity: 0.25;
+    transition: opacity 0.6s ease, transform 0.4s ease;
+  }
+
+  .evo-node.active {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  .evo-node.done {
+    opacity: 0.6;
+  }
+
+  .evo-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--text-muted);
+    background: var(--white);
+    border: 2px solid var(--border);
+    transition: all 0.4s ease;
+  }
+
+  .evo-node.active .evo-dot {
+    border-color: var(--teal);
+    color: var(--teal);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .evo-node.done .evo-dot {
+    border-color: var(--teal-light);
+    color: var(--teal-light);
+    background: var(--teal-ghost);
+  }
+
+  .evo-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    transition: color 0.4s ease;
+  }
+
+  .evo-node.active .evo-label { color: var(--teal-dark); }
+
+  .evo-conn {
+    width: 48px;
+    height: 2px;
+    background: var(--border);
+    position: relative;
+    flex-shrink: 0;
+    margin: 0 4px;
+    margin-bottom: 18px;
+  }
+
+  .evo-conn-fill {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    width: 0%;
+    background: var(--teal);
+    border-radius: 1px;
+    transition: width 0.5s ease;
+  }
+
+  .evo-conn.active .evo-conn-fill { width: 100%; }
+
+  /* ═══ ACCOUNT CONTAINER ═══ */
+  .account-box {
+    background: var(--white);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow-lg);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    min-height: 480px;
+    transition: border-color 0.5s ease;
+  }
+
+  .account-box.live {
+    border-color: var(--teal);
+  }
+
+  /* Account Header */
+  .account-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+    color: white;
+  }
+
+  .account-left {}
+
+  .account-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--teal-light);
+    margin-bottom: 2px;
+  }
+
+  .account-name {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .account-iban {
+    font-size: 11px;
+    color: var(--teal-light);
+    font-variant-numeric: tabular-nums;
+    margin-top: 2px;
+    opacity: 0.7;
+  }
+
+  .total-group { text-align: right; }
+
+  .total-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--teal-light);
+    margin-bottom: 2px;
+  }
+
+  .total-value {
+    font-size: 28px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    transition: color 0.4s ease;
+    min-width: 180px;
+  }
+
+  .total-value.negative { color: var(--coral-light); }
+
+  .total-currency {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--teal-light);
+    margin-top: 1px;
+  }
+
+  /* Wallets Row */
+  .wallets-area {
+    padding: 24px 20px 20px;
+    position: relative;
+    min-height: 400px;
+  }
+
+  .wallets-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0;
+    position: relative;
+  }
+
+  /* Individual Wallet Column */
+  .wallet-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 0 16px;
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    max-width: 0;
+    overflow: hidden;
+  }
+
+  .wallet-col.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    max-width: 260px;
+    overflow: visible;
+  }
+
+  /* Separator between wallets */
+  .wallet-sep {
+    width: 1px;
+    align-self: stretch;
+    background: repeating-linear-gradient(
+      to bottom,
+      var(--border) 0px,
+      var(--border) 4px,
+      transparent 4px,
+      transparent 8px
+    );
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease 0.3s;
+    min-height: 300px;
+  }
+
+  .wallet-sep.visible { opacity: 1; }
+
+  /* Wallet Card */
+  .wallet-card {
+    width: 200px;
+    padding: 18px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+    color: white;
+    position: relative;
+    box-shadow: var(--shadow-md);
+  }
+
+  .wallet-card.loan {
+    background: linear-gradient(135deg, #5C2020, #8B3A3A);
+  }
+
+  .wallet-card.crypto {
+    background: linear-gradient(135deg, #2D1854, #4A2882);
+  }
+
+  .wallet-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .wallet-icon svg { width: 18px; height: 18px; color: white; }
+
+  .wallet-name {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  .wallet-currency {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 8px;
+  }
+
+  .wallet-balance {
+    font-size: 22px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    transition: all 0.4s ease;
+  }
+
+  .wallet-balance.flash {
+    color: var(--teal-light);
+  }
+
+  .wallet-balance.negative {
+    color: var(--coral-light);
+  }
+
+  /* DNA Feature Strand */
+  .dna-section {
+    width: 200px;
+  }
+
+  .dna-header {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 6px;
+  }
+
+  .dna-header svg { width: 14px; height: 14px; color: var(--teal); }
+
+  .dna-header span {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--teal);
+  }
+
+  .dna-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .dna-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    background: var(--teal-ghost);
+    border: 1px solid var(--teal-pale);
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--navy);
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: all 0.3s ease;
+  }
+
+  .dna-item.show {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .dna-item.loan-feature {
+    background: var(--coral-bg);
+    border-color: rgba(217,79,79,0.2);
+  }
+
+  .dna-item.crypto-feature {
+    background: var(--purple-bg);
+    border-color: rgba(142,68,173,0.15);
+  }
+
+  .dna-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--teal);
+    flex-shrink: 0;
+  }
+
+  .dna-item.loan-feature .dna-dot { background: var(--coral); }
+  .dna-item.crypto-feature .dna-dot { background: var(--purple); }
+
+  /* Transactions Bar */
+  .txn-bar {
+    width: 200px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--teal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0;
+    transition: opacity 0.4s ease 0.3s;
+  }
+
+  .txn-bar.show { opacity: 1; }
+
+  .txn-bar.loan-bar { background: var(--coral); }
+  .txn-bar.crypto-bar { background: var(--purple); }
+
+  .txn-bar svg { width: 12px; height: 12px; }
+
+  /* ═══ COLLATERAL LINK ═══ */
+  .collateral-link {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+  }
+
+  .collateral-link.show { opacity: 1; }
+
+  .collateral-line {
+    height: 2px;
+    width: 60px;
+    background: repeating-linear-gradient(
+      to right,
+      var(--amber) 0px,
+      var(--amber) 6px,
+      transparent 6px,
+      transparent 10px
+    );
+  }
+
+  .collateral-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .collateral-badge.offset {
+    background: var(--amber-bg);
+    color: var(--amber);
+    border: 1px solid rgba(232,149,10,0.2);
+  }
+
+  .collateral-badge.collateral {
+    background: var(--teal-ghost);
+    color: var(--teal);
+    border: 1px solid var(--teal-pale);
+  }
+
+  /* ═══ INSIGHT OVERLAY ═══ */
+  .insight-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(246,248,250,0.92);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    z-index: 10;
+    border-radius: 18px;
+  }
+
+  .insight-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .insight-card {
+    background: var(--white);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    padding: 36px 44px;
+    max-width: 520px;
+    text-align: center;
+    transform: scale(0.92);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .insight-overlay.active .insight-card {
+    transform: scale(1);
+  }
+
+  .insight-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--amber-bg);
+    border: 2px solid rgba(232,149,10,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+  }
+
+  .insight-icon svg {
+    width: 26px;
+    height: 26px;
+    color: var(--amber);
+  }
+
+  .insight-source {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--amber);
+    margin-bottom: 8px;
+  }
+
+  .insight-heading {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .insight-body {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .insight-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: var(--teal-ghost);
+    border: 1px solid var(--teal-pale);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--teal);
+  }
+
+  .insight-action svg { width: 14px; height: 14px; }
+
+  /* ═══ COMPLETION ═══ */
+  .complete-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(246,248,250,0.92);
+    backdrop-filter: blur(4px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    z-index: 10;
+    border-radius: 18px;
+  }
+
+  .complete-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .complete-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--green-bg);
+    border: 2px solid rgba(39,174,96,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .complete-icon svg { width: 32px; height: 32px; color: var(--green); }
+
+  .complete-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--navy);
+  }
+
+  .complete-sub {
+    font-size: 14px;
+    color: var(--text-secondary);
+    max-width: 400px;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  /* ─── Controls ─── */
+  .controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .next-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 36px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    border: none;
+    background: var(--teal);
+    color: white;
+    box-shadow: 0 4px 16px rgba(13,139,139,0.3);
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+  }
+
+  .next-btn.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    animation: gentle-bounce 2s ease-in-out infinite;
+  }
+
+  .next-btn:hover {
+    background: var(--teal-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(13,139,139,0.4);
+    animation: none;
+  }
+
+  .next-btn svg { width: 16px; height: 16px; }
+
+  @keyframes gentle-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+
+  .step-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .step-hint.visible { opacity: 1; }
+
+  /* ─── Brand Footer ─── */
+  .brand-footer {
+    text-align: center;
+    margin-top: 24px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .brand-footer img {
+    height: 18px;
+    border-radius: 3px;
+  }
+
+  .brand-footer span {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-row">
+      <img src="default-1.jpg" alt="SaaScada" class="logo-img">
+    </div>
+    <h1>Agile Product Evolution — <em>Current Account</em></h1>
+    <p>Start simple, evolve continuously based on real-time customer insights</p>
+  </header>
+
+  <!-- ═══ EVOLUTION PROGRESS BAR ═══ -->
+  <div class="evo-bar" id="evoBar">
+    <div class="evo-node" id="en1">
+      <div class="evo-dot">V1</div>
+      <span class="evo-label">Basic</span>
+    </div>
+    <div class="evo-conn" id="ec1"><div class="evo-conn-fill"></div></div>
+    <div class="evo-node" id="en2">
+      <div class="evo-dot">V2</div>
+      <span class="evo-label">Multi-Currency</span>
+    </div>
+    <div class="evo-conn" id="ec2"><div class="evo-conn-fill"></div></div>
+    <div class="evo-node" id="en3">
+      <div class="evo-dot">V3</div>
+      <span class="evo-label">Crypto</span>
+    </div>
+    <div class="evo-conn" id="ec3"><div class="evo-conn-fill"></div></div>
+    <div class="evo-node" id="en4">
+      <div class="evo-dot">V4</div>
+      <span class="evo-label">Lending</span>
+    </div>
+  </div>
+
+  <!-- ═══ ACCOUNT CONTAINER ═══ -->
+  <div class="account-box" id="accountBox">
+
+    <!-- Account Header -->
+    <div class="account-header">
+      <div class="account-left">
+        <div class="account-title">SaaScada Current Account</div>
+        <div class="account-name">Customer Account</div>
+        <div class="account-iban">CH93 0076 2011 6238 5295 7</div>
+      </div>
+      <div class="total-group">
+        <div class="total-label">Total Balance</div>
+        <div class="total-value" id="totalBal">—</div>
+        <div class="total-currency">CHF equivalent</div>
+      </div>
+    </div>
+
+    <!-- Wallets Area -->
+    <div class="wallets-area">
+      <div class="wallets-row" id="walletsRow">
+
+        <!-- Wallet 1: Default CHF -->
+        <div class="wallet-col" id="wc1">
+          <div class="wallet-card">
+            <div class="wallet-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+            </div>
+            <div class="wallet-name">Default</div>
+            <div class="wallet-currency">CHF — Swiss Franc</div>
+            <div class="wallet-balance" id="w1bal">7,439.82</div>
+          </div>
+          <div class="dna-section">
+            <div class="dna-header">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="M2 9c6.667 6 13.333 0 20 6"/></svg>
+              <span>Product DNA</span>
+            </div>
+            <div class="dna-list" id="dna1">
+              <div class="dna-item"><div class="dna-dot"></div>Payments</div>
+              <div class="dna-item"><div class="dna-dot"></div>Fees</div>
+              <div class="dna-item"><div class="dna-dot"></div>Overdraft</div>
+              <div class="dna-item"><div class="dna-dot"></div>Overdraft Interest</div>
+              <div class="dna-item"><div class="dna-dot"></div>Cashback</div>
+              <div class="dna-item"><div class="dna-dot"></div>Notice Period</div>
+              <div class="dna-item"><div class="dna-dot"></div>Collateral</div>
+            </div>
+          </div>
+          <div class="txn-bar" id="txn1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Transactions
+          </div>
+        </div>
+
+        <!-- Separator 1-2 -->
+        <div class="wallet-sep" id="sep12"></div>
+
+        <!-- Wallet 2: Holiday EUR -->
+        <div class="wallet-col" id="wc2">
+          <div class="wallet-card">
+            <div class="wallet-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <div class="wallet-name">Holiday</div>
+            <div class="wallet-currency">EUR — Euro</div>
+            <div class="wallet-balance" id="w2bal">1,214.72</div>
+          </div>
+          <div class="dna-section">
+            <div class="dna-header">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="M2 9c6.667 6 13.333 0 20 6"/></svg>
+              <span>Product DNA</span>
+            </div>
+            <div class="dna-list" id="dna2">
+              <div class="dna-item"><div class="dna-dot"></div>Fees</div>
+              <div class="dna-item"><div class="dna-dot"></div>Cards</div>
+              <div class="dna-item"><div class="dna-dot"></div>Notice Period</div>
+              <div class="dna-item"><div class="dna-dot"></div>Savings Interest</div>
+            </div>
+          </div>
+          <div class="txn-bar" id="txn2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Transactions
+          </div>
+        </div>
+
+        <!-- Separator 2-3 -->
+        <div class="wallet-sep" id="sep23"></div>
+
+        <!-- Wallet 3: Ethereum ETH -->
+        <div class="wallet-col" id="wc3">
+          <div class="wallet-card crypto">
+            <div class="wallet-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polygon points="12 2 2 12 12 17 22 12 12 2"/><polygon points="12 17 2 12 12 22 22 12 12 17" opacity="0.5"/></svg>
+            </div>
+            <div class="wallet-name">Ethereum</div>
+            <div class="wallet-currency">ETH — Ether</div>
+            <div class="wallet-balance" id="w3bal">3.237431</div>
+          </div>
+          <div class="dna-section">
+            <div class="dna-header">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="M2 9c6.667 6 13.333 0 20 6"/></svg>
+              <span>Product DNA</span>
+            </div>
+            <div class="dna-list" id="dna3">
+              <div class="dna-item crypto-feature"><div class="dna-dot"></div>Custodial Wallet</div>
+              <div class="dna-item crypto-feature"><div class="dna-dot"></div>Savings Interest</div>
+            </div>
+          </div>
+          <div class="txn-bar crypto-bar" id="txn3">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Transactions
+          </div>
+        </div>
+
+        <!-- Separator 3-4 -->
+        <div class="wallet-sep" id="sep34"></div>
+
+        <!-- Wallet 4: Kitchen Loan CHF -->
+        <div class="wallet-col" id="wc4">
+          <div class="wallet-card loan">
+            <div class="wallet-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 21h18"/><path d="M3 7l9-4 9 4"/><rect x="7" y="10" width="3" height="8"/><rect x="14" y="10" width="3" height="8"/></svg>
+            </div>
+            <div class="wallet-name">Kitchen Loan</div>
+            <div class="wallet-currency">CHF — Swiss Franc</div>
+            <div class="wallet-balance negative" id="w4bal">-14,318.23</div>
+          </div>
+          <div class="dna-section">
+            <div class="dna-header">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="M2 9c6.667 6 13.333 0 20 6"/></svg>
+              <span>Product DNA</span>
+            </div>
+            <div class="dna-list" id="dna4">
+              <div class="dna-item loan-feature"><div class="dna-dot"></div>Loan Principle</div>
+              <div class="dna-item loan-feature"><div class="dna-dot"></div>Loan Interest</div>
+              <div class="dna-item loan-feature"><div class="dna-dot"></div>Repayments</div>
+              <div class="dna-item loan-feature"><div class="dna-dot"></div>Schedule</div>
+            </div>
+          </div>
+          <div class="txn-bar loan-bar" id="txn4">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Transactions
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Collateral Link -->
+      <div class="collateral-link" id="collateralLink">
+        <div class="collateral-badge collateral">Collateral</div>
+        <div class="collateral-line"></div>
+        <div class="collateral-badge offset">Offset</div>
+        <div class="collateral-line"></div>
+        <div class="collateral-badge collateral">Linked</div>
+      </div>
+
+      <!-- Insight Overlay -->
+      <div class="insight-overlay" id="insightOverlay">
+        <div class="insight-card">
+          <div class="insight-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          </div>
+          <div class="insight-source">Customer Data Platform — Insight</div>
+          <div class="insight-heading" id="insightHeading"></div>
+          <div class="insight-body" id="insightBody"></div>
+          <div class="insight-action" id="insightAction">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            <span id="insightActionText"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Complete Overlay -->
+      <div class="complete-overlay" id="completeOverlay">
+        <div class="complete-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="complete-title">Product Evolution Complete</div>
+        <div class="complete-sub">From a basic single-wallet account to a multi-currency, crypto-enabled lending product — all driven by real-time customer insights and built on configurable Product DNA.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <span class="step-hint" id="stepHint"></span>
+    <button class="next-btn" id="nextBtn">
+      <span id="nextLabel">Start</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14"/><polyline points="12,5 19,12 12,19"/></svg>
+    </button>
+  </div>
+
+  <!-- Brand Footer -->
+  <div class="brand-footer">
+    <img src="default-1.jpg" alt="SaaScada">
+    <span>Configurable Product DNA — Real-time Core Banking</span>
+  </div>
+
+</div>
+
+<script>
+  // ─── State ───
+  let timeouts = [];
+  let clickResolver = null;
+
+  function wait(ms) {
+    return new Promise(r => { const t = setTimeout(r, ms); timeouts.push(t); });
+  }
+
+  function clearAll() {
+    timeouts.forEach(t => clearTimeout(t));
+    timeouts = [];
+  }
+
+  // ─── Click-to-advance ───
+  function waitForClick(label, hint) {
+    return new Promise(resolve => {
+      const btn = document.getElementById('nextBtn');
+      const hintEl = document.getElementById('stepHint');
+      const labelEl = document.getElementById('nextLabel');
+
+      labelEl.textContent = label || 'Next';
+      hintEl.textContent = hint || '';
+      hintEl.classList.add('visible');
+      btn.classList.add('visible');
+
+      clickResolver = () => {
+        btn.classList.remove('visible');
+        hintEl.classList.remove('visible');
+        clickResolver = null;
+        resolve();
+      };
+    });
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    if (clickResolver) clickResolver();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if ((e.code === 'Space' || e.code === 'ArrowRight' || e.code === 'Enter') && clickResolver) {
+      e.preventDefault();
+      clickResolver();
+    }
+  });
+
+  // ─── Evolution bar ───
+  function setEvo(step) {
+    for (let i = 1; i <= 4; i++) {
+      const n = document.getElementById('en' + i);
+      n.classList.remove('active', 'done');
+      if (i < step) n.classList.add('done');
+      if (i === step) n.classList.add('active');
+    }
+    for (let i = 1; i <= 3; i++) {
+      const c = document.getElementById('ec' + i);
+      c.classList.remove('active');
+      if (i < step) c.classList.add('active');
+    }
+  }
+
+  // ─── Show wallet ───
+  async function showWallet(num) {
+    const col = document.getElementById('wc' + num);
+    col.classList.add('visible');
+
+    // Show separator before this wallet
+    if (num > 1) {
+      const sepId = 'sep' + (num - 1) + num;
+      document.getElementById(sepId).classList.add('visible');
+    }
+
+    await wait(400);
+
+    // Stagger DNA features
+    const items = document.querySelectorAll('#dna' + num + ' .dna-item');
+    for (let i = 0; i < items.length; i++) {
+      items[i].classList.add('show');
+      await wait(200);
+    }
+
+    await wait(200);
+    document.getElementById('txn' + num).classList.add('show');
+  }
+
+  // ─── Show insight ───
+  const insights = [
+    {
+      heading: 'FX & Travel Demand Detected',
+      body: 'Customers like the account but we\'re seeing heavy debit card use on money transfer apps. Customers tell us they want to use their card when in Europe — but our FX fee is too high.',
+      action: 'Add multi-currency Holiday wallet'
+    },
+    {
+      heading: 'Crypto Exchange Activity Rising',
+      body: 'Customers are using their debit card on cryptocurrency exchanges. They tell us they would prefer to buy and hold crypto through a trusted, regulated brand like ours.',
+      action: 'Add Ethereum custodial wallet'
+    },
+    {
+      heading: 'Overdraft Used for Large Purchases',
+      body: 'Customers are using their overdraft to fund large purchases such as kitchens and remaining in overdraft for many months. A structured loan product would be better for both parties.',
+      action: 'Add embedded Kitchen Loan'
+    }
+  ];
+
+  function showInsight(index) {
+    const ins = insights[index];
+    document.getElementById('insightHeading').textContent = ins.heading;
+    document.getElementById('insightBody').textContent = ins.body;
+    document.getElementById('insightActionText').textContent = ins.action;
+    document.getElementById('insightOverlay').classList.add('active');
+  }
+
+  function hideInsight() {
+    document.getElementById('insightOverlay').classList.remove('active');
+  }
+
+  // ─── Update total balance ───
+  function updateTotal(value, isNegative) {
+    const el = document.getElementById('totalBal');
+    el.textContent = value;
+    if (isNegative) {
+      el.classList.add('negative');
+    } else {
+      el.classList.remove('negative');
+    }
+  }
+
+  // ─── Update wallet balance ───
+  function updateWalletBalance(num, value) {
+    const el = document.getElementById('w' + num + 'bal');
+    el.classList.add('flash');
+    el.textContent = value;
+    setTimeout(() => el.classList.remove('flash'), 600);
+  }
+
+  // ─── Reset ───
+  function resetState() {
+    clearAll();
+
+    for (let i = 1; i <= 4; i++) {
+      document.getElementById('en' + i).classList.remove('active', 'done');
+      document.getElementById('wc' + i).classList.remove('visible');
+      document.getElementById('txn' + i).classList.remove('show');
+    }
+
+    for (let i = 1; i <= 3; i++) {
+      document.getElementById('ec' + i).classList.remove('active');
+    }
+
+    document.getElementById('sep12').classList.remove('visible');
+    document.getElementById('sep23').classList.remove('visible');
+    document.getElementById('sep34').classList.remove('visible');
+
+    // Reset all DNA items
+    document.querySelectorAll('.dna-item').forEach(el => el.classList.remove('show'));
+
+    // Reset balances
+    document.getElementById('w1bal').textContent = '7,439.82';
+    document.getElementById('w1bal').classList.remove('flash');
+
+    updateTotal('—');
+
+    document.getElementById('insightOverlay').classList.remove('active');
+    document.getElementById('completeOverlay').classList.remove('active');
+    document.getElementById('collateralLink').classList.remove('show');
+    document.getElementById('accountBox').classList.remove('live');
+
+    document.getElementById('nextBtn').classList.remove('visible');
+    document.getElementById('stepHint').classList.remove('visible');
+  }
+
+  // ═══════════════════════════════════════
+  // ─── MAIN ANIMATION ───
+  // ═══════════════════════════════════════
+  async function runAnimation() {
+    resetState();
+
+    // ─── STEP 1: Launch basic current account ───
+    await waitForClick('Launch Product', 'Step 1 of 8 — Basic current account');
+
+    setEvo(1);
+    document.getElementById('accountBox').classList.add('live');
+    updateTotal('7,439.82');
+    await showWallet(1);
+
+    // ─── STEP 2: First insight (FX / travel) ───
+    await waitForClick('View Insight', 'Step 2 of 8 — Customer Data Platform');
+
+    showInsight(0);
+
+    // ─── STEP 3: Add Holiday EUR wallet ───
+    await waitForClick('Evolve Product', 'Step 3 of 8 — Add Holiday EUR wallet');
+
+    hideInsight();
+    setEvo(2);
+    await wait(400);
+    updateWalletBalance(1, '6,298.24');
+    await wait(200);
+    await showWallet(2);
+
+    // ─── STEP 4: Second insight (crypto) ───
+    await waitForClick('View Insight', 'Step 4 of 8 — Customer Data Platform');
+
+    showInsight(1);
+
+    // ─── STEP 5: Add Ethereum ETH wallet ───
+    await waitForClick('Evolve Product', 'Step 5 of 8 — Add Ethereum wallet');
+
+    hideInsight();
+    setEvo(3);
+    await wait(400);
+    updateTotal('9,510.14');
+    await showWallet(3);
+
+    // ─── STEP 6: Third insight (lending) ───
+    await waitForClick('View Insight', 'Step 6 of 8 — Customer Data Platform');
+
+    showInsight(2);
+
+    // ─── STEP 7: Add Kitchen Loan ───
+    await waitForClick('Evolve Product', 'Step 7 of 8 — Add embedded loan');
+
+    hideInsight();
+    setEvo(4);
+    await wait(400);
+    await showWallet(4);
+    await wait(400);
+    updateTotal('-4,808.09', true);
+    await wait(600);
+
+    // Show collateral link
+    document.getElementById('collateralLink').classList.add('show');
+
+    // ─── STEP 8: Complete ───
+    await waitForClick('Complete', 'Step 8 of 8 — Evolution complete');
+
+    document.getElementById('completeOverlay').classList.add('active');
+
+    // Offer restart
+    await wait(800);
+    await waitForClick('Replay from Start', 'Click to restart the animation');
+    runAnimation();
+  }
+
+  // ─── Init ───
+  window.addEventListener('load', () => {
+    setTimeout(runAnimation, 400);
+  });
+</script>
+
+</body>
+</html>
