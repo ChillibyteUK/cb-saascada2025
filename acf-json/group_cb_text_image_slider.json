@@ -86,7 +86,7 @@
                     "default_value": "",
                     "allow_in_bindings": 0,
                     "tabs": "all",
-                    "toolbar": "basic",
+                    "toolbar": "full",
                     "media_upload": 0,
                     "delay": 0,
                     "parent_repeater": "field_699835979fb74"
@@ -139,5 +139,5 @@
     "description": "",
     "show_in_rest": 0,
     "display_title": "",
-    "modified": 1771600655
+    "modified": 1771601874
 }
