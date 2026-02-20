@@ -19,157 +19,79 @@
         {
           "name": "white",
           "slug": "white",
-          "color": "0 0% 100%",
-          "origin": "theme"
-        },
-        {
-          "name": "white",
-          "slug": "white",
-          "color": "hsl(var(--hsl-white))",
+          "color": "hsl(0 0% 100%)",
           "origin": "theme"
         },
         {
           "name": "black",
           "slug": "black",
-          "color": "0 0% 0%",
-          "origin": "theme"
-        },
-        {
-          "name": "black",
-          "slug": "black",
-          "color": "hsl(var(--hsl-black))",
+          "color": "hsl(0 0% 0%)",
           "origin": "theme"
         },
         {
           "name": "dark",
           "slug": "dark",
-          "color": "0 0% 20%",
-          "origin": "theme"
-        },
-        {
-          "name": "dark",
-          "slug": "dark",
-          "color": "hsl(var(--hsl-dark))",
+          "color": "hsl(0 0% 20%)",
           "origin": "theme"
         },
         {
           "name": "light",
           "slug": "light",
-          "color": "0 0% 97%",
-          "origin": "theme"
-        },
-        {
-          "name": "light",
-          "slug": "light",
-          "color": "hsl(var(--hsl-light))",
+          "color": "hsl(0 0% 97%)",
           "origin": "theme"
         },
         {
           "name": "grey-400",
           "slug": "grey-400",
-          "color": "0 0% 40%",
-          "origin": "theme"
-        },
-        {
-          "name": "grey-400",
-          "slug": "grey-400",
-          "color": "hsl(var(--hsl-grey-400))",
+          "color": "hsl(0 0% 40%)",
           "origin": "theme"
         },
         {
           "name": "grey-200",
           "slug": "grey-200",
-          "color": "0 0% 80%",
-          "origin": "theme"
-        },
-        {
-          "name": "grey-200",
-          "slug": "grey-200",
-          "color": "hsl(var(--hsl-grey-200))",
+          "color": "hsl(0 0% 80%)",
           "origin": "theme"
         },
         {
           "name": "blue-400",
           "slug": "blue-400",
-          "color": "205 76% 28%",
-          "origin": "theme"
-        },
-        {
-          "name": "blue-400",
-          "slug": "blue-400",
-          "color": "hsl(var(--hsl-blue-400))",
+          "color": "hsl(205 76% 28%)",
           "origin": "theme"
         },
         {
           "name": "teal-400",
           "slug": "teal-400",
-          "color": "189 100% 34%",
-          "origin": "theme"
-        },
-        {
-          "name": "teal-400",
-          "slug": "teal-400",
-          "color": "hsl(var(--hsl-teal-400))",
+          "color": "hsl(189 100% 34%)",
           "origin": "theme"
         },
         {
           "name": "purple-400",
           "slug": "purple-400",
-          "color": "267 30% 46%",
-          "origin": "theme"
-        },
-        {
-          "name": "purple-400",
-          "slug": "purple-400",
-          "color": "hsl(var(--hsl-purple-400))",
+          "color": "hsl(267 30% 46%)",
           "origin": "theme"
         },
         {
           "name": "turquoise-400",
           "slug": "turquoise-400",
-          "color": "178 100% 35%",
-          "origin": "theme"
-        },
-        {
-          "name": "turquoise-400",
-          "slug": "turquoise-400",
-          "color": "hsl(var(--hsl-turquoise-400))",
+          "color": "hsl(178 100% 35%)",
           "origin": "theme"
         },
         {
           "name": "amber-400",
           "slug": "amber-400",
-          "color": "39 100% 50%",
-          "origin": "theme"
-        },
-        {
-          "name": "amber-400",
-          "slug": "amber-400",
-          "color": "hsl(var(--hsl-amber-400))",
+          "color": "hsl(39 100% 50%)",
           "origin": "theme"
         },
         {
           "name": "red-400",
           "slug": "red-400",
-          "color": "6 73% 54%",
-          "origin": "theme"
-        },
-        {
-          "name": "red-400",
-          "slug": "red-400",
-          "color": "hsl(var(--hsl-red-400))",
+          "color": "hsl(6 73% 54%)",
           "origin": "theme"
         },
         {
           "name": "green-400",
           "slug": "green-400",
-          "color": "174 42% 48%",
-          "origin": "theme"
-        },
-        {
-          "name": "green-400",
-          "slug": "green-400",
-          "color": "hsl(var(--hsl-green-400))",
+          "color": "hsl(174 42% 48%)",
           "origin": "theme"
         }
       ]

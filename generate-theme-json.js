@@ -25,9 +25,9 @@ function parseCssVariables(scssContent) {
 // Map CSS variables to theme.json structure
 
 function buildThemeJson(tokens) {
-  // Helper to resolve hsl(var(--col-*-hsl)) to actual hsl value
-  function resolveColorValue(value, key) {
-    const hslVarMatch = value.match(/^hsl\(var\(--([\w-]+-hsl)\)\)$/);
+  // Helper to resolve hsl(var(--hsl-*)) to actual hsl value
+  function resolveColorValue(value) {
+    const hslVarMatch = value.match(/^hsl\(var\(--(hsl-[\w-]+)\)\)$/);
     if (hslVarMatch) {
       const hslKey = hslVarMatch[1];
       if (tokens[hslKey]) {
@@ -37,15 +37,15 @@ function buildThemeJson(tokens) {
     return value;
   }
 
-  // Map color variables (starts with col- or hsl-, but not -hsl suffix)
+  // Map color variables (only col-* variables, not hsl-* ones)
   const colors = Object.entries(tokens)
-    .filter(([key]) => (key.startsWith('col-') || key.startsWith('hsl-')) && !key.endsWith('-hsl'))
+    .filter(([key]) => key.startsWith('col-'))
     .map(([key, value]) => {
-      const slug = key.replace(/^(col-|hsl-)/, '');
+      const slug = key.replace(/^col-/, '');
       return {
         name: slug,
         slug: slug,
-        color: resolveColorValue(value, key)
+        color: resolveColorValue(value)
       };
     });
 
