@@ -12821,6 +12821,10 @@ header .dropdown.current-menu-item > .nav-link {
   text-align: center;
 }
 
+.text_image__img {
+  border-radius: var(--border-radius);
+}
+
 .admin-bar header.fixed-top {
   top: 32px;
 }

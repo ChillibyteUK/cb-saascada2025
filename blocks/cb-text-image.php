@@ -43,8 +43,10 @@ $section_id = $block['anchor'] ?? null;
 
 $image_id = get_field( 'image' );
 
+$image_size = $split === '60:40' ? 'full' : 'large';
+
 if ( $image_id ) {
-    $img = wp_get_attachment_image( $image_id, 'large', false, array( 'class' => 'text_image__img' ) );
+    $img = wp_get_attachment_image( $image_id, $image_size, false, array( 'class' => 'text_image__img' ) );
 } else {
     $img = '<img src="' . esc_url( get_stylesheet_directory_uri() ) . '/img/default-blog.jpg" class="text_image__img" alt="Placeholder image">';
 }
