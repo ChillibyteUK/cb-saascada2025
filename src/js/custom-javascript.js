@@ -6,59 +6,59 @@ AOS.init({
 
 (function() {
   // Hide header on scroll
-  var doc = document.documentElement;
-  var w = window;
+//   var doc = document.documentElement;
+//   var w = window;
 
-  var prevScroll = w.scrollY || doc.scrollTop;
-  var curScroll;
-  var direction = 0;
-  var prevDirection = 0;
+//   var prevScroll = w.scrollY || doc.scrollTop;
+//   var curScroll;
+//   var direction = 0;
+//   var prevDirection = 0;
 
-  var header = document.getElementById('wrapper-navbar');
+//   var header = document.getElementById('wrapper-navbar');
 
-  var checkScroll = function() {
-      // Find the direction of scroll (0 - initial, 1 - up, 2 - down)
-      curScroll = w.scrollY || doc.scrollTop;
-      if (curScroll > prevScroll) {
-          // Scrolled down
-          direction = 2;
-      } else if (curScroll < prevScroll) {
-          // Scrolled up
-          direction = 1;
-      }
+//   var checkScroll = function() {
+//       // Find the direction of scroll (0 - initial, 1 - up, 2 - down)
+//       curScroll = w.scrollY || doc.scrollTop;
+//       if (curScroll > prevScroll) {
+//           // Scrolled down
+//           direction = 2;
+//       } else if (curScroll < prevScroll) {
+//           // Scrolled up
+//           direction = 1;
+//       }
 
-      if (direction !== prevDirection) {
-          toggleHeader(direction, curScroll);
-      }
+//       if (direction !== prevDirection) {
+//           toggleHeader(direction, curScroll);
+//       }
 
-      prevScroll = curScroll;
-  };
+//       prevScroll = curScroll;
+//   };
 
-  var toggleHeader = function(direction, curScroll) {
-      if (direction === 2 && curScroll > 100) {
-          // Replace 52 with the height of your header in px
-          if ( ! document.getElementById('navbar').classList.contains('show')) {
-              header.classList.add('hide');
-              prevDirection = direction;
-          }
-      } else if (direction === 1) {
-          header.classList.remove('hide');
-          prevDirection = direction;
-      }
-  };
+//   var toggleHeader = function(direction, curScroll) {
+//       if (direction === 2 && curScroll > 100) {
+//           // Replace 52 with the height of your header in px
+//           if ( ! document.getElementById('navbar').classList.contains('show')) {
+//               header.classList.add('hide');
+//               prevDirection = direction;
+//           }
+//       } else if (direction === 1) {
+//           header.classList.remove('hide');
+//           prevDirection = direction;
+//       }
+//   };
 
-  window.addEventListener('scroll', checkScroll);
+//   window.addEventListener('scroll', checkScroll);
 
   // Header background
-  document.addEventListener('scroll', function() {
-      document.querySelectorAll('.dropdown-menu').forEach(function(dropdown) {
-          dropdown.classList.remove('show');
-      });
-      document.querySelectorAll('.dropdown-toggle').forEach(function(toggle) {
-          toggle.classList.remove('show');
-          toggle.blur();
-      });
-    });
+//   document.addEventListener('scroll', function() {
+//       document.querySelectorAll('.dropdown-menu').forEach(function(dropdown) {
+//           dropdown.classList.remove('show');
+//       });
+//       document.querySelectorAll('.dropdown-toggle').forEach(function(toggle) {
+//           toggle.classList.remove('show');
+//           toggle.blur();
+//       });
+//     });
 
     // document.addEventListener("DOMContentLoaded", () => {
     //     // Create cursor element
