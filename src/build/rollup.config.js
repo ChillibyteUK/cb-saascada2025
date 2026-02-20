@@ -43,21 +43,21 @@ const plugins = [
 
 module.exports = {
 	input: [
-		path.resolve( __dirname, `.. / js / ${ bsSrcFile }` ),
+		path.resolve( __dirname, `../js/${ bsSrcFile }` ),
 		path.resolve( __dirname, '../js/skip-link-focus-fix.js' ),
 		path.resolve( __dirname, '../js/custom-javascript.js' ),
 	],
 	output: [
 		{
 			banner: banner(''),
-			file: path.resolve( __dirname, `.. / .. / js / ${ fileDest }.js` ),
+			file: path.resolve( __dirname, `../../js/${ fileDest }.js` ),
 			format: 'umd',
 			globals,
 			name: 'understrap',
 		},
 		{
 			banner: banner(''),
-			file: path.resolve( __dirname, `.. / .. / js / ${ fileDest }.min.js` ),
+			file: path.resolve( __dirname, `../../js/${ fileDest }.min.js` ),
 			format: 'umd',
 			globals,
 			name: 'understrap',

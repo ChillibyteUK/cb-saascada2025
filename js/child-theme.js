@@ -1,6 +1,6 @@
 /*!
   * Understrap v1.2.0 (https://understrap.com)
-  * Copyright 2013-2025 The Understrap Authors (https://github.com/understrap/understrap/graphs/contributors)
+  * Copyright 2013-2026 The Understrap Authors (https://github.com/understrap/understrap/graphs/contributors)
   * Licensed under GPL-3.0 (undefined)
   */
 (function (global, factory) {
@@ -74,14 +74,14 @@
 			  const elementMap = new Map();
 			  const data = {
 			    set(element, key, instance) {
-			      if ( ! elementMap.has(element)) {
+			      if (!elementMap.has(element)) {
 			        elementMap.set(element, new Map());
 			      }
 			      const instanceMap = elementMap.get(element);
 
 			      // make it clear we only want one instance per element
 			      // can be removed later when multiple key/instances are fine to be used
-			      if ( ! instanceMap.has(key) && instanceMap.size !== 0) {
+			      if (!instanceMap.has(key) && instanceMap.size !== 0) {
 			        // eslint-disable-next-line no-console
 			        console.error(`Bootstrap doesn't allow more than one instance per element. Bound instance: ${Array.from(instanceMap.keys())[0]}.`);
 			        return;
@@ -95,7 +95,7 @@
 			      return null;
 			    },
 			    remove(element, key) {
-			      if ( ! elementMap.has(element)) {
+			      if (!elementMap.has(element)) {
 			        return;
 			      }
 			      const instanceMap = elementMap.get(element);
@@ -176,7 +176,7 @@
 			    return prefix;
 			  };
 			  const getTransitionDurationFromElement = element => {
-			    if ( ! element) {
+			    if (!element) {
 			      return 0;
 			    }
 
@@ -189,7 +189,7 @@
 			    const floatTransitionDelay = Number.parseFloat(transitionDelay);
 
 			    // Return 0 if element or transition duration is not found
-			    if ( ! floatTransitionDuration && ! floatTransitionDelay) {
+			    if (!floatTransitionDuration && !floatTransitionDelay) {
 			      return 0;
 			    }
 
@@ -202,7 +202,7 @@
 			    element.dispatchEvent(new Event(TRANSITION_END));
 			  };
 			  const isElement = object => {
-			    if ( ! object || typeof object !== 'object') {
+			    if (!object || typeof object !== 'object') {
 			      return false;
 			    }
 			    if (typeof object.jquery !== 'undefined') {
@@ -221,13 +221,13 @@
 			    return null;
 			  };
 			  const isVisible = element => {
-			    if ( ! isElement(element) || element.getClientRects().length === 0) {
+			    if (!isElement(element) || element.getClientRects().length === 0) {
 			      return false;
 			    }
 			    const elementIsVisible = getComputedStyle(element).getPropertyValue('visibility') === 'visible';
 			    // Handle `details` element as its content may falsie appear visible when it is closed
 			    const closedDetails = element.closest('details:not([open])');
-			    if ( ! closedDetails) {
+			    if (!closedDetails) {
 			      return elementIsVisible;
 			    }
 			    if (closedDetails !== element) {
@@ -242,7 +242,7 @@
 			    return elementIsVisible;
 			  };
 			  const isDisabled = element => {
-			    if ( ! element || element.nodeType !== Node.ELEMENT_NODE) {
+			    if (!element || element.nodeType !== Node.ELEMENT_NODE) {
 			      return true;
 			    }
 			    if (element.classList.contains('disabled')) {
@@ -254,7 +254,7 @@
 			    return element.hasAttribute('disabled') && element.getAttribute('disabled') !== 'false';
 			  };
 			  const findShadowRoot = element => {
-			    if ( ! document.documentElement.attachShadow) {
+			    if (!document.documentElement.attachShadow) {
 			      return null;
 			    }
 
@@ -268,7 +268,7 @@
 			    }
 
 			    // when we don't find a shadow root
-			    if ( ! element.parentNode) {
+			    if (!element.parentNode) {
 			      return null;
 			    }
 			    return findShadowRoot(element.parentNode);
@@ -287,7 +287,7 @@
 			    element.offsetHeight; // eslint-disable-line no-unused-expressions
 			  };
 			  const getjQuery = () => {
-			    if (window.jQuery && ! document.body.hasAttribute('data-bs-no-jquery')) {
+			    if (window.jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
 			      return window.jQuery;
 			    }
 			    return null;
@@ -296,7 +296,7 @@
 			  const onDOMContentLoaded = callback => {
 			    if (document.readyState === 'loading') {
 			      // add listener on the first call when the document is in loading state
-			      if ( ! DOMContentLoadedCallbacks.length) {
+			      if (!DOMContentLoadedCallbacks.length) {
 			        document.addEventListener('DOMContentLoaded', () => {
 			          for (const callback of DOMContentLoadedCallbacks) {
 			            callback();
@@ -329,7 +329,7 @@
 			    return typeof possibleCallback === 'function' ? possibleCallback(...args) : defaultValue;
 			  };
 			  const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
-			    if ( ! waitForTransition) {
+			    if (!waitForTransition) {
 			      execute(callback);
 			      return;
 			    }
@@ -348,7 +348,7 @@
 			    };
 			    transitionElement.addEventListener(TRANSITION_END, handler);
 			    setTimeout(() => {
-			      if ( ! called) {
+			      if (!called) {
 			        triggerTransitionEnd(transitionElement);
 			      }
 			    }, emulatedDuration);
@@ -370,7 +370,7 @@
 			    // if the element does not exist in the list return an element
 			    // depending on the direction and if cycle is allowed
 			    if (index === -1) {
-			      return ! shouldGetNext && isCycleAllowed ? list[listLength - 1] : list[0];
+			      return !shouldGetNext && isCycleAllowed ? list[listLength - 1] : list[0];
 			    }
 			    index += shouldGetNext ? 1 : -1;
 			    if (isCycleAllowed) {
@@ -496,13 +496,13 @@
 			    // TODO: tooltip passes `false` instead of selector, so we need to check
 			    const callable = isDelegated ? delegationFunction : handler || delegationFunction;
 			    let typeEvent = getTypeEvent(originalTypeEvent);
-			    if ( ! nativeEvents.has(typeEvent)) {
+			    if (!nativeEvents.has(typeEvent)) {
 			      typeEvent = originalTypeEvent;
 			    }
 			    return [isDelegated, callable, typeEvent];
 			  }
 			  function addHandler(element, originalTypeEvent, handler, delegationFunction, oneOff) {
-			    if (typeof originalTypeEvent !== 'string' || ! element) {
+			    if (typeof originalTypeEvent !== 'string' || !element) {
 			      return;
 			    }
 			    let [isDelegated, callable, typeEvent] = normalizeParameters(originalTypeEvent, handler, delegationFunction);
@@ -512,7 +512,7 @@
 			    if (originalTypeEvent in customEvents) {
 			      const wrapFunction = fn => {
 			        return function (event) {
-			          if ( ! event.relatedTarget || event.relatedTarget !== event.delegateTarget && ! event.delegateTarget.contains(event.relatedTarget)) {
+			          if (!event.relatedTarget || event.relatedTarget !== event.delegateTarget && !event.delegateTarget.contains(event.relatedTarget)) {
 			            return fn.call(this, event);
 			          }
 			        };
@@ -537,7 +537,7 @@
 			  }
 			  function removeHandler(element, events, typeEvent, handler, delegationSelector) {
 			    const fn = findHandler(events[typeEvent], handler, delegationSelector);
-			    if ( ! fn) {
+			    if (!fn) {
 			      return;
 			    }
 			    element.removeEventListener(typeEvent, fn, Boolean(delegationSelector));
@@ -564,7 +564,7 @@
 			      addHandler(element, event, handler, delegationFunction, true);
 			    },
 			    off(element, originalTypeEvent, handler, delegationFunction) {
-			      if (typeof originalTypeEvent !== 'string' || ! element) {
+			      if (typeof originalTypeEvent !== 'string' || !element) {
 			        return;
 			      }
 			      const [isDelegated, callable, typeEvent] = normalizeParameters(originalTypeEvent, handler, delegationFunction);
@@ -574,7 +574,7 @@
 			      const isNamespace = originalTypeEvent.startsWith('.');
 			      if (typeof callable !== 'undefined') {
 			        // Simplest case: handler is passed, remove that listener ONLY.
-			        if ( ! Object.keys(storeElementEvent).length) {
+			        if (!Object.keys(storeElementEvent).length) {
 			          return;
 			        }
 			        removeHandler(element, events, typeEvent, callable, isDelegated ? handler : null);
@@ -587,13 +587,13 @@
 			      }
 			      for (const [keyHandlers, event] of Object.entries(storeElementEvent)) {
 			        const handlerKey = keyHandlers.replace(stripUidRegex, '');
-			        if ( ! inNamespace || originalTypeEvent.includes(handlerKey)) {
+			        if (!inNamespace || originalTypeEvent.includes(handlerKey)) {
 			          removeHandler(element, events, typeEvent, event.callable, event.delegationSelector);
 			        }
 			      }
 			    },
 			    trigger(element, event, args) {
-			      if (typeof event !== 'string' || ! element) {
+			      if (typeof event !== 'string' || !element) {
 			        return null;
 			      }
 			      const $ = index_js.getjQuery();
@@ -606,8 +606,8 @@
 			      if (inNamespace && $) {
 			        jQueryEvent = $.Event(event, args);
 			        $(element).trigger(jQueryEvent);
-			        bubbles = ! jQueryEvent.isPropagationStopped();
-			        nativeDispatch = ! jQueryEvent.isImmediatePropagationStopped();
+			        bubbles = !jQueryEvent.isPropagationStopped();
+			        nativeDispatch = !jQueryEvent.isImmediatePropagationStopped();
 			        defaultPrevented = jQueryEvent.isDefaultPrevented();
 			      }
 			      const evt = hydrateObj(new Event(event, {
@@ -697,21 +697,21 @@
 			    }
 			  }
 			  function normalizeDataKey(key) {
-			    return key.replace(/[A-Z]/g, chr => ` - ${chr.toLowerCase()}`);
+			    return key.replace(/[A-Z]/g, chr => `-${chr.toLowerCase()}`);
 			  }
 			  const Manipulator = {
 			    setDataAttribute(element, key, value) {
-			      element.setAttribute(`data - bs - ${normalizeDataKey(key)}`, value);
+			      element.setAttribute(`data-bs-${normalizeDataKey(key)}`, value);
 			    },
 			    removeDataAttribute(element, key) {
-			      element.removeAttribute(`data - bs - ${normalizeDataKey(key)}`);
+			      element.removeAttribute(`data-bs-${normalizeDataKey(key)}`);
 			    },
 			    getDataAttributes(element) {
-			      if ( ! element) {
+			      if (!element) {
 			        return {};
 			      }
 			      const attributes = {};
-			      const bsKeys = Object.keys(element.dataset).filter(key => key.startsWith('bs') && ! key.startsWith('bsConfig'));
+			      const bsKeys = Object.keys(element.dataset).filter(key => key.startsWith('bs') && !key.startsWith('bsConfig'));
 			      for (const key of bsKeys) {
 			        let pureKey = key.replace(/^bs/, '');
 			        pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1, pureKey.length);
@@ -720,7 +720,7 @@
 			      return attributes;
 			    },
 			    getDataAttribute(element, key) {
-			      return normalizeData(element.getAttribute(`data - bs - ${normalizeDataKey(key)}`));
+			      return normalizeData(element.getAttribute(`data-bs-${normalizeDataKey(key)}`));
 			    }
 			  };
 			  return Manipulator;
@@ -790,7 +790,7 @@
 			      for (const [property, expectedTypes] of Object.entries(configTypes)) {
 			        const value = config[property];
 			        const valueType = index_js.isElement(value) ? 'element' : index_js.toType(value);
-			        if ( ! new RegExp(expectedTypes).test(valueType)) {
+			        if (!new RegExp(expectedTypes).test(valueType)) {
 			          throw new TypeError(`${this.constructor.NAME.toUpperCase()}: Option "${property}" provided type "${valueType}" but expected type "${expectedTypes}".`);
 			        }
 			      }
@@ -839,7 +839,7 @@
 			    constructor(element, config) {
 			      super();
 			      element = index_js.getElement(element);
-			      if ( ! element) {
+			      if (!element) {
 			        return;
 			      }
 			      this._element = element;
@@ -920,19 +920,19 @@
 			   */
 			  const getSelector = element => {
 			    let selector = element.getAttribute('data-bs-target');
-			    if ( ! selector || selector === '#') {
+			    if (!selector || selector === '#') {
 			      let hrefAttribute = element.getAttribute('href');
 
 			      // The only valid content that could double as a selector are IDs or classes,
 			      // so everything starting with `#` or `.`. If a "real" URL is used as the selector,
 			      // `document.querySelector` will rightfully complain it is invalid.
 			      // See https://github.com/twbs/bootstrap/issues/32273
-			      if ( ! hrefAttribute || ! hrefAttribute.includes('#') && ! hrefAttribute.startsWith('.')) {
+			      if (!hrefAttribute || !hrefAttribute.includes('#') && !hrefAttribute.startsWith('.')) {
 			        return null;
 			      }
 
 			      // Just in case some CMS puts out a full URL with the anchor appended
-			      if (hrefAttribute.includes('#') && ! hrefAttribute.startsWith('#')) {
+			      if (hrefAttribute.includes('#') && !hrefAttribute.startsWith('#')) {
 			        hrefAttribute = `#${hrefAttribute.split('#')[1]}`;
 			      }
 			      selector = hrefAttribute && hrefAttribute !== '#' ? hrefAttribute.trim() : null;
@@ -980,8 +980,8 @@
 			      return [];
 			    },
 			    focusableChildren(element) {
-			      const focusables = ['a', 'button', 'input', 'textarea', 'select', 'details', '[tabindex]', '[contenteditable="true"]'].map(selector => `${selector}:not([tabindex ^ = "-"])`).join(',');
-			      return this.find(focusables, element).filter(el => ! index_js.isDisabled(el) && index_js.isVisible(el));
+			      const focusables = ['a', 'button', 'input', 'textarea', 'select', 'details', '[tabindex]', '[contenteditable="true"]'].map(selector => `${selector}:not([tabindex^="-"])`).join(',');
+			      return this.find(focusables, element).filter(el => !index_js.isDisabled(el) && index_js.isVisible(el));
 			    },
 			    getSelectorFromElement(element) {
 			      const selector = getSelector(element);
@@ -1031,7 +1031,7 @@
 			  const enableDismissTrigger = (component, method = 'hide') => {
 			    const clickEvent = `click.dismiss${component.EVENT_KEY}`;
 			    const name = component.NAME;
-			    EventHandler.on(document, clickEvent, `[data - bs - dismiss = "${name}"]`, function (event) {
+			    EventHandler.on(document, clickEvent, `[data-bs-dismiss="${name}"]`, function (event) {
 			      if (['A', 'AREA'].includes(this.tagName)) {
 			        event.preventDefault();
 			      }
@@ -1302,7 +1302,7 @@
 			    constructor(element, config) {
 			      super();
 			      this._element = element;
-			      if ( ! element || ! Swipe.isSupported()) {
+			      if (!element || !Swipe.isSupported()) {
 			        return;
 			      }
 			      this._config = this._getConfig(config);
@@ -1329,7 +1329,7 @@
 
 			    // Private
 			    _start(event) {
-			      if ( ! this._supportPointerEvents) {
+			      if (!this._supportPointerEvents) {
 			        this._deltaX = event.touches[0].clientX;
 			        return;
 			      }
@@ -1354,7 +1354,7 @@
 			      }
 			      const direction = absDeltaX / this._deltaX;
 			      this._deltaX = 0;
-			      if ( ! direction) {
+			      if (!direction) {
 			        return;
 			      }
 			      index_js.execute(direction > 0 ? this._config.rightCallback : this._config.leftCallback);
@@ -1506,7 +1506,7 @@
 			      // FIXME TODO use `document.visibilityState`
 			      // Don't call next when the page isn't visible
 			      // or the carousel or its parent isn't visible
-			      if ( ! document.hidden && index_js.isVisible(this._element)) {
+			      if (!document.hidden && index_js.isVisible(this._element)) {
 			        this.next();
 			      }
 			    }
@@ -1525,7 +1525,7 @@
 			      this._interval = setInterval(() => this.nextWhenVisible(), this._config.interval);
 			    }
 			    _maybeEnableCycle() {
-			      if ( ! this._config.ride) {
+			      if (!this._config.ride) {
 			        return;
 			      }
 			      if (this._isSliding) {
@@ -1618,13 +1618,13 @@
 			      return this._getItems().indexOf(element);
 			    }
 			    _setActiveIndicatorElement(index) {
-			      if ( ! this._indicatorsElement) {
+			      if (!this._indicatorsElement) {
 			        return;
 			      }
 			      const activeIndicator = SelectorEngine.findOne(SELECTOR_ACTIVE, this._indicatorsElement);
 			      activeIndicator.classList.remove(CLASS_NAME_ACTIVE);
 			      activeIndicator.removeAttribute('aria-current');
-			      const newActiveIndicator = SelectorEngine.findOne(`[data - bs - slide - to = "${index}"]`, this._indicatorsElement);
+			      const newActiveIndicator = SelectorEngine.findOne(`[data-bs-slide-to="${index}"]`, this._indicatorsElement);
 			      if (newActiveIndicator) {
 			        newActiveIndicator.classList.add(CLASS_NAME_ACTIVE);
 			        newActiveIndicator.setAttribute('aria-current', 'true');
@@ -1632,7 +1632,7 @@
 			    }
 			    _updateInterval() {
 			      const element = this._activeElement || this._getActive();
-			      if ( ! element) {
+			      if (!element) {
 			        return;
 			      }
 			      const elementInterval = Number.parseInt(element.getAttribute('data-bs-interval'), 10);
@@ -1661,7 +1661,7 @@
 			      if (slideEvent.defaultPrevented) {
 			        return;
 			      }
-			      if ( ! activeElement || ! nextElement) {
+			      if (!activeElement || !nextElement) {
 			        // Some weirdness is happening, so we bail
 			        // TODO: change tests that use empty divs to avoid this check
 			        return;
@@ -1741,7 +1741,7 @@
 
 			  EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_SLIDE, function (event) {
 			    const target = SelectorEngine.getElementFromSelector(this);
-			    if ( ! target || ! target.classList.contains(CLASS_NAME_CAROUSEL)) {
+			    if (!target || !target.classList.contains(CLASS_NAME_CAROUSEL)) {
 			      return;
 			    }
 			    event.preventDefault();
@@ -1856,7 +1856,7 @@
 			        }
 			      }
 			      this._initializeChildren();
-			      if ( ! this._config.parent) {
+			      if (!this._config.parent) {
 			        this._addAriaAndCollapsedClass(this._triggerArray, this._isShown());
 			      }
 			      if (this._config.toggle) {
@@ -1924,7 +1924,7 @@
 			      this._element.style[dimension] = `${this._element[scrollSize]}px`;
 			    }
 			    hide() {
-			      if (this._isTransitioning || ! this._isShown()) {
+			      if (this._isTransitioning || !this._isShown()) {
 			        return;
 			      }
 			      const startEvent = EventHandler.trigger(this._element, EVENT_HIDE);
@@ -1938,7 +1938,7 @@
 			      this._element.classList.remove(CLASS_NAME_COLLAPSE, CLASS_NAME_SHOW);
 			      for (const trigger of this._triggerArray) {
 			        const element = SelectorEngine.getElementFromSelector(trigger);
-			        if (element && ! this._isShown(element)) {
+			        if (element && !this._isShown(element)) {
 			          this._addAriaAndCollapsedClass([trigger], false);
 			        }
 			      }
@@ -1966,7 +1966,7 @@
 			      return this._element.classList.contains(CLASS_NAME_HORIZONTAL) ? WIDTH : HEIGHT;
 			    }
 			    _initializeChildren() {
-			      if ( ! this._config.parent) {
+			      if (!this._config.parent) {
 			        return;
 			      }
 			      const children = this._getFirstLevelChildren(SELECTOR_DATA_TOGGLE);
@@ -1980,14 +1980,14 @@
 			    _getFirstLevelChildren(selector) {
 			      const children = SelectorEngine.find(CLASS_NAME_DEEPER_CHILDREN, this._config.parent);
 			      // remove children if greater depth
-			      return SelectorEngine.find(selector, this._config.parent).filter(element => ! children.includes(element));
+			      return SelectorEngine.find(selector, this._config.parent).filter(element => !children.includes(element));
 			    }
 			    _addAriaAndCollapsedClass(triggerArray, isOpen) {
-			      if ( ! triggerArray.length) {
+			      if (!triggerArray.length) {
 			        return;
 			      }
 			      for (const element of triggerArray) {
-			        element.classList.toggle(CLASS_NAME_COLLAPSED, ! isOpen);
+			        element.classList.toggle(CLASS_NAME_COLLAPSED, !isOpen);
 			        element.setAttribute('aria-expanded', isOpen);
 			      }
 			    }
@@ -2115,7 +2115,7 @@
 	    var attributes = state.attributes[name] || {};
 	    var element = state.elements[name]; // arrow is optional + virtual elements
 
-	    if ( ! isHTMLElement(element) || ! getNodeName(element)) {
+	    if (!isHTMLElement(element) || !getNodeName(element)) {
 	      return;
 	    } // Flow doesn't support to extend this property, but it's the most
 	    // effective way to apply styles to an HTMLElement
@@ -2162,7 +2162,7 @@
 	        return style;
 	      }, {}); // arrow is optional + virtual elements
 
-	      if ( ! isHTMLElement(element) || ! getNodeName(element)) {
+	      if (!isHTMLElement(element) || !getNodeName(element)) {
 	        return;
 	      }
 	      Object.assign(element.style, style);
@@ -2201,7 +2201,7 @@
 	}
 
 	function isLayoutViewport() {
-	  return ! /^((?!chrome|android).)*safari/i.test(getUAString());
+	  return !/^((?!chrome|android).)*safari/i.test(getUAString());
 	}
 
 	function getBoundingClientRect(element, includeScale, isFixedStrategy) {
@@ -2220,7 +2220,7 @@
 	  }
 	  var _ref = isElement(element) ? getWindow(element) : window,
 	    visualViewport = _ref.visualViewport;
-	  var addVisualOffsets = ! isLayoutViewport() && isFixedStrategy;
+	  var addVisualOffsets = !isLayoutViewport() && isFixedStrategy;
 	  var x = (clientRect.left + (addVisualOffsets && visualViewport ? visualViewport.offsetLeft : 0)) / scaleX;
 	  var y = (clientRect.top + (addVisualOffsets && visualViewport ? visualViewport.offsetTop : 0)) / scaleY;
 	  var width = clientRect.width / scaleX;
@@ -2314,7 +2314,7 @@
 	}
 
 	function getTrueOffsetParent(element) {
-	  if ( ! isHTMLElement(element) ||
+	  if (!isHTMLElement(element) ||
 	  // https://github.com/popperjs/popper-core/issues/837
 	  getComputedStyle$1(element).position === 'fixed') {
 	    return null;
@@ -2413,7 +2413,7 @@
 	  var axis = getMainAxisFromPlacement(basePlacement);
 	  var isVertical = [left, right].indexOf(basePlacement) >= 0;
 	  var len = isVertical ? 'height' : 'width';
-	  if ( ! arrowElement || ! popperOffsets) {
+	  if (!arrowElement || !popperOffsets) {
 	    return;
 	  }
 	  var paddingObject = toPaddingObject(options.padding, state);
@@ -2446,11 +2446,11 @@
 
 	  if (typeof arrowElement === 'string') {
 	    arrowElement = state.elements.popper.querySelector(arrowElement);
-	    if ( ! arrowElement) {
+	    if (!arrowElement) {
 	      return;
 	    }
 	  }
-	  if ( ! contains(state.elements.popper, arrowElement)) {
+	  if (!contains(state.elements.popper, arrowElement)) {
 	    return;
 	  }
 	  state.elements.arrow = arrowElement;
@@ -2709,7 +2709,7 @@
 	    width = visualViewport.width;
 	    height = visualViewport.height;
 	    var layoutViewport = isLayoutViewport();
-	    if (layoutViewport || ! layoutViewport && strategy === 'fixed') {
+	    if (layoutViewport || !layoutViewport && strategy === 'fixed') {
 	      x = visualViewport.offsetLeft;
 	      y = visualViewport.offsetTop;
 	    }
@@ -2817,7 +2817,7 @@
 	  var clippingParents = listScrollParents(getParentNode(element));
 	  var canEscapeClipping = ['absolute', 'fixed'].indexOf(getComputedStyle$1(element).position) >= 0;
 	  var clipperElement = canEscapeClipping && isHTMLElement(element) ? getOffsetParent(element) : element;
-	  if ( ! isElement(clipperElement)) {
+	  if (!isElement(clipperElement)) {
 	    return [];
 	  } // $FlowFixMe[incompatible-return]: https://github.com/facebook/flow/issues/1414
 
@@ -3020,7 +3020,7 @@
 	  var preferredPlacement = state.options.placement;
 	  var basePlacement = getBasePlacement(preferredPlacement);
 	  var isBasePlacement = basePlacement === preferredPlacement;
-	  var fallbackPlacements = specifiedFallbackPlacements || (isBasePlacement || ! flipVariations ? [getOppositePlacement(preferredPlacement)] : getExpandedFallbackPlacements(preferredPlacement));
+	  var fallbackPlacements = specifiedFallbackPlacements || (isBasePlacement || !flipVariations ? [getOppositePlacement(preferredPlacement)] : getExpandedFallbackPlacements(preferredPlacement));
 	  var placements = [preferredPlacement].concat(fallbackPlacements).reduce(function (acc, placement) {
 	    return acc.concat(getBasePlacement(placement) === auto ? computeAutoPlacement(state, {
 	      placement: placement,
@@ -3261,7 +3261,7 @@
 	  });
 	  var basePlacement = getBasePlacement(state.placement);
 	  var variation = getVariation(state.placement);
-	  var isBasePlacement = ! variation;
+	  var isBasePlacement = !variation;
 	  var mainAxis = getMainAxisFromPlacement(basePlacement);
 	  var altAxis = getAltAxis(mainAxis);
 	  var popperOffsets = state.modifiersData.popperOffsets;
@@ -3282,7 +3282,7 @@
 	    x: 0,
 	    y: 0
 	  };
-	  if ( ! popperOffsets) {
+	  if (!popperOffsets) {
 	    return;
 	  }
 	  if (checkMainAxis) {
@@ -3358,7 +3358,7 @@
 	}
 
 	function getNodeScroll(node) {
-	  if (node === getWindow(node) || ! isHTMLElement(node)) {
+	  if (node === getWindow(node) || !isHTMLElement(node)) {
 	    return getWindowScroll(node);
 	  } else {
 	    return getHTMLElementScroll(node);
@@ -3389,7 +3389,7 @@
 	    x: 0,
 	    y: 0
 	  };
-	  if (isOffsetParentAnElement || ! isOffsetParentAnElement && ! isFixed) {
+	  if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
 	    if (getNodeName(offsetParent) !== 'body' ||
 	    // https://github.com/popperjs/popper-core/issues/1078
 	    isScrollParent(documentElement)) {
@@ -3423,7 +3423,7 @@
 	    visited.add(modifier.name);
 	    var requires = [].concat(modifier.requires || [], modifier.requiresIfExists || []);
 	    requires.forEach(function (dep) {
-	      if ( ! visited.has(dep)) {
+	      if (!visited.has(dep)) {
 	        var depModifier = map.get(dep);
 	        if (depModifier) {
 	          sort(depModifier);
@@ -3433,7 +3433,7 @@
 	    result.push(modifier);
 	  }
 	  modifiers.forEach(function (modifier) {
-	    if ( ! visited.has(modifier.name)) {
+	    if (!visited.has(modifier.name)) {
 	      // check for visited object
 	      sort(modifier);
 	    }
@@ -3454,7 +3454,7 @@
 	function debounce(fn) {
 	  var pending;
 	  return function () {
-	    if ( ! pending) {
+	    if (!pending) {
 	      pending = new Promise(function (resolve) {
 	        Promise.resolve().then(function () {
 	          pending = undefined;
@@ -3490,8 +3490,8 @@
 	  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
 	    args[_key] = arguments[_key];
 	  }
-	  return ! args.some(function (element) {
-	    return ! (element && typeof element.getBoundingClientRect === 'function');
+	  return !args.some(function (element) {
+	    return !(element && typeof element.getBoundingClientRect === 'function');
 	  });
 	}
 	function popperGenerator(generatorOptions) {
@@ -3555,7 +3555,7 @@
 	          popper = _state$elements.popper; // Don't proceed if `reference` or `popper` are not valid elements
 	        // anymore
 
-	        if ( ! areValidElements(reference, popper)) {
+	        if (!areValidElements(reference, popper)) {
 	          return;
 	        } // Store the reference and popper rects to be read by modifiers
 
@@ -3611,11 +3611,11 @@
 	        isDestroyed = true;
 	      }
 	    };
-	    if ( ! areValidElements(reference, popper)) {
+	    if (!areValidElements(reference, popper)) {
 	      return instance;
 	    }
 	    instance.setOptions(options).then(function (state) {
-	      if ( ! isDestroyed && options.onFirstUpdate) {
+	      if (!isDestroyed && options.onFirstUpdate) {
 	        options.onFirstUpdate(state);
 	      }
 	    }); // Modifiers have the ability to execute arbitrary code before the first
@@ -3857,7 +3857,7 @@
 			      // empty mouseover listeners to the body's immediate children;
 			      // only needed because of broken event delegation on iOS
 			      // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
-			      if ('ontouchstart' in document.documentElement && ! this._parent.closest(SELECTOR_NAVBAR_NAV)) {
+			      if ('ontouchstart' in document.documentElement && !this._parent.closest(SELECTOR_NAVBAR_NAV)) {
 			        for (const element of [].concat(...document.body.children)) {
 			          EventHandler.on(element, 'mouseover', index_js.noop);
 			        }
@@ -3869,7 +3869,7 @@
 			      EventHandler.trigger(this._element, EVENT_SHOWN, relatedTarget);
 			    }
 			    hide() {
-			      if (index_js.isDisabled(this._element) || ! this._isShown()) {
+			      if (index_js.isDisabled(this._element) || !this._isShown()) {
 			        return;
 			      }
 			      const relatedTarget = {
@@ -3915,7 +3915,7 @@
 			    }
 			    _getConfig(config) {
 			      config = super._getConfig(config);
-			      if (typeof config.reference === 'object' && ! index_js.isElement(config.reference) && typeof config.reference.getBoundingClientRect !== 'function') {
+			      if (typeof config.reference === 'object' && !index_js.isElement(config.reference) && typeof config.reference.getBoundingClientRect !== 'function') {
 			        // Popper virtual elements require a getBoundingClientRect method
 			        throw new TypeError(`${NAME.toUpperCase()}: Option "reference" provided type "object" without a required "getBoundingClientRect" method.`);
 			      }
@@ -4010,13 +4010,13 @@
 			      target
 			    }) {
 			      const items = SelectorEngine.find(SELECTOR_VISIBLE_ITEMS, this._menu).filter(element => index_js.isVisible(element));
-			      if ( ! items.length) {
+			      if (!items.length) {
 			        return;
 			      }
 
 			      // if target isn't included in items (e.g. when expanding the dropdown)
 			      // allow cycling to get the last item in case key equals ARROW_UP_KEY
-			      index_js.getNextActiveElement(items, target, key === ARROW_DOWN_KEY, ! items.includes(target)).focus();
+			      index_js.getNextActiveElement(items, target, key === ARROW_DOWN_KEY, !items.includes(target)).focus();
 			    }
 
 			    // Static
@@ -4039,12 +4039,12 @@
 			      const openToggles = SelectorEngine.find(SELECTOR_DATA_TOGGLE_SHOWN);
 			      for (const toggle of openToggles) {
 			        const context = Dropdown.getInstance(toggle);
-			        if ( ! context || context._config.autoClose === false) {
+			        if (!context || context._config.autoClose === false) {
 			          continue;
 			        }
 			        const composedPath = event.composedPath();
 			        const isMenuTarget = composedPath.includes(context._menu);
-			        if (composedPath.includes(context._element) || context._config.autoClose === 'inside' && ! isMenuTarget || context._config.autoClose === 'outside' && isMenuTarget) {
+			        if (composedPath.includes(context._element) || context._config.autoClose === 'inside' && !isMenuTarget || context._config.autoClose === 'outside' && isMenuTarget) {
 			          continue;
 			        }
 
@@ -4068,10 +4068,10 @@
 			      const isInput = /input|textarea/i.test(event.target.tagName);
 			      const isEscapeEvent = event.key === ESCAPE_KEY;
 			      const isUpOrDownEvent = [ARROW_UP_KEY, ARROW_DOWN_KEY].includes(event.key);
-			      if ( ! isUpOrDownEvent && ! isEscapeEvent) {
+			      if (!isUpOrDownEvent && !isEscapeEvent) {
 			        return;
 			      }
-			      if (isInput && ! isEscapeEvent) {
+			      if (isInput && !isEscapeEvent) {
 			        return;
 			      }
 			      event.preventDefault();
@@ -4197,7 +4197,7 @@
 
 			    // Public
 			    show(callback) {
-			      if ( ! this._config.isVisible) {
+			      if (!this._config.isVisible) {
 			        index_js.execute(callback);
 			        return;
 			      }
@@ -4212,7 +4212,7 @@
 			      });
 			    }
 			    hide(callback) {
-			      if ( ! this._config.isVisible) {
+			      if (!this._config.isVisible) {
 			        index_js.execute(callback);
 			        return;
 			      }
@@ -4223,7 +4223,7 @@
 			      });
 			    }
 			    dispose() {
-			      if ( ! this._isAppended) {
+			      if (!this._isAppended) {
 			        return;
 			      }
 			      EventHandler.off(this._element, EVENT_MOUSEDOWN);
@@ -4233,7 +4233,7 @@
 
 			    // Private
 			    _getElement() {
-			      if ( ! this._element) {
+			      if (!this._element) {
 			        const backdrop = document.createElement('div');
 			        backdrop.className = this._config.className;
 			        if (this._config.isAnimated) {
@@ -4352,7 +4352,7 @@
 			      this._isActive = true;
 			    }
 			    deactivate() {
-			      if ( ! this._isActive) {
+			      if (!this._isActive) {
 			        return;
 			      }
 			      this._isActive = false;
@@ -4619,7 +4619,7 @@
 			      this._backdrop.show(() => this._showElement(relatedTarget));
 			    }
 			    hide() {
-			      if ( ! this._isShown || this._isTransitioning) {
+			      if (!this._isShown || this._isTransitioning) {
 			        return;
 			      }
 			      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE);
@@ -4658,7 +4658,7 @@
 			    }
 			    _showElement(relatedTarget) {
 			      // try to append dynamic modal
-			      if ( ! document.body.contains(this._element)) {
+			      if (!document.body.contains(this._element)) {
 			        document.body.append(this._element);
 			      }
 			      this._element.style.display = 'block';
@@ -4695,7 +4695,7 @@
 			        this._triggerBackdropTransition();
 			      });
 			      EventHandler.on(window, EVENT_RESIZE, () => {
-			        if (this._isShown && ! this._isTransitioning) {
+			        if (this._isShown && !this._isTransitioning) {
 			          this._adjustDialog();
 			        }
 			      });
@@ -4742,7 +4742,7 @@
 			      if (initialOverflowY === 'hidden' || this._element.classList.contains(CLASS_NAME_STATIC)) {
 			        return;
 			      }
-			      if ( ! isModalOverflowing) {
+			      if (!isModalOverflowing) {
 			        this._element.style.overflowY = 'hidden';
 			      }
 			      this._element.classList.add(CLASS_NAME_STATIC);
@@ -4763,11 +4763,11 @@
 			      const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
 			      const scrollbarWidth = this._scrollBar.getWidth();
 			      const isBodyOverflowing = scrollbarWidth > 0;
-			      if (isBodyOverflowing && ! isModalOverflowing) {
+			      if (isBodyOverflowing && !isModalOverflowing) {
 			        const property = index_js.isRTL() ? 'paddingLeft' : 'paddingRight';
 			        this._element.style[property] = `${scrollbarWidth}px`;
 			      }
-			      if ( ! isBodyOverflowing && isModalOverflowing) {
+			      if (!isBodyOverflowing && isModalOverflowing) {
 			        const property = index_js.isRTL() ? 'paddingRight' : 'paddingLeft';
 			        this._element.style[property] = `${scrollbarWidth}px`;
 			      }
@@ -4937,14 +4937,14 @@
 			      }
 			      this._isShown = true;
 			      this._backdrop.show();
-			      if ( ! this._config.scroll) {
+			      if (!this._config.scroll) {
 			        new ScrollBarHelper().hide();
 			      }
 			      this._element.setAttribute('aria-modal', true);
 			      this._element.setAttribute('role', 'dialog');
 			      this._element.classList.add(CLASS_NAME_SHOWING);
 			      const completeCallBack = () => {
-			        if ( ! this._config.scroll || this._config.backdrop) {
+			        if (!this._config.scroll || this._config.backdrop) {
 			          this._focustrap.activate();
 			        }
 			        this._element.classList.add(CLASS_NAME_SHOW);
@@ -4956,7 +4956,7 @@
 			      this._queueCallback(completeCallBack, this._element, true);
 			    }
 			    hide() {
-			      if ( ! this._isShown) {
+			      if (!this._isShown) {
 			        return;
 			      }
 			      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE);
@@ -4972,7 +4972,7 @@
 			        this._element.classList.remove(CLASS_NAME_SHOW, CLASS_NAME_HIDING);
 			        this._element.removeAttribute('aria-modal');
 			        this._element.removeAttribute('role');
-			        if ( ! this._config.scroll) {
+			        if (!this._config.scroll) {
 			          new ScrollBarHelper().reset();
 			        }
 			        EventHandler.trigger(this._element, EVENT_HIDDEN);
@@ -5172,7 +5172,7 @@
 			   * Shout-out to Angular https://github.com/angular/angular/blob/15.2.8/packages/core/src/sanitization/url_sanitizer.ts#L38
 			   */
 			  // eslint-disable-next-line unicorn/better-regex
-			  const SAFE_URL_PATTERN = / ^ ( ? ! javascript : )( ?: [a - z0 - 9 + .-] + : | [ ^ & : / ? #] * ( ?: [/?#]|$))/i;
+			  const SAFE_URL_PATTERN = /^(?!javascript:)(?:[a-z0-9+.-]+:|[^&:/?#]*(?:[/?#]|$))/i;
 			  const allowedAttribute = (attribute, allowedAttributeList) => {
 			    const attributeName = attribute.nodeName.toLowerCase();
 			    if (allowedAttributeList.includes(attributeName)) {
@@ -5186,7 +5186,7 @@
 			    return allowedAttributeList.filter(attributeRegex => attributeRegex instanceof RegExp).some(regex => regex.test(attributeName));
 			  };
 			  function sanitizeHtml(unsafeHtml, allowList, sanitizeFunction) {
-			    if ( ! unsafeHtml.length) {
+			    if (!unsafeHtml.length) {
 			      return unsafeHtml;
 			    }
 			    if (sanitizeFunction && typeof sanitizeFunction === 'function') {
@@ -5197,14 +5197,14 @@
 			    const elements = [].concat(...createdDocument.body.querySelectorAll('*'));
 			    for (const element of elements) {
 			      const elementName = element.nodeName.toLowerCase();
-			      if ( ! Object.keys(allowList).includes(elementName)) {
+			      if (!Object.keys(allowList).includes(elementName)) {
 			        element.remove();
 			        continue;
 			      }
 			      const attributeList = [].concat(...element.attributes);
 			      const allowedAttributes = [].concat(allowList['*'] || [], allowList[elementName] || []);
 			      for (const attribute of attributeList) {
-			        if ( ! allowedAttribute(attribute, allowedAttributes)) {
+			        if (!allowedAttribute(attribute, allowedAttributes)) {
 			          element.removeAttribute(attribute.nodeName);
 			        }
 			      }
@@ -5340,11 +5340,11 @@
 			    }
 			    _setContent(template, content, selector) {
 			      const templateElement = SelectorEngine.findOne(selector, template);
-			      if ( ! templateElement) {
+			      if (!templateElement) {
 			        return;
 			      }
 			      content = this._resolvePossibleFunction(content);
-			      if ( ! content) {
+			      if (!content) {
 			        templateElement.remove();
 			        return;
 			      }
@@ -5520,7 +5520,7 @@
 			      // Protected
 			      this.tip = null;
 			      this._setListeners();
-			      if ( ! this._config.selector) {
+			      if (!this._config.selector) {
 			        this._fixTitle();
 			      }
 			    }
@@ -5544,13 +5544,13 @@
 			      this._isEnabled = false;
 			    }
 			    toggleEnabled() {
-			      this._isEnabled = ! this._isEnabled;
+			      this._isEnabled = !this._isEnabled;
 			    }
 			    toggle() {
-			      if ( ! this._isEnabled) {
+			      if (!this._isEnabled) {
 			        return;
 			      }
-			      this._activeTrigger.click = ! this._activeTrigger.click;
+			      this._activeTrigger.click = !this._activeTrigger.click;
 			      if (this._isShown()) {
 			        this._leave();
 			        return;
@@ -5570,13 +5570,13 @@
 			      if (this._element.style.display === 'none') {
 			        throw new Error('Please use show on visible elements');
 			      }
-			      if ( ! (this._isWithContent() && this._isEnabled)) {
+			      if (!(this._isWithContent() && this._isEnabled)) {
 			        return;
 			      }
 			      const showEvent = EventHandler.trigger(this._element, this.constructor.eventName(EVENT_SHOW));
 			      const shadowRoot = index_js.findShadowRoot(this._element);
 			      const isInTheDom = (shadowRoot || this._element.ownerDocument.documentElement).contains(this._element);
-			      if (showEvent.defaultPrevented || ! isInTheDom) {
+			      if (showEvent.defaultPrevented || !isInTheDom) {
 			        return;
 			      }
 
@@ -5587,7 +5587,7 @@
 			      const {
 			        container
 			      } = this._config;
-			      if ( ! this._element.ownerDocument.documentElement.contains(this.tip)) {
+			      if (!this._element.ownerDocument.documentElement.contains(this.tip)) {
 			        container.append(tip);
 			        EventHandler.trigger(this._element, this.constructor.eventName(EVENT_INSERTED));
 			      }
@@ -5613,7 +5613,7 @@
 			      this._queueCallback(complete, this.tip, this._isAnimated());
 			    }
 			    hide() {
-			      if ( ! this._isShown()) {
+			      if (!this._isShown()) {
 			        return;
 			      }
 			      const hideEvent = EventHandler.trigger(this._element, this.constructor.eventName(EVENT_HIDE));
@@ -5639,7 +5639,7 @@
 			        if (this._isWithActiveTrigger()) {
 			          return;
 			        }
-			        if ( ! this._isHovered) {
+			        if (!this._isHovered) {
 			          this._disposePopper();
 			        }
 			        this._element.removeAttribute('aria-describedby');
@@ -5658,7 +5658,7 @@
 			      return Boolean(this._getTitle());
 			    }
 			    _getTipElement() {
-			      if ( ! this.tip) {
+			      if (!this.tip) {
 			        this.tip = this._createTipElement(this._newContent || this._getContentForTemplate());
 			      }
 			      return this.tip;
@@ -5667,12 +5667,12 @@
 			      const tip = this._getTemplateFactory(content).toHtml();
 
 			      // TODO: remove this check in v6
-			      if ( ! tip) {
+			      if (!tip) {
 			        return null;
 			      }
 			      tip.classList.remove(CLASS_NAME_FADE, CLASS_NAME_SHOW);
 			      // TODO: v6 the following can be achieved with CSS only
-			      tip.classList.add(`bs - ${this.constructor.NAME} - auto`);
+			      tip.classList.add(`bs-${this.constructor.NAME}-auto`);
 			      const tipId = index_js.getUID(this.constructor.NAME).toString();
 			      tip.setAttribute('id', tipId);
 			      if (this._isAnimated()) {
@@ -5761,7 +5761,7 @@
 			        }, {
 			          name: 'arrow',
 			          options: {
-			            element: `.${this.constructor.NAME} - arrow`
+			            element: `.${this.constructor.NAME}-arrow`
 			          }
 			        }, {
 			          name: 'preSetPlacement',
@@ -5811,10 +5811,10 @@
 			    }
 			    _fixTitle() {
 			      const title = this._element.getAttribute('title');
-			      if ( ! title) {
+			      if (!title) {
 			        return;
 			      }
-			      if ( ! this._element.getAttribute('aria-label') && ! this._element.textContent.trim()) {
+			      if (!this._element.getAttribute('aria-label') && !this._element.textContent.trim()) {
 			        this._element.setAttribute('aria-label', title);
 			      }
 			      this._element.setAttribute('data-bs-original-title', title); // DO NOT USE IT. Is only for backwards compatibility
@@ -5838,7 +5838,7 @@
 			      }
 			      this._isHovered = false;
 			      this._setTimeout(() => {
-			        if ( ! this._isHovered) {
+			        if (!this._isHovered) {
 			          this.hide();
 			        }
 			      }, this._config.delay.hide);
@@ -6158,14 +6158,14 @@
 			      config.target = index_js.getElement(config.target) || document.body;
 
 			      // TODO: v6 Only for backwards compatibility reasons. Use rootMargin only
-			      config.rootMargin = config.offset ? `${config.offset}px 0px - 30 % ` : config.rootMargin;
+			      config.rootMargin = config.offset ? `${config.offset}px 0px -30%` : config.rootMargin;
 			      if (typeof config.threshold === 'string') {
 			        config.threshold = config.threshold.split(',').map(value => Number.parseFloat(value));
 			      }
 			      return config;
 			    }
 			    _maybeEnableSmoothScroll() {
-			      if ( ! this._config.smoothScroll) {
+			      if (!this._config.smoothScroll) {
 			        return;
 			      }
 
@@ -6210,7 +6210,7 @@
 			      const userScrollsDown = parentScrollTop >= this._previousScrollData.parentScrollTop;
 			      this._previousScrollData.parentScrollTop = parentScrollTop;
 			      for (const entry of entries) {
-			        if ( ! entry.isIntersecting) {
+			        if (!entry.isIntersecting) {
 			          this._activeTarget = null;
 			          this._clearActiveClass(targetElement(entry));
 			          continue;
@@ -6220,14 +6220,14 @@
 			        if (userScrollsDown && entryIsLowerThanPrevious) {
 			          activate(entry);
 			          // if parent isn't scrolled, let's keep the first visible item, breaking the iteration
-			          if ( ! parentScrollTop) {
+			          if (!parentScrollTop) {
 			            return;
 			          }
 			          continue;
 			        }
 
 			        // if we are scrolling up, pick the smallest offsetTop
-			        if ( ! userScrollsDown && ! entryIsLowerThanPrevious) {
+			        if (!userScrollsDown && !entryIsLowerThanPrevious) {
 			          activate(entry);
 			        }
 			      }
@@ -6238,7 +6238,7 @@
 			      const targetLinks = SelectorEngine.find(SELECTOR_TARGET_LINKS, this._config.target);
 			      for (const anchor of targetLinks) {
 			        // ensure that the anchor has an id and is not disabled
-			        if ( ! anchor.hash || index_js.isDisabled(anchor)) {
+			        if (!anchor.hash || index_js.isDisabled(anchor)) {
 			          continue;
 			        }
 			        const observableSection = SelectorEngine.findOne(decodeURI(anchor.hash), this._element);
@@ -6377,10 +6377,10 @@
 			  const NOT_SELECTOR_DROPDOWN_TOGGLE = `:not(${SELECTOR_DROPDOWN_TOGGLE})`;
 			  const SELECTOR_TAB_PANEL = '.list-group, .nav, [role="tablist"]';
 			  const SELECTOR_OUTER = '.nav-item, .list-group-item';
-			  const SELECTOR_INNER = `.nav - link${NOT_SELECTOR_DROPDOWN_TOGGLE}, .list - group - item${NOT_SELECTOR_DROPDOWN_TOGGLE}, [role = "tab"]${NOT_SELECTOR_DROPDOWN_TOGGLE}`;
+			  const SELECTOR_INNER = `.nav-link${NOT_SELECTOR_DROPDOWN_TOGGLE}, .list-group-item${NOT_SELECTOR_DROPDOWN_TOGGLE}, [role="tab"]${NOT_SELECTOR_DROPDOWN_TOGGLE}`;
 			  const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]'; // TODO: could only be `tab` in v6
 			  const SELECTOR_INNER_ELEM = `${SELECTOR_INNER}, ${SELECTOR_DATA_TOGGLE}`;
-			  const SELECTOR_DATA_TOGGLE_ACTIVE = `.${CLASS_NAME_ACTIVE}[data - bs - toggle = "tab"], .${CLASS_NAME_ACTIVE}[data - bs - toggle = "pill"], .${CLASS_NAME_ACTIVE}[data - bs - toggle = "list"]`;
+			  const SELECTOR_DATA_TOGGLE_ACTIVE = `.${CLASS_NAME_ACTIVE}[data-bs-toggle="tab"], .${CLASS_NAME_ACTIVE}[data-bs-toggle="pill"], .${CLASS_NAME_ACTIVE}[data-bs-toggle="list"]`;
 
 			  /**
 			   * Class definition
@@ -6390,7 +6390,7 @@
 			    constructor(element) {
 			      super(element);
 			      this._parent = this._element.closest(SELECTOR_TAB_PANEL);
-			      if ( ! this._parent) {
+			      if (!this._parent) {
 			        return;
 			        // TODO: should throw exception in v6
 			        // throw new TypeError(`${element.outerHTML} has not a valid parent ${SELECTOR_INNER_ELEM}`)
@@ -6431,7 +6431,7 @@
 
 			    // Private
 			    _activate(element, relatedElem) {
-			      if ( ! element) {
+			      if (!element) {
 			        return;
 			      }
 			      element.classList.add(CLASS_NAME_ACTIVE);
@@ -6452,7 +6452,7 @@
 			      this._queueCallback(complete, element, element.classList.contains(CLASS_NAME_FADE));
 			    }
 			    _deactivate(element, relatedElem) {
-			      if ( ! element) {
+			      if (!element) {
 			        return;
 			      }
 			      element.classList.remove(CLASS_NAME_ACTIVE);
@@ -6474,12 +6474,12 @@
 			      this._queueCallback(complete, element, element.classList.contains(CLASS_NAME_FADE));
 			    }
 			    _keydown(event) {
-			      if ( ! [ARROW_LEFT_KEY, ARROW_RIGHT_KEY, ARROW_UP_KEY, ARROW_DOWN_KEY, HOME_KEY, END_KEY].includes(event.key)) {
+			      if (![ARROW_LEFT_KEY, ARROW_RIGHT_KEY, ARROW_UP_KEY, ARROW_DOWN_KEY, HOME_KEY, END_KEY].includes(event.key)) {
 			        return;
 			      }
 			      event.stopPropagation(); // stopPropagation/preventDefault both added to support up/down keys without scrolling the page
 			      event.preventDefault();
-			      const children = this._getChildren().filter(element => ! index_js.isDisabled(element));
+			      const children = this._getChildren().filter(element => !index_js.isDisabled(element));
 			      let nextActiveElement;
 			      if ([HOME_KEY, END_KEY].includes(event.key)) {
 			        nextActiveElement = children[event.key === HOME_KEY ? 0 : children.length - 1];
@@ -6515,7 +6515,7 @@
 			      if (outerElem !== child) {
 			        this._setAttributeIfNotExists(outerElem, 'role', 'presentation');
 			      }
-			      if ( ! isActive) {
+			      if (!isActive) {
 			        child.setAttribute('tabindex', '-1');
 			      }
 			      this._setAttributeIfNotExists(child, 'role', 'tab');
@@ -6525,7 +6525,7 @@
 			    }
 			    _setInitialAttributesOnTargetPanel(child) {
 			      const target = SelectorEngine.getElementFromSelector(child);
-			      if ( ! target) {
+			      if (!target) {
 			        return;
 			      }
 			      this._setAttributeIfNotExists(target, 'role', 'tabpanel');
@@ -6535,7 +6535,7 @@
 			    }
 			    _toggleDropDown(element, open) {
 			      const outerElem = this._getOuterElement(element);
-			      if ( ! outerElem.classList.contains(CLASS_DROPDOWN)) {
+			      if (!outerElem.classList.contains(CLASS_DROPDOWN)) {
 			        return;
 			      }
 			      const toggle = (selector, className) => {
@@ -6549,7 +6549,7 @@
 			      outerElem.setAttribute('aria-expanded', open);
 			    }
 			    _setAttributeIfNotExists(element, attribute, value) {
-			      if ( ! element.hasAttribute(attribute)) {
+			      if (!element.hasAttribute(attribute)) {
 			        element.setAttribute(attribute, value);
 			      }
 			    }
@@ -6718,7 +6718,7 @@
 			      this._queueCallback(complete, this._element, this._config.animation);
 			    }
 			    hide() {
-			      if ( ! this.isShown()) {
+			      if (!this.isShown()) {
 			        return;
 			      }
 			      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE);
@@ -6747,7 +6747,7 @@
 			    // Private
 
 			    _maybeScheduleHide() {
-			      if ( ! this._config.autohide) {
+			      if (!this._config.autohide) {
 			        return;
 			      }
 			      if (this._hasMouseInteraction || this._hasKeyboardInteraction) {
@@ -6845,12 +6845,12 @@
 	    window.addEventListener('hashchange', function () {
 	      var id = location.hash.substring(1),
 	        element;
-	      if ( ! /^[A-z0-9_-]+$/.test(id)) {
+	      if (!/^[A-z0-9_-]+$/.test(id)) {
 	        return;
 	      }
 	      element = document.getElementById(id);
 	      if (element) {
-	        if ( ! /^(?:a|select|input|button|textarea)$/i.test(element.tagName)) {
+	        if (!/^(?:a|select|input|button|textarea)$/i.test(element.tagName)) {
 	          element.tabIndex = -1;
 	        }
 	        element.focus();
@@ -6864,81 +6864,109 @@
 	  easing: 'ease-in',
 	  once: true
 	});
+
+	// (function() {
+	// Hide header on scroll
+	//   var doc = document.documentElement;
+	//   var w = window;
+
+	//   var prevScroll = w.scrollY || doc.scrollTop;
+	//   var curScroll;
+	//   var direction = 0;
+	//   var prevDirection = 0;
+
+	//   var header = document.getElementById('wrapper-navbar');
+
+	//   var checkScroll = function() {
+	//       // Find the direction of scroll (0 - initial, 1 - up, 2 - down)
+	//       curScroll = w.scrollY || doc.scrollTop;
+	//       if (curScroll > prevScroll) {
+	//           // Scrolled down
+	//           direction = 2;
+	//       } else if (curScroll < prevScroll) {
+	//           // Scrolled up
+	//           direction = 1;
+	//       }
+
+	//       if (direction !== prevDirection) {
+	//           toggleHeader(direction, curScroll);
+	//       }
+
+	//       prevScroll = curScroll;
+	//   };
+
+	//   var toggleHeader = function(direction, curScroll) {
+	//       if (direction === 2 && curScroll > 100) {
+	//           // Replace 52 with the height of your header in px
+	//           if ( ! document.getElementById('navbar').classList.contains('show')) {
+	//               header.classList.add('hide');
+	//               prevDirection = direction;
+	//           }
+	//       } else if (direction === 1) {
+	//           header.classList.remove('hide');
+	//           prevDirection = direction;
+	//       }
+	//   };
+
+	//   window.addEventListener('scroll', checkScroll);
+
+	// Header background
+	//   document.addEventListener('scroll', function() {
+	//       document.querySelectorAll('.dropdown-menu').forEach(function(dropdown) {
+	//           dropdown.classList.remove('show');
+	//       });
+	//       document.querySelectorAll('.dropdown-toggle').forEach(function(toggle) {
+	//           toggle.classList.remove('show');
+	//           toggle.blur();
+	//       });
+	//     });
+
+	// document.addEventListener("DOMContentLoaded", () => {
+	//     // Create cursor element
+	//     const cursor = document.createElement("div");
+	//     cursor.classList.add("custom-cursor");
+	//     document.body.appendChild(cursor);
+
+	//     // Move cursor with mouse
+	//     document.addEventListener("mousemove", (e) => {
+	//         cursor.style.left = `${e.clientX}px`;
+	//         cursor.style.top = `${e.clientY}px`;
+	//     });
+
+	//     // Add active class on link hover
+	//     document.querySelectorAll("a").forEach((link) => {
+	//         link.addEventListener("mouseenter", () => cursor.classList.add("active"));
+	//         link.addEventListener("mouseleave", () => cursor.classList.remove("active"));
+	//     });
+	// });
+
+	// Toggle navdark class on nav toggle button click
+	//   document.getElementById('navToggle').addEventListener('click', function() {
+	//       var nav = document.getElementById('navbar');
+	//       nav.classList.toggle('navdark');
+	//   });
+
+	// Hide menu on click outside
+	//   document.body.addEventListener('click', function(event) {
+	//       if (!event.target.closest('.navbar')) {
+	//           var navbarCollapse = document.querySelector('.navbar .navbar-collapse');
+	//           if (navbarCollapse) {
+	//               var collapseInstance = bootstrap.Collapse.getInstance(navbarCollapse);
+	//               if (collapseInstance) {
+	//                   collapseInstance.hide();
+	//               }
+	//           }
+	//       }
+	//   });
+	// })();
+
 	(function () {
-	  // Hide header on scroll
-	  var doc = document.documentElement;
-	  var w = window;
-	  var prevScroll = w.scrollY || doc.scrollTop;
-	  var curScroll;
-	  var direction = 0;
-	  var prevDirection = 0;
-	  var header = document.getElementById('wrapper-navbar');
-	  var checkScroll = function () {
-	    // Find the direction of scroll (0 - initial, 1 - up, 2 - down)
-	    curScroll = w.scrollY || doc.scrollTop;
-	    if (curScroll > prevScroll) {
-	      // Scrolled down
-	      direction = 2;
-	    } else if (curScroll < prevScroll) {
-	      // Scrolled up
-	      direction = 1;
-	    }
-	    if (direction !== prevDirection) {
-	      toggleHeader(direction, curScroll);
-	    }
-	    prevScroll = curScroll;
-	  };
-	  var toggleHeader = function (direction, curScroll) {
-	    if (direction === 2 && curScroll > 100) {
-	      // Replace 52 with the height of your header in px
-	      if ( ! document.getElementById('navbar').classList.contains('show')) {
-	        header.classList.add('hide');
-	        prevDirection = direction;
-	      }
-	    } else if (direction === 1) {
-	      header.classList.remove('hide');
-	      prevDirection = direction;
-	    }
-	  };
-	  window.addEventListener('scroll', checkScroll);
-
-	  // Header background
-	  document.addEventListener('scroll', function () {
-	    document.querySelectorAll('.dropdown-menu').forEach(function (dropdown) {
-	      dropdown.classList.remove('show');
-	    });
-	    document.querySelectorAll('.dropdown-toggle').forEach(function (toggle) {
-	      toggle.classList.remove('show');
-	      toggle.blur();
-	    });
-	  });
-
-	  // document.addEventListener("DOMContentLoaded", () => {
-	  //     // Create cursor element
-	  //     const cursor = document.createElement("div");
-	  //     cursor.classList.add("custom-cursor");
-	  //     document.body.appendChild(cursor);
-
-	  //     // Move cursor with mouse
-	  //     document.addEventListener("mousemove", (e) => {
-	  //         cursor.style.left = `${e.clientX}px`;
-	  //         cursor.style.top = `${e.clientY}px`;
-	  //     });
-
-	  //     // Add active class on link hover
-	  //     document.querySelectorAll("a").forEach((link) => {
-	  //         link.addEventListener("mouseenter", () => cursor.classList.add("active"));
-	  //         link.addEventListener("mouseleave", () => cursor.classList.remove("active"));
-	  //     });
-	  // });
-
 	  document.addEventListener("DOMContentLoaded", () => {
 	    const cursor = document.createElement("div");
 	    cursor.classList.add("custom-cursor");
 	    document.body.appendChild(cursor);
 	    const cards = document.querySelectorAll(".partners__card");
 	    if (cards.length > 0) {
-	      // Show custom cursor when entering any .partners__card
 	      cards.forEach(card => {
 	        card.addEventListener("mouseenter", () => {
 	          cursor.style.opacity = "1";
@@ -6946,40 +6974,13 @@
 	        card.addEventListener("mouseleave", () => {
 	          cursor.style.opacity = "0";
 	        });
-
-	        // Move cursor inside the .partners__card
 	        card.addEventListener("mousemove", e => {
 	          cursor.style.left = `${e.clientX}px`;
 	          cursor.style.top = `${e.clientY}px`;
 	        });
-
-	        // // Enlarge cursor on links inside the card
-	        // card.querySelectorAll("a").forEach(link => {
-	        //     link.addEventListener("mouseenter", () => cursor.classList.add("active"));
-	        //     link.addEventListener("mouseleave", () => cursor.classList.remove("active"));
-	        // });
 	      });
 	    }
 	  });
-
-	  // Toggle navdark class on nav toggle button click
-	  //   document.getElementById('navToggle').addEventListener('click', function() {
-	  //       var nav = document.getElementById('navbar');
-	  //       nav.classList.toggle('navdark');
-	  //   });
-
-	  // Hide menu on click outside
-	  //   document.body.addEventListener('click', function(event) {
-	  //       if (!event.target.closest('.navbar')) {
-	  //           var navbarCollapse = document.querySelector('.navbar .navbar-collapse');
-	  //           if (navbarCollapse) {
-	  //               var collapseInstance = bootstrap.Collapse.getInstance(navbarCollapse);
-	  //               if (collapseInstance) {
-	  //                   collapseInstance.hide();
-	  //               }
-	  //           }
-	  //       }
-	  //   });
 	})();
 
 	exports.Alert = alert;
