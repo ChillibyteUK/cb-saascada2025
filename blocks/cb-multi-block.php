@@ -75,13 +75,21 @@ document.addEventListener('DOMContentLoaded', function() {
 						// Prevent WordPress from encoding entities.
 						remove_filter( 'the_content', 'wptexturize' );
 						remove_filter( 'the_content', 'convert_chars' );
+
+						// Remove header and footer sections.
+						$html_content = preg_replace( '/<header\s+class=["\']header["\'][^>]*>.*?<\/header>/is', '', $html_content );
+						$html_content = preg_replace( '/<div\s+class=["\']brand-footer["\'][^>]*>.*?<\/div>/is', '', $html_content );
+
+						// Encode for safe iframe injection.
+						$html_content_encoded = htmlspecialchars( $html_content, ENT_QUOTES, 'UTF-8' );
 						?>
 		<div class="cb-multi-block__animation">
-						<?php
-						// Output raw HTML without any WordPress filtering.
-						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped.
-						print $html_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-						?>
+			<iframe 
+				srcdoc="<?php echo $html_content_encoded; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" 
+				style="width: 100%; border: none; overflow: hidden;" 
+				scrolling="no"
+				onload="this.style.height = this.contentWindow.document.documentElement.scrollHeight + 'px';"
+			></iframe>
 		</div>
 						<?php
 					}
