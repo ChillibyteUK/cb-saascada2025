@@ -11,7 +11,7 @@ $block_padding   = get_field( 'block_padding' ) ?? 'py-5';
 $col_class       = 'col-md-' . ( 12 / $number_of_cards );
 
 if ( 3 === ( 12 / $number_of_cards ) ) {
-	$col_class = 'col-md-6 col-lg-3';
+	$col_class = 'col-md-6 col-xl-3';
 }
 
 $image_size = $number_of_cards <= 2 ? 'large' : 'full';
