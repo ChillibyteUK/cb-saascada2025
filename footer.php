@@ -46,15 +46,15 @@ defined( 'ABSPATH' ) || exit;
                 </div>
             </div>
             <div class="col-xl-2 text-center">
-                <img src="<?= esc_url( get_stylesheet_directory_uri() ); ?>/img/iso-logo.svg" alt="ISO 9001:2015 Certified" class="footer__iso">
+				<img src="<?= esc_url( get_stylesheet_directory_uri() . '/img/Certification-mark_04-09-27001-2022.png' ); ?>" alt="ISO 27001:2022 Certified" class="footer__iso mt-3">
             </div>
         </div>
 
-        <div class="row g-2 g-lg-5 colophon">
-            <div class="col-lg-6 text-center text-lg-start">
+        <div class="d-flex flex-wrap gap-2 justify-content-between colophon">
+            <div class="text-center text-lg-start">
                 &copy; <?= esc_html( gmdate( 'Y' ) ); ?> SaaScada Ltd. Registered in England no. 09146473. VAT no. 244 0730 34.
             </div>
-            <div class="col-lg-6 text-end d-flex justify-content-center justify-content-lg-end flex-wrap">
+            <div class="text-end d-flex justify-content-center justify-content-lg-end flex-wrap">
                 <?php
                 $slavery_statement = get_field( 'slavery_statement', 'options' );
                 if ( ! empty( $slavery_statement ) ) {
@@ -69,6 +69,7 @@ defined( 'ABSPATH' ) || exit;
                 <a href="https://www.chillibyte.co.uk/" rel="nofollow noopener" target="_blank" class="cb" title="Digital Marketing by Chillibyte" aria-hidden="true"></a>
             </div>
         </div>
+	</div>
 </footer>
 <!-- Start of HubSpot Embed Code -->
 <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/26035630.js"></script>
