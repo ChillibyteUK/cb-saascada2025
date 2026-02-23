@@ -23294,6 +23294,7 @@ header .dropdown.current-menu-item > .nav-link {
 
 .text_image__img {
   border-radius: var(--border-radius);
+  width: 100%;
 }
 
 .text-image-slider {
