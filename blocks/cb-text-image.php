@@ -43,7 +43,7 @@ $section_id = $block['anchor'] ?? null;
 
 $image_id = get_field( 'image' );
 
-$image_size = $split === '40:60' ? 'large' : 'full';
+$image_size = '40:60' === $split ? 'large' : 'full';
 
 if ( $image_id ) {
     $img = wp_get_attachment_image( $image_id, $image_size, false, array( 'class' => 'text_image__img' ) );

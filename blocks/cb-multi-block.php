@@ -72,16 +72,16 @@ document.addEventListener('DOMContentLoaded', function() {
 					// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 					$html_content = file_get_contents( $file_path );
 					if ( $html_content ) {
-						// Prevent WordPress from encoding entities
+						// Prevent WordPress from encoding entities.
 						remove_filter( 'the_content', 'wptexturize' );
 						remove_filter( 'the_content', 'convert_chars' );
 						?>
 		<div class="cb-multi-block__animation">
-			<?php 
-			// Output raw HTML without any WordPress filtering
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			print $html_content; 
-			?>
+						<?php
+						// Output raw HTML without any WordPress filtering.
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped.
+						print $html_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						?>
 		</div>
 						<?php
 					}
