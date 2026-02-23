@@ -12,40 +12,25 @@
 	<div class="container-xl">
 		<div class="row g-5">
 			<div class="col-md-6">
-				<h1 class="home-hero-alt__title" id="hero-title">The Evolution of Core Banking Software</h1>
-				<div class="home-hero-alt__content mb-4"><a href="/platform/" class="button button-outline button-outline--alt">Discover</a> how SaaScada’s platform empowers our clients.</div>
+				<h1 class="home-hero-alt__title" id="hero-title"><?= esc_html( get_field( 'title' ) ); ?></h1>
+				<div class="home-hero-alt__content mb-4"><?= wp_kses_post( get_field( 'intro' ) ); ?></div>
 				<div class="home-hero-alt__slider">
-					<?php
-					$partners = new WP_Query(
-						array(
-							'post_type'      => 'partners',
-							'posts_per_page' => -1,
-							'orderby'        => 'title',
-							'order'          => 'ASC',
-						)
-					);
-					if ( $partners->have_posts() ) {
-						?>
 					<div class="splide" id="partners-slider-hero">
 						<div class="splide__track">
 							<ul class="splide__list">
 								<?php
-								while ( $partners->have_posts() ) {
-									$partners->the_post();
+								$partners = get_field( 'partners' );
+								foreach ( $partners as $partner ) {
 									?>
 								<li class="splide__slide">
-									<?= get_the_post_thumbnail( get_the_ID(), 'medium', array( 'class' => 'home-hero-alt__partner-logo' ) ); ?>
+									<?= get_the_post_thumbnail( $partner, 'medium', array( 'class' => 'home-hero-alt__partner-logo' ) ); ?>
 								</li>
 									<?php
 								}
-								wp_reset_postdata();
 								?>
 							</ul>
 						</div>
 					</div>
-						<?php
-					}
-					?>
 				</div>
 			</div>
 			<div class="col-md-6">
