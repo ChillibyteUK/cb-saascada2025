@@ -80,16 +80,59 @@ document.addEventListener('DOMContentLoaded', function() {
 						$html_content = preg_replace( '/<header\s+class=["\']header["\'][^>]*>.*?<\/header>/is', '', $html_content );
 						$html_content = preg_replace( '/<div\s+class=["\']brand-footer["\'][^>]*>.*?<\/div>/is', '', $html_content );
 
+						// Inject resize observer script.
+						$resize_script = '<script>
+							(function() {
+								function sendHeight() {
+									const height = Math.max(
+										document.body.scrollHeight,
+										document.body.offsetHeight,
+										document.documentElement.clientHeight,
+										document.documentElement.scrollHeight,
+										document.documentElement.offsetHeight
+									);
+									window.parent.postMessage({ type: "iframe-resize", height: height }, "*");
+								}
+								
+								// Send initial height
+								if (document.readyState === "complete") {
+									sendHeight();
+								} else {
+									window.addEventListener("load", sendHeight);
+								}
+								
+								// Watch for content changes
+								const observer = new ResizeObserver(sendHeight);
+								observer.observe(document.body);
+								
+								// Also check periodically for dynamic content
+								setInterval(sendHeight, 500);
+							})();
+						</script>';
+						
+						$html_content = str_replace( '</body>', $resize_script . '</body>', $html_content );
+
 						// Encode for safe iframe injection.
 						$html_content_encoded = htmlspecialchars( $html_content, ENT_QUOTES, 'UTF-8' );
+						$iframe_id = 'iframe-' . uniqid();
 						?>
 		<div class="cb-multi-block__animation">
 			<iframe 
+				id="<?php echo esc_attr( $iframe_id ); ?>"
 				srcdoc="<?php echo $html_content_encoded; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" 
-				style="width: 100%; border: none; overflow: hidden;" 
+				style="width: 100%; border: none; overflow: hidden; display: block;" 
 				scrolling="no"
-				onload="this.style.height = this.contentWindow.document.documentElement.scrollHeight + 'px';"
 			></iframe>
+			<script>
+			(function() {
+				const iframe = document.getElementById('<?php echo esc_js( $iframe_id ); ?>');
+				window.addEventListener('message', function(e) {
+					if (e.data.type === 'iframe-resize' && e.source === iframe.contentWindow) {
+						iframe.style.height = e.data.height + 'px';
+					}
+				});
+			})();
+			</script>
 		</div>
 						<?php
 					}

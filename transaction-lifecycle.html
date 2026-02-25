@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaaScada — Transaction Lifecycle</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --teal-dark: #0A6E6E;
+    --teal: #0D8B8B;
+    --teal-mid: #10A3A3;
+    --teal-light: #7FCFCF;
+    --teal-pale: #D4F0F0;
+    --teal-ghost: #EFF9F9;
+    --navy: #1A3247;
+    --navy-mid: #2C4A62;
+    --coral: #D94F4F;
+    --coral-light: #E87272;
+    --coral-bg: #FEF0F0;
+    --green: #27AE60;
+    --green-bg: #EAFAF1;
+    --amber: #E8950A;
+    --amber-bg: #FFF8E6;
+    --blue: #3498DB;
+    --blue-bg: #EBF5FB;
+    --white: #FFFFFF;
+    --bg: #F6F8FA;
+    --card: #FFFFFF;
+    --border: #E2E8F0;
+    --text-primary: #1A3247;
+    --text-secondary: #64788A;
+    --text-muted: #94A3B8;
+    --shadow-sm: 0 1px 3px rgba(26,50,71,0.06);
+    --shadow-md: 0 4px 16px rgba(26,50,71,0.08);
+    --shadow-lg: 0 8px 32px rgba(26,50,71,0.12);
+    --shadow-glow: 0 0 20px rgba(13,139,139,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  /* ─── Header ─── */
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .logo-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .logo-row svg { width: 28px; height: 28px; }
+  .logo-row span {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--teal);
+    letter-spacing: 1px;
+  }
+
+  .header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.3;
+  }
+
+  .header h1 em {
+    font-style: normal;
+    color: var(--teal);
+  }
+
+  .header p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-top: 4px;
+  }
+
+  /* ═══════════════════════════════════ */
+  /* ─── JOURNEY FLOW (Top Arc) ─── */
+  /* ═══════════════════════════════════ */
+  .journey {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 28px;
+    flex-wrap: nowrap;
+  }
+
+  .node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.25;
+    transition: opacity 0.6s ease, transform 0.4s ease;
+    position: relative;
+  }
+
+  .node.active {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  .node.done {
+    opacity: 0.6;
+  }
+
+  .node-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--white);
+    border: 2px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .node.active .node-icon {
+    border-color: var(--teal);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .node.active .node-icon::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(13,139,139,0.06), transparent);
+  }
+
+  .node-icon svg {
+    width: 24px;
+    height: 24px;
+    color: var(--text-secondary);
+    transition: color 0.4s ease;
+    position: relative;
+    z-index: 1;
+  }
+
+  .node.active .node-icon svg { color: var(--teal); }
+
+  .node-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    transition: color 0.4s ease;
+  }
+
+  .node.active .node-label { color: var(--teal-dark); }
+
+  .connector {
+    width: 36px;
+    height: 2px;
+    background: var(--border);
+    position: relative;
+    flex-shrink: 0;
+    margin: 0 2px;
+    margin-bottom: 20px;
+  }
+
+  .connector-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: var(--teal);
+    border-radius: 1px;
+    transition: width 0.4s ease;
+  }
+
+  .connector.active .connector-fill { width: 100%; }
+
+  .connector-dot {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--teal);
+    top: -2px;
+    left: -3px;
+    opacity: 0;
+    box-shadow: 0 0 8px var(--teal);
+  }
+
+  .connector.animating .connector-dot {
+    opacity: 1;
+    animation: travel 0.4s ease forwards;
+  }
+
+  @keyframes travel {
+    from { left: -3px; }
+    to { left: calc(100% - 3px); }
+  }
+
+  /* ═══════════════════════════════════ */
+  /* ─── MAIN STAGE ─── */
+  /* ═══════════════════════════════════ */
+  .stage {
+    position: relative;
+    min-height: 420px;
+    margin-bottom: 28px;
+  }
+
+  .scene {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.96);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+  }
+
+  .scene.active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+    position: relative;
+  }
+
+  /* ─── Scene: POS Terminal ─── */
+  .pos-scene {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .pos-terminal {
+    width: 280px;
+    height: 200px;
+    background: var(--white);
+    border-radius: 20px;
+    border: 2px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pos-terminal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #00704A, #1E3932);
+  }
+
+  .pos-amount {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--navy);
+  }
+
+  .pos-merchant {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .pos-status {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 14px;
+    border-radius: 20px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .pos-status.show { opacity: 1; }
+  .pos-status.processing { background: var(--amber-bg); color: var(--amber); }
+  .pos-status.approved { background: var(--green-bg); color: var(--green); }
+
+  /* Contactless ripple */
+  .contactless {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+  }
+
+  .contactless svg { width: 28px; height: 28px; color: var(--teal); }
+
+  .tap-ring {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border: 2px solid var(--teal);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+
+  .tap-ring.animate {
+    animation: tapPulse 0.8s ease-out forwards;
+  }
+
+  .tap-ring:nth-child(2).animate { animation-delay: 0.15s; }
+  .tap-ring:nth-child(3).animate { animation-delay: 0.3s; }
+
+  @keyframes tapPulse {
+    0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0.8; }
+    100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+  }
+
+  /* ─── Scene: Transit Message Card ─── */
+  .transit-scene {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .transit-card {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    padding: 32px 48px;
+    text-align: center;
+    max-width: 420px;
+  }
+
+  .transit-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--teal-ghost);
+    border: 2px solid var(--teal-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+  }
+
+  .transit-icon svg {
+    width: 24px;
+    height: 24px;
+    color: var(--teal);
+  }
+
+  .transit-icon.spinning svg {
+    animation: spin 1.2s linear infinite;
+  }
+
+  .transit-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .transit-msg {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .transit-detail {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .transit-route {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .transit-route.show { opacity: 1; }
+
+  .transit-route span {
+    color: var(--teal);
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+
+  .transit-route span.active {
+    color: var(--teal-dark);
+  }
+
+  /* ─── Scene: Ledger ─── */
+  .ledger-scene {
+    width: 100%;
+  }
+
+  .ledger-card {
+    width: 100%;
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+
+  .ledger-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px 24px;
+    background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+    color: white;
+  }
+
+  .ledger-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--teal-light);
+    margin-bottom: 4px;
+  }
+
+  .ledger-account {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .balances {
+    display: flex;
+    gap: 24px;
+    text-align: right;
+  }
+
+  .bal-group {}
+  .bal-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--teal-light);
+    margin-bottom: 2px;
+  }
+
+  .bal-value {
+    font-size: 22px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    transition: color 0.3s ease;
+    min-width: 90px;
+  }
+
+  .bal-value.flash-green {
+    color: #5DEBB5;
+  }
+
+  .bal-value.flash-amber {
+    color: #FFD166;
+  }
+
+  .bal-value.flash-coral {
+    color: #FF8A8A;
+  }
+
+  /* Event list */
+  .event-list {
+    padding: 16px 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 280px;
+  }
+
+  .event-list-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+
+  .evt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: all 0.35s ease;
+    border-left: 3px solid transparent;
+  }
+
+  .evt.show {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .evt .v {
+    font-weight: 700;
+    min-width: 26px;
+    font-size: 12px;
+  }
+
+  .evt .type { flex: 1; color: var(--text-secondary); }
+  .evt .amt { font-weight: 700; }
+
+  .evt.create { background: var(--teal-ghost); border-left-color: var(--teal); }
+  .evt.create .v { color: var(--teal); }
+
+  .evt.deposit { background: var(--green-bg); border-left-color: var(--green); }
+  .evt.deposit .v { color: var(--green); }
+  .evt.deposit .amt { color: var(--green); }
+
+  .evt.auth { background: var(--amber-bg); border-left-color: var(--amber); }
+  .evt.auth .v { color: var(--amber); }
+  .evt.auth .amt { color: var(--amber); }
+
+  .evt.clear { background: var(--blue-bg); border-left-color: var(--blue); }
+  .evt.clear .v { color: var(--blue); }
+  .evt.clear .amt { color: var(--blue); }
+
+  .evt.new-event {
+    background: var(--coral-bg);
+    border-left-color: var(--coral);
+    box-shadow: 0 0 0 0 rgba(217,79,79,0);
+  }
+
+  .evt.new-event .v { color: var(--coral); }
+  .evt.new-event .amt { color: var(--coral); }
+
+  .evt.new-event.show {
+    animation: newEventGlow 2s ease-in-out infinite;
+  }
+
+  @keyframes newEventGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(217,79,79,0); }
+    50% { box-shadow: 0 0 0 4px rgba(217,79,79,0.1); }
+  }
+
+  .evt .new-badge {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: var(--coral);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  /* Replaying indicator */
+  .replay-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--teal);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .replay-indicator.show { opacity: 1; }
+
+  .replay-spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--teal-pale);
+    border-top-color: var(--teal);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* ─── Scene: Publish ─── */
+  .publish-scene {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .publish-flow {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 32px;
+  }
+
+  .pub-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: all 0.5s ease;
+  }
+
+  .pub-node.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .pub-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--white);
+    border: 2px solid var(--border);
+    box-shadow: var(--shadow-md);
+  }
+
+  .pub-icon svg { width: 32px; height: 32px; color: var(--navy-mid); }
+
+  .pub-node.active .pub-icon {
+    border-color: var(--teal);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .pub-node.active .pub-icon svg { color: var(--teal); }
+
+  .pub-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .pub-sublabel {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .pub-arrow {
+    margin-top: 24px;
+    color: var(--border);
+    transition: color 0.3s ease;
+  }
+
+  .pub-arrow.active { color: var(--teal); }
+  .pub-arrow svg { width: 24px; height: 24px; }
+
+  /* ─── Scene: Notification (end) ─── */
+  .notif-scene {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .phone-frame {
+    width: 220px;
+    height: 260px;
+    background: var(--white);
+    border-radius: 28px;
+    border: 2px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .phone-notch {
+    width: 80px;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    margin-bottom: 16px;
+  }
+
+  .phone-notif {
+    width: 100%;
+    background: var(--green-bg);
+    border: 1px solid rgba(39,174,96,0.2);
+    border-radius: 12px;
+    padding: 12px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .phone-notif.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .notif-app {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .notif-app-icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    background: var(--teal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .notif-app-icon svg { width: 10px; height: 10px; color: white; }
+
+  .notif-app-name {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  .notif-app-time {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-left: auto;
+  }
+
+  .notif-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 2px;
+  }
+
+  .notif-body {
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .end-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .end-label.show { opacity: 1; }
+
+  /* ─── Bottom Journey (return path) ─── */
+  .return-journey {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+
+  /* ─── Controls ─── */
+  .controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary {
+    background: var(--teal);
+    color: white;
+    box-shadow: 0 2px 8px rgba(13,139,139,0.25);
+  }
+
+  .btn-primary:hover {
+    background: var(--teal-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(13,139,139,0.3);
+  }
+
+  .btn-ghost {
+    background: var(--white);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+  }
+
+  .btn-ghost:hover {
+    background: var(--bg);
+    transform: translateY(-1px);
+  }
+
+  .btn svg { width: 14px; height: 14px; }
+
+  /* ─── Next Step Button ─── */
+  .next-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 36px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    border: none;
+    background: var(--teal);
+    color: white;
+    box-shadow: 0 4px 16px rgba(13,139,139,0.3);
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+  }
+
+  .next-btn.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    animation: gentle-bounce 2s ease-in-out infinite;
+  }
+
+  .next-btn:hover {
+    background: var(--teal-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(13,139,139,0.4);
+    animation: none;
+  }
+
+  .next-btn svg { width: 16px; height: 16px; }
+
+  @keyframes gentle-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+  }
+
+  .step-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .step-hint.visible { opacity: 1; }
+
+  /* ─── Return Arc (Circular Journey) ─── */
+  .return-arc {
+    display: block;
+    width: 90%;
+    max-width: 1080px;
+    margin: -8px auto 20px;
+    height: 52px;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .return-arc.show {
+    opacity: 1;
+  }
+
+  .return-arc-bg {
+    fill: none;
+    stroke: var(--border);
+    stroke-width: 1.5;
+    stroke-dasharray: 6 4;
+  }
+
+  .return-arc-fill {
+    fill: none;
+    stroke: var(--teal);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+    transition: stroke-dashoffset 1.8s ease;
+  }
+
+  .return-arc.animated .return-arc-fill {
+    stroke-dashoffset: 0;
+  }
+
+  .return-arc-arrow {
+    fill: var(--teal);
+    opacity: 0;
+    transition: opacity 0.4s ease 1.6s;
+  }
+
+  .return-arc.animated .return-arc-arrow {
+    opacity: 1;
+  }
+
+  .return-arc-label {
+    font-size: 9px;
+    text-anchor: middle;
+    fill: var(--text-muted);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0;
+    transition: opacity 0.5s ease 1.2s;
+  }
+
+  .return-arc.animated .return-arc-label {
+    opacity: 1;
+  }
+
+  /* ─── Logo Image ─── */
+  .logo-img {
+    height: 30px;
+    border-radius: 6px;
+    object-fit: contain;
+  }
+
+  /* ─── Brand Footer ─── */
+  .brand-footer {
+    text-align: center;
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .brand-footer img {
+    height: 18px;
+    border-radius: 3px;
+  }
+
+  .brand-footer span {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+
+  /* ─── Node re-active (circular complete) ─── */
+  .node.complete .node-icon {
+    border-color: var(--green);
+    box-shadow: 0 0 20px rgba(39,174,96,0.2);
+  }
+
+  .node.complete .node-icon svg { color: var(--green); }
+  .node.complete .node-label { color: var(--green); }
+
+  /* ─── Utility ─── */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-row">
+      <img src="default-1.jpg" alt="SaaScada" class="logo-img">
+    </div>
+    <h1>Transaction Lifecycle — <em>Event-Sourced Ledger</em></h1>
+    <p>From card tap to push notification, powered by CQRS architecture</p>
+  </header>
+
+  <!-- ═══ JOURNEY BAR ═══ -->
+  <div class="journey" id="journey">
+    <!-- 1. Customer -->
+    <div class="node" id="jn1">
+      <div class="node-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <span class="node-label">Customer</span>
+    </div>
+    <div class="connector" id="jc1"><div class="connector-fill"></div><div class="connector-dot"></div></div>
+
+    <!-- 2. POS -->
+    <div class="node" id="jn2">
+      <div class="node-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20"/><path d="M6 14h4"/></svg>
+      </div>
+      <span class="node-label">Starbucks POS</span>
+    </div>
+    <div class="connector" id="jc2"><div class="connector-fill"></div><div class="connector-dot"></div></div>
+
+    <!-- 3. Acquiring Bank -->
+    <div class="node" id="jn3">
+      <div class="node-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 21h18"/><path d="M3 7l9-4 9 4"/><path d="M6 10v7"/><path d="M10 10v7"/><path d="M14 10v7"/><path d="M18 10v7"/></svg>
+      </div>
+      <span class="node-label">Acquiring Bank</span>
+    </div>
+    <div class="connector" id="jc3"><div class="connector-fill"></div><div class="connector-dot"></div></div>
+
+    <!-- 4. Mastercard -->
+    <div class="node" id="jn4">
+      <div class="node-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="9" cy="12" r="6" fill="none" stroke="#EB001B"/><circle cx="15" cy="12" r="6" fill="none" stroke="#F79E1B"/></svg>
+      </div>
+      <span class="node-label">Mastercard</span>
+    </div>
+    <div class="connector" id="jc4"><div class="connector-fill"></div><div class="connector-dot"></div></div>
+
+    <!-- 5. Issuing Bank -->
+    <div class="node" id="jn5">
+      <div class="node-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 21h18"/><path d="M3 7l9-4 9 4"/><path d="M6 10v7"/><path d="M10 10v7"/><path d="M14 10v7"/><path d="M18 10v7"/></svg>
+      </div>
+      <span class="node-label">Issuing Bank</span>
+    </div>
+    <div class="connector" id="jc5"><div class="connector-fill"></div><div class="connector-dot"></div></div>
+
+    <!-- 6. SaaScada -->
+    <div class="node" id="jn6">
+      <div class="node-icon" style="border-color: var(--teal-pale);">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M8 8C8 8 12 12 12 16C12 12 16 8 16 8" stroke="var(--teal)" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M8 8C8 8 12 5 16 8" stroke="var(--teal-dark)" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="node-label">SaaScada</span>
+    </div>
+    <div class="connector" id="jc6"><div class="connector-fill"></div><div class="connector-dot"></div></div>
+
+    <!-- 7. EDW -->
+    <div class="node" id="jn7">
+      <div class="node-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      </div>
+      <span class="node-label">EDW</span>
+    </div>
+    <div class="connector" id="jc7"><div class="connector-fill"></div><div class="connector-dot"></div></div>
+
+    <!-- 8. Notification -->
+    <div class="node" id="jn8">
+      <div class="node-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </div>
+      <span class="node-label">Notification</span>
+    </div>
+  </div>
+
+  <!-- ═══ RETURN ARC (Circular Path) ═══ -->
+  <svg class="return-arc" id="returnArc" viewBox="0 0 1000 52" preserveAspectRatio="none">
+    <defs>
+      <marker id="arrowHead" markerWidth="8" markerHeight="6" refX="1" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="var(--teal)"/>
+      </marker>
+    </defs>
+    <path class="return-arc-bg" d="M 940,2 C 940,46 60,46 60,2"/>
+    <path class="return-arc-fill" d="M 940,2 C 940,46 60,46 60,2" marker-end="url(#arrowHead)"/>
+    <text class="return-arc-label" x="500" y="42">Push notification delivered to customer</text>
+  </svg>
+
+  <!-- ═══ MAIN STAGE ═══ -->
+  <div class="stage" id="stage">
+
+    <!-- Scene 1: POS Terminal -->
+    <div class="scene pos-scene" id="scenePOS">
+      <div class="pos-terminal" id="posTerminal">
+        <div class="contactless">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M6 13.5a9 9 0 0 1 12 0"/><path d="M3.5 10.5a13 13 0 0 1 17 0"/><circle cx="12" cy="20" r="1" fill="currentColor"/></svg>
+          <div class="tap-ring" id="ring1"></div>
+          <div class="tap-ring" id="ring2"></div>
+          <div class="tap-ring" id="ring3"></div>
+        </div>
+        <div class="pos-amount">£5.00</div>
+        <div class="pos-merchant">Starbucks — Flat White</div>
+        <div class="pos-status" id="posStatus">Processing...</div>
+      </div>
+    </div>
+
+    <!-- Scene 2: Transit Message -->
+    <div class="scene transit-scene" id="sceneTransit">
+      <div class="transit-card">
+        <div class="transit-icon spinning" id="transitIcon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.93 19.07l2.83-2.83"/><path d="M16.24 7.76l2.83-2.83"/></svg>
+        </div>
+        <div class="transit-label">Authorisation Request</div>
+        <div class="transit-msg">£5.00 — Starbucks</div>
+        <div class="transit-detail" id="transitDetail">Routing through card network...</div>
+        <div class="transit-route" id="transitRoute">
+          <span id="tr1">POS</span> → <span id="tr2">Acquiring Bank</span> → <span id="tr3">Mastercard</span> → <span id="tr4">Issuing Bank</span> → <span id="tr5">SaaScada</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 3: SaaScada Ledger -->
+    <div class="scene ledger-scene" id="sceneLedger">
+      <div class="ledger-card">
+        <div class="ledger-header">
+          <div>
+            <div class="ledger-title">SaaScada Event-Sourced Ledger</div>
+            <div class="ledger-account">Account #12345</div>
+          </div>
+          <div class="balances">
+            <div class="bal-group">
+              <div class="bal-label">Balance</div>
+              <div class="bal-value" id="balMain">£0.00</div>
+            </div>
+            <div class="bal-group">
+              <div class="bal-label">Available</div>
+              <div class="bal-value" id="balAvail">£0.00</div>
+            </div>
+            <div class="bal-group">
+              <div class="bal-label">Pending</div>
+              <div class="bal-value" id="balPend">£0.00</div>
+            </div>
+          </div>
+        </div>
+        <div class="replay-indicator" id="replayInd">
+          <div class="replay-spinner"></div>
+          <span id="replayText">Replaying events from event store...</span>
+        </div>
+        <div class="event-list" id="eventList">
+          <div class="event-list-label">Account Event History</div>
+          <div class="evt create" id="ev1"><span class="v">V1</span><span class="type">Create Account</span><span class="amt"></span></div>
+          <div class="evt deposit" id="ev2"><span class="v">V2</span><span class="type">Deposit</span><span class="amt">+£20.00</span></div>
+          <div class="evt auth" id="ev3"><span class="v">V3</span><span class="type">Authorisation</span><span class="amt">£10.00</span></div>
+          <div class="evt clear" id="ev4"><span class="v">V4</span><span class="type">Clear</span><span class="amt">£10.00</span></div>
+          <div class="evt deposit" id="ev5"><span class="v">V5</span><span class="type">Deposit</span><span class="amt">+£10.00</span></div>
+          <div class="evt new-event" id="ev6"><span class="v">V6</span><span class="type">Authorisation</span><span class="amt">£5.00</span><span class="new-badge">New</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 4: Publish + Notification -->
+    <div class="scene publish-scene" id="scenePublish">
+      <div class="publish-flow">
+        <div class="pub-node" id="pn1">
+          <div class="pub-icon" style="border-color: var(--teal-pale);">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M8 8C8 8 12 12 12 16C12 12 16 8 16 8" stroke="var(--teal)" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <path d="M8 8C8 8 12 5 16 8" stroke="var(--teal-dark)" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="pub-label">SaaScada</span>
+          <span class="pub-sublabel">Event Published</span>
+        </div>
+
+        <div class="pub-arrow" id="pa1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/><polyline points="12,5 19,12 12,19"/></svg>
+        </div>
+
+        <div class="pub-node" id="pn2">
+          <div class="pub-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          </div>
+          <span class="pub-label">Data Warehouse</span>
+          <span class="pub-sublabel">Event stored</span>
+        </div>
+
+        <div class="pub-arrow" id="pa2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/><polyline points="12,5 19,12 12,19"/></svg>
+        </div>
+
+        <div class="pub-node" id="pn3">
+          <div class="pub-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          </div>
+          <span class="pub-label">Push Notification</span>
+          <span class="pub-sublabel">Sent to customer</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 5: Phone Notification (full circle) -->
+    <div class="scene notif-scene" id="sceneNotif">
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-notif" id="phoneNotif">
+          <div class="notif-app">
+            <div class="notif-app-icon">
+              <svg viewBox="0 0 10 10" fill="none"><path d="M3 3C3 3 5 5 5 7C5 5 7 3 7 3" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+            </div>
+            <span class="notif-app-name">MyBank</span>
+            <span class="notif-app-time">now</span>
+          </div>
+          <div class="notif-title">Payment Approved</div>
+          <div class="notif-body">£5.00 at Starbucks. Available balance: £15.00</div>
+        </div>
+      </div>
+      <div class="end-label" id="endLabel">Transaction complete</div>
+    </div>
+
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <span class="step-hint" id="stepHint">Step 1 of 6</span>
+    <button class="next-btn" id="nextBtn">
+      <span id="nextLabel">Start</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14"/><polyline points="12,5 19,12 12,19"/></svg>
+    </button>
+  </div>
+
+  <!-- Brand Footer -->
+  <div class="brand-footer">
+    <img src="default-1.jpg" alt="SaaScada">
+    <span>Real-time Event-Sourced Core Banking</span>
+  </div>
+
+</div>
+
+<script>
+  // ─── State ───
+  let timeouts = [];
+  let clickResolver = null;
+
+  function wait(ms) {
+    return new Promise(r => { const t = setTimeout(r, ms); timeouts.push(t); });
+  }
+
+  function clearAll() {
+    timeouts.forEach(t => clearTimeout(t));
+    timeouts = [];
+  }
+
+  // ─── Wait for user click ───
+  function waitForClick(label, hint) {
+    return new Promise(resolve => {
+      const btn = document.getElementById('nextBtn');
+      const hintEl = document.getElementById('stepHint');
+      const labelEl = document.getElementById('nextLabel');
+
+      labelEl.textContent = label || 'Next';
+      hintEl.textContent = hint || '';
+      hintEl.classList.add('visible');
+      btn.classList.add('visible');
+
+      clickResolver = () => {
+        btn.classList.remove('visible');
+        hintEl.classList.remove('visible');
+        clickResolver = null;
+        resolve();
+      };
+    });
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    if (clickResolver) clickResolver();
+  });
+
+  // Also support spacebar / right arrow / Enter
+  document.addEventListener('keydown', (e) => {
+    if ((e.code === 'Space' || e.code === 'ArrowRight' || e.code === 'Enter') && clickResolver) {
+      e.preventDefault();
+      clickResolver();
+    }
+  });
+
+  // ─── Helpers ───
+  function setJourney(nodeNum, connectorNum) {
+    for (let i = 1; i <= 8; i++) {
+      const n = document.getElementById('jn' + i);
+      n.classList.remove('active', 'done', 'complete');
+      if (i < nodeNum) n.classList.add('done');
+      if (i === nodeNum) n.classList.add('active');
+    }
+    for (let i = 1; i <= 7; i++) {
+      const c = document.getElementById('jc' + i);
+      c.classList.remove('active', 'animating');
+      if (i < connectorNum) c.classList.add('active');
+      if (i === connectorNum) { c.classList.add('active'); c.classList.add('animating'); }
+    }
+  }
+
+  function showScene(id) {
+    document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function formatGBP(val) {
+    return '£' + val.toFixed(2);
+  }
+
+  function updateBalance(bal, avail, pend, flashClass) {
+    const bEl = document.getElementById('balMain');
+    const aEl = document.getElementById('balAvail');
+    const pEl = document.getElementById('balPend');
+
+    bEl.textContent = formatGBP(bal);
+    aEl.textContent = formatGBP(avail);
+    pEl.textContent = formatGBP(pend);
+
+    if (flashClass) {
+      [bEl, aEl, pEl].forEach(el => el.classList.remove('flash-green', 'flash-amber', 'flash-coral'));
+      if (flashClass === 'green') { bEl.classList.add('flash-green'); aEl.classList.add('flash-green'); }
+      if (flashClass === 'amber') { aEl.classList.add('flash-amber'); pEl.classList.add('flash-amber'); }
+      if (flashClass === 'coral') { bEl.classList.add('flash-coral'); aEl.classList.add('flash-coral'); }
+
+      setTimeout(() => {
+        [bEl, aEl, pEl].forEach(el => el.classList.remove('flash-green', 'flash-amber', 'flash-coral'));
+      }, 500);
+    }
+  }
+
+  // ─── Reset ───
+  function resetState() {
+    clearAll();
+
+    for (let i = 1; i <= 8; i++) {
+      document.getElementById('jn' + i).classList.remove('active', 'done', 'complete');
+    }
+    for (let i = 1; i <= 7; i++) {
+      const c = document.getElementById('jc' + i);
+      c.classList.remove('active', 'animating');
+    }
+
+    document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+
+    document.getElementById('posStatus').className = 'pos-status';
+    document.getElementById('posStatus').textContent = '';
+    ['ring1','ring2','ring3'].forEach(id => document.getElementById(id).classList.remove('animate'));
+
+    document.getElementById('transitRoute').classList.remove('show');
+    document.getElementById('transitDetail').textContent = 'Routing through card network...';
+    for (let i = 1; i <= 5; i++) {
+      const el = document.getElementById('tr' + i);
+      if (el) el.classList.remove('active');
+    }
+
+    updateBalance(0, 0, 0);
+    for (let i = 1; i <= 6; i++) {
+      document.getElementById('ev' + i).classList.remove('show');
+    }
+    document.getElementById('replayInd').classList.remove('show');
+
+    for (let i = 1; i <= 3; i++) {
+      document.getElementById('pn' + i).classList.remove('show', 'active');
+    }
+    for (let i = 1; i <= 2; i++) {
+      document.getElementById('pa' + i).classList.remove('active');
+    }
+
+    document.getElementById('phoneNotif').classList.remove('show');
+    document.getElementById('endLabel').classList.remove('show');
+
+    // Reset return arc
+    document.getElementById('returnArc').classList.remove('show', 'animated');
+
+    document.getElementById('nextBtn').classList.remove('visible');
+    document.getElementById('stepHint').classList.remove('visible');
+  }
+
+  // ═══════════════════════════════════════
+  // ─── MAIN ANIMATION (click-to-advance) ─
+  // ═══════════════════════════════════════
+  async function runAnimation() {
+    resetState();
+
+    // ─────────────────────────────────
+    // STEP 1: Customer taps card at POS
+    // ─────────────────────────────────
+    await waitForClick('Start', 'Step 1 of 6 — Card tap at Starbucks');
+
+    setJourney(1, 0);
+    showScene('scenePOS');
+    await wait(400);
+    setJourney(2, 1);
+    ['ring1','ring2','ring3'].forEach(id => document.getElementById(id).classList.add('animate'));
+    await wait(600);
+
+    const posStatus = document.getElementById('posStatus');
+    posStatus.textContent = 'Processing...';
+    posStatus.className = 'pos-status processing show';
+
+    // ─────────────────────────────────
+    // STEP 2: Message travels through card network
+    // ─────────────────────────────────
+    await waitForClick('Next — Card Network', 'Step 2 of 6 — Routing through Mastercard');
+
+    showScene('sceneTransit');
+    const transitRoute = document.getElementById('transitRoute');
+    const transitDetail = document.getElementById('transitDetail');
+    transitRoute.classList.add('show');
+
+    const routeSteps = [
+      { node: 2, conn: 1, tr: 'tr1', label: 'POS sends to acquiring bank...' },
+      { node: 3, conn: 2, tr: 'tr2', label: 'Acquiring bank forwards to Mastercard...' },
+      { node: 4, conn: 3, tr: 'tr3', label: 'Mastercard routes to issuing bank...' },
+      { node: 5, conn: 4, tr: 'tr4', label: 'Issuing bank forwards to core banking...' },
+      { node: 6, conn: 5, tr: 'tr5', label: 'Request received by SaaScada' },
+    ];
+
+    for (let i = 0; i < routeSteps.length; i++) {
+      const step = routeSteps[i];
+      setJourney(step.node, step.conn);
+      transitDetail.textContent = step.label;
+      for (let j = 1; j <= 5; j++) {
+        document.getElementById('tr' + j).classList.remove('active');
+      }
+      document.getElementById(step.tr).classList.add('active');
+      await wait(700);
+    }
+
+    // ─────────────────────────────────
+    // STEP 3: SaaScada replays events from ledger
+    // ─────────────────────────────────
+    await waitForClick('Next — Replay Ledger', 'Step 3 of 6 — SaaScada replays account events');
+
+    setJourney(6, 5);
+    showScene('sceneLedger');
+
+    const replayInd = document.getElementById('replayInd');
+    const replayText = document.getElementById('replayText');
+    replayInd.classList.add('show');
+    replayText.textContent = 'Replaying events from event store...';
+
+    await wait(600);
+
+    // V1: Create Account
+    document.getElementById('ev1').classList.add('show');
+    updateBalance(0, 0, 0);
+    await wait(1800);
+
+    // V2: Deposit £20
+    document.getElementById('ev2').classList.add('show');
+    updateBalance(20, 20, 0, 'green');
+    await wait(1800);
+
+    // V3: Auth £10
+    document.getElementById('ev3').classList.add('show');
+    updateBalance(20, 10, 10, 'amber');
+    await wait(1800);
+
+    // V4: Clear £10
+    document.getElementById('ev4').classList.add('show');
+    updateBalance(10, 10, 0, 'coral');
+    await wait(1800);
+
+    // V5: Deposit £10
+    document.getElementById('ev5').classList.add('show');
+    updateBalance(20, 20, 0, 'green');
+    await wait(1000);
+
+    replayText.textContent = 'Current state reached: Balance £20.00 — Available £20.00';
+
+    // ─────────────────────────────────
+    // STEP 4: Write new event V6
+    // ─────────────────────────────────
+    await waitForClick('Next — Write Event', 'Step 4 of 6 — Approve & write authorisation');
+
+    replayText.textContent = 'Writing new event: Authorise £5.00...';
+    await wait(600);
+
+    document.getElementById('ev6').classList.add('show');
+    updateBalance(20, 15, 5, 'amber');
+    await wait(800);
+
+    replayText.textContent = 'Event written — Available: £15.00, Pending: £5.00';
+
+    // ─────────────────────────────────
+    // STEP 5: Publish to EDW + trigger notification
+    // ─────────────────────────────────
+    await waitForClick('Next — Publish Event', 'Step 5 of 6 — Publish to data warehouse');
+
+    replayInd.classList.remove('show');
+    setJourney(7, 6);
+    showScene('scenePublish');
+
+    await wait(300);
+    document.getElementById('pn1').classList.add('show', 'active');
+    await wait(500);
+    document.getElementById('pa1').classList.add('active');
+    await wait(300);
+    document.getElementById('pn2').classList.add('show', 'active');
+    await wait(500);
+    document.getElementById('pa2').classList.add('active');
+    await wait(300);
+    document.getElementById('pn3').classList.add('show', 'active');
+
+    // ─────────────────────────────────
+    // STEP 6: Phone notification — full circle
+    // ─────────────────────────────────
+    await waitForClick('Next — Full Circle', 'Step 6 of 6 — Customer receives notification');
+
+    setJourney(8, 7);
+    showScene('sceneNotif');
+
+    await wait(500);
+    document.getElementById('phoneNotif').classList.add('show');
+    await wait(800);
+
+    // Show return arc — circular journey
+    const returnArc = document.getElementById('returnArc');
+    returnArc.classList.add('show');
+    await wait(300);
+    returnArc.classList.add('animated');
+
+    // Re-activate Customer node to complete the circle
+    await wait(1200);
+    const customerNode = document.getElementById('jn1');
+    customerNode.classList.remove('done');
+    customerNode.classList.add('active', 'complete');
+
+    await wait(600);
+    document.getElementById('endLabel').classList.add('show');
+
+    // Offer restart
+    await wait(500);
+    await waitForClick('Replay from Start', 'Animation complete — click to restart');
+    runAnimation();
+  }
+
+  // ─── Init on load ───
+  window.addEventListener('load', () => {
+    setTimeout(runAnimation, 400);
+  });
+</script>
+
+</body>
+</html>

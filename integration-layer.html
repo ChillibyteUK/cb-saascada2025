@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaaScada — Pluggable Integration Layer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --teal-dark: #0A6E6E;
+    --teal: #0D8B8B;
+    --teal-mid: #10A3A3;
+    --teal-light: #7FCFCF;
+    --teal-pale: #D4F0F0;
+    --teal-ghost: #EFF9F9;
+    --navy: #1A3247;
+    --navy-mid: #2C4A62;
+    --coral: #D94F4F;
+    --coral-light: #E87272;
+    --coral-bg: #FEF0F0;
+    --green: #27AE60;
+    --green-bg: #EAFAF1;
+    --amber: #E8950A;
+    --amber-bg: #FFF8E6;
+    --blue: #3498DB;
+    --blue-bg: #EBF5FB;
+    --purple: #8E44AD;
+    --purple-bg: #F4ECF7;
+    --white: #FFFFFF;
+    --bg: #F6F8FA;
+    --border: #E2E8F0;
+    --text-primary: #1A3247;
+    --text-secondary: #64788A;
+    --text-muted: #94A3B8;
+    --shadow-sm: 0 1px 3px rgba(26,50,71,0.06);
+    --shadow-md: 0 4px 16px rgba(26,50,71,0.08);
+    --shadow-lg: 0 8px 32px rgba(26,50,71,0.12);
+    --shadow-glow: 0 0 20px rgba(13,139,139,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 16px 24px;
+  }
+
+  .container { width: 100%; max-width: 1200px; }
+
+  /* ─── Header ─── */
+  .header { text-align: center; margin-bottom: 20px; }
+  .logo-row { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .logo-img { height: 28px; border-radius: 6px; object-fit: contain; }
+  .header h1 { font-size: 24px; font-weight: 800; color: var(--navy); line-height: 1.3; }
+  .header h1 em { font-style: normal; color: var(--teal); }
+  .header p { color: var(--text-secondary); font-size: 13px; margin-top: 3px; }
+
+  /* ═══ PROGRESS BAR ═══ */
+  .prog-bar {
+    display: flex; align-items: center; justify-content: center;
+    gap: 0; margin-bottom: 20px;
+  }
+  .prog-node {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    opacity: 0.25; transition: opacity 0.5s, transform 0.4s;
+  }
+  .prog-node.active { opacity: 1; transform: scale(1.05); }
+  .prog-node.done { opacity: 0.55; }
+  .prog-dot {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--white); border: 2px solid var(--border);
+    transition: all 0.4s;
+  }
+  .prog-dot svg { width: 16px; height: 16px; color: var(--text-muted); transition: color 0.4s; }
+  .prog-node.active .prog-dot { border-color: var(--teal); box-shadow: var(--shadow-glow); }
+  .prog-node.active .prog-dot svg { color: var(--teal); }
+  .prog-node.done .prog-dot { border-color: var(--teal-light); background: var(--teal-ghost); }
+  .prog-node.done .prog-dot svg { color: var(--teal-light); }
+  .prog-label {
+    font-size: 9px; font-weight: 600; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
+    transition: color 0.4s;
+  }
+  .prog-node.active .prog-label { color: var(--teal-dark); }
+  .prog-conn {
+    width: 40px; height: 2px; background: var(--border);
+    position: relative; flex-shrink: 0; margin: 0 3px; margin-bottom: 16px;
+  }
+  .prog-conn-fill {
+    position: absolute; top: 0; left: 0; height: 100%; width: 0%;
+    background: var(--teal); transition: width 0.5s;
+  }
+  .prog-conn.active .prog-conn-fill { width: 100%; }
+
+  /* ═══ MAIN STAGE ═══ */
+  .stage {
+    position: relative; min-height: 460px; margin-bottom: 16px;
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 20px; box-shadow: var(--shadow-lg); overflow: hidden;
+  }
+
+  .scene {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transform: scale(0.97);
+    transition: opacity 0.5s, transform 0.5s; pointer-events: none;
+    padding: 28px;
+  }
+  .scene.active {
+    opacity: 1; transform: scale(1); pointer-events: auto; position: relative;
+  }
+
+  /* ═══ SCENE: Architecture Overview ═══ */
+  .arch-layout {
+    display: flex; align-items: stretch; justify-content: center;
+    gap: 0; width: 100%;
+  }
+
+  .arch-ledger {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 8px; padding: 24px 28px;
+    background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+    border-radius: 16px; color: white; min-width: 180px;
+    opacity: 0; transform: translateX(-20px);
+    transition: all 0.6s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .arch-ledger.show { opacity: 1; transform: translateX(0); }
+  .arch-ledger-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .arch-ledger-icon svg { width: 24px; height: 24px; color: var(--teal-light); }
+  .arch-ledger-title { font-size: 16px; font-weight: 800; }
+  .arch-ledger-sub { font-size: 10px; color: var(--teal-light); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+  .arch-lanes {
+    display: flex; flex-direction: column; gap: 12px;
+    justify-content: center; margin-left: 0;
+  }
+
+  .arch-lane {
+    display: flex; align-items: center; gap: 0;
+    opacity: 0; transform: translateX(-12px);
+    transition: all 0.5s ease;
+  }
+  .arch-lane.show { opacity: 1; transform: translateX(0); }
+  .arch-lane.highlight { transform: scale(1.03); }
+  .arch-lane.dimmed { opacity: 0.3; }
+
+  .arch-arrow {
+    width: 48px; height: 2px; background: var(--border); position: relative;
+    margin: 0; flex-shrink: 0;
+  }
+  .arch-arrow-fill {
+    position: absolute; top: 0; left: 0; height: 100%; width: 0%;
+    background: var(--teal); transition: width 0.5s;
+  }
+  .arch-lane.show .arch-arrow-fill { width: 100%; }
+
+  .arch-arrow-head {
+    position: absolute; right: -5px; top: -4px;
+    width: 0; height: 0;
+    border-left: 6px solid var(--teal);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    opacity: 0; transition: opacity 0.3s 0.4s;
+  }
+  .arch-lane.show .arch-arrow-head { opacity: 1; }
+
+  .arch-iface {
+    padding: 14px 20px; border-radius: 12px;
+    background: var(--teal-ghost); border: 2px solid var(--teal-pale);
+    min-width: 200px; text-align: center;
+    transition: all 0.3s;
+  }
+  .arch-lane.highlight .arch-iface {
+    border-color: var(--teal); box-shadow: var(--shadow-glow);
+    background: var(--teal-pale);
+  }
+  .arch-iface-icon { margin-bottom: 4px; }
+  .arch-iface-icon svg { width: 20px; height: 20px; color: var(--teal); }
+  .arch-iface-name { font-size: 13px; font-weight: 700; color: var(--navy); }
+  .arch-iface-sub { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+
+  .arch-right {
+    display: flex; flex-direction: column; gap: 12px;
+    justify-content: center; margin-left: 0;
+  }
+
+  .arch-adapter {
+    padding: 10px 16px; border-radius: 10px;
+    background: var(--amber-bg); border: 1px solid rgba(232,149,10,0.2);
+    font-size: 11px; font-weight: 600; color: var(--amber);
+    text-align: center; min-width: 100px;
+    opacity: 0; transition: all 0.4s;
+  }
+  .arch-adapter.show { opacity: 1; }
+
+  .arch-partner {
+    padding: 10px 16px; border-radius: 10px;
+    background: var(--bg); border: 1px solid var(--border);
+    font-size: 11px; font-weight: 500; color: var(--text-secondary);
+    text-align: center; min-width: 120px;
+    opacity: 0; transition: all 0.4s;
+  }
+  .arch-partner.show { opacity: 1; }
+
+  /* ═══ SCENE: Detail Cards (Banking, Cards) ═══ */
+  .detail-scene { flex-direction: column; gap: 20px; }
+
+  .detail-card {
+    width: 100%; background: var(--white); border-radius: 16px;
+    padding: 0; overflow: hidden;
+  }
+
+  .detail-header {
+    padding: 16px 24px;
+    background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+    color: white; display: flex; align-items: center; gap: 12px;
+  }
+  .detail-header-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .detail-header-icon svg { width: 20px; height: 20px; color: var(--teal-light); }
+  .detail-header-title { font-size: 16px; font-weight: 700; }
+  .detail-header-sub { font-size: 11px; color: var(--teal-light); }
+
+  .detail-body {
+    display: flex; gap: 24px; padding: 24px;
+  }
+
+  .detail-col { flex: 1; }
+  .detail-col-title {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--text-muted); margin-bottom: 10px;
+  }
+
+  .cap-group-label {
+    font-size: 10px; font-weight: 600; color: var(--teal);
+    text-transform: uppercase; letter-spacing: 0.5px;
+    margin-bottom: 6px; margin-top: 12px;
+  }
+  .cap-group-label:first-child { margin-top: 0; }
+
+  .cap-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 5px 10px; border-radius: 8px; margin: 0 4px 4px 0;
+    background: var(--teal-ghost); border: 1px solid var(--teal-pale);
+    font-size: 11px; font-weight: 500; color: var(--navy);
+    opacity: 0; transform: scale(0.9);
+    transition: all 0.3s ease;
+  }
+  .cap-pill.show { opacity: 1; transform: scale(1); }
+  .cap-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+
+  .partner-card {
+    padding: 12px 16px; border-radius: 10px;
+    background: var(--bg); border: 1px solid var(--border);
+    margin-bottom: 8px; display: flex; align-items: center; gap: 10px;
+    opacity: 0; transform: translateX(12px);
+    transition: all 0.4s ease;
+  }
+  .partner-card.show { opacity: 1; transform: translateX(0); }
+  .partner-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--white); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .partner-icon svg { width: 16px; height: 16px; color: var(--text-muted); }
+  .partner-name { font-size: 12px; font-weight: 600; color: var(--navy); }
+  .partner-desc { font-size: 10px; color: var(--text-muted); }
+
+  .detail-adapter-col {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 8px; padding: 0 12px;
+    min-width: 80px;
+  }
+  .adapter-badge {
+    writing-mode: vertical-rl; text-orientation: mixed;
+    padding: 12px 8px; border-radius: 8px;
+    background: var(--amber-bg); border: 1px solid rgba(232,149,10,0.2);
+    font-size: 10px; font-weight: 700; color: var(--amber);
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .adapter-arrow { color: var(--amber); font-size: 16px; }
+
+  /* ═══ SCENE: Transaction Monitoring Flow ═══ */
+  .txm-scene { flex-direction: column; gap: 16px; }
+
+  .txm-flow {
+    display: flex; align-items: flex-start; justify-content: center;
+    gap: 0; width: 100%;
+  }
+
+  .txm-step {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    opacity: 0; transform: translateX(-12px);
+    transition: all 0.5s ease;
+  }
+  .txm-step.show { opacity: 1; transform: translateX(0); }
+
+  .txm-block {
+    padding: 16px 20px; border-radius: 12px;
+    background: var(--white); border: 2px solid var(--border);
+    box-shadow: var(--shadow-md); text-align: center;
+    min-width: 140px;
+  }
+  .txm-block.screening {
+    border-color: var(--amber); background: var(--amber-bg);
+  }
+  .txm-block-icon { margin-bottom: 6px; }
+  .txm-block-icon svg { width: 24px; height: 24px; color: var(--navy); }
+  .txm-block-title { font-size: 13px; font-weight: 700; color: var(--navy); }
+  .txm-block-sub { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+
+  .txm-arrow-h {
+    width: 48px; height: 2px; background: var(--border);
+    margin-top: 32px; position: relative; flex-shrink: 0;
+  }
+  .txm-arrow-h-fill {
+    position: absolute; top: 0; left: 0; height: 100%;
+    width: 0%; background: var(--teal); transition: width 0.4s;
+  }
+  .txm-arrow-h.active .txm-arrow-h-fill { width: 100%; }
+
+  .txm-outcomes {
+    display: flex; flex-direction: column; gap: 10px;
+    margin-left: 0;
+  }
+
+  .txm-outcome {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 12px 16px; border-radius: 12px; min-width: 320px;
+    border: 1px solid var(--border); background: var(--white);
+    opacity: 0; transform: translateX(12px);
+    transition: all 0.5s ease;
+  }
+  .txm-outcome.show { opacity: 1; transform: translateX(0); }
+
+  .txm-outcome.proceed { border-left: 4px solid var(--green); }
+  .txm-outcome.hold { border-left: 4px solid var(--amber); }
+  .txm-outcome.decline { border-left: 4px solid var(--coral); }
+
+  .txm-badge {
+    padding: 3px 10px; border-radius: 6px;
+    font-size: 11px; font-weight: 700; white-space: nowrap;
+  }
+  .proceed .txm-badge { background: var(--green-bg); color: var(--green); }
+  .hold .txm-badge { background: var(--amber-bg); color: var(--amber); }
+  .decline .txm-badge { background: var(--coral-bg); color: var(--coral); }
+
+  .txm-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.4; }
+
+  /* ═══ SCENE: Adapters ═══ */
+  .adapter-scene { flex-direction: column; gap: 20px; text-align: center; }
+
+  .adapter-visual {
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .adapter-stack {
+    display: flex; flex-direction: column; gap: 6px; align-items: center;
+  }
+
+  .adapter-block {
+    padding: 10px 20px; border-radius: 10px;
+    background: var(--amber-bg); border: 1px solid rgba(232,149,10,0.2);
+    font-size: 11px; font-weight: 600; color: var(--amber);
+    opacity: 0; transform: translateY(8px);
+    transition: all 0.4s ease;
+  }
+  .adapter-block.show { opacity: 1; transform: translateY(0); }
+
+  .adapter-msg {
+    max-width: 600px; margin: 0 auto;
+  }
+  .adapter-msg-title {
+    font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 8px;
+  }
+  .adapter-msg-body {
+    font-size: 14px; color: var(--text-secondary); line-height: 1.6;
+  }
+
+  .adapter-benefits {
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  }
+  .adapter-benefit {
+    padding: 12px 20px; border-radius: 12px;
+    background: var(--teal-ghost); border: 1px solid var(--teal-pale);
+    font-size: 12px; font-weight: 600; color: var(--teal-dark);
+    display: flex; align-items: center; gap: 8px;
+    opacity: 0; transform: translateY(8px);
+    transition: all 0.4s ease;
+  }
+  .adapter-benefit.show { opacity: 1; transform: translateY(0); }
+  .adapter-benefit svg { width: 16px; height: 16px; color: var(--teal); }
+
+  /* ═══ SCENE: Webhooks ═══ */
+  .webhook-scene { flex-direction: column; gap: 20px; }
+
+  .webhook-card {
+    width: 100%; max-width: 800px; margin: 0 auto;
+    background: var(--navy); border-radius: 16px;
+    overflow: hidden; box-shadow: var(--shadow-lg);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .webhook-header {
+    padding: 12px 20px;
+    background: rgba(255,255,255,0.06);
+    display: flex; align-items: center; gap: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .webhook-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .webhook-dot.r { background: #FF6B6B; }
+  .webhook-dot.y { background: #FFD93D; }
+  .webhook-dot.g { background: #6BCB77; }
+  .webhook-title {
+    font-size: 11px; color: var(--teal-light); font-weight: 600;
+    margin-left: 8px; letter-spacing: 0.5px;
+  }
+
+  .webhook-body { padding: 20px; display: flex; flex-direction: column; gap: 0; }
+
+  .webhook-line {
+    font-size: 11px; color: rgba(255,255,255,0.6); margin-bottom: 4px;
+    line-height: 1.6; padding-left: 16px;
+    opacity: 0; transform: translateX(-6px);
+    transition: all 0.3s ease;
+  }
+  .webhook-line.show { opacity: 1; transform: translateX(0); }
+  .webhook-key { color: rgba(255,255,255,0.4); }
+  .webhook-val { color: var(--teal-light); }
+
+  .webhook-richdata {
+    margin: 6px 0 6px 16px; padding: 12px 16px;
+    background: rgba(52,152,219,0.1);
+    border: 1px solid rgba(52,152,219,0.2);
+    border-radius: 8px;
+    opacity: 0; transform: translateY(6px);
+    transition: all 0.5s ease;
+  }
+  .webhook-richdata.show { opacity: 1; transform: translateY(0); }
+
+  .webhook-richdata-label {
+    font-size: 9px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; margin-bottom: 8px; color: var(--blue);
+    font-family: 'Inter', sans-serif;
+  }
+  .webhook-richdata .webhook-line {
+    padding-left: 0; opacity: 1; transform: none;
+  }
+  .webhook-richdata .webhook-val { color: var(--blue); }
+
+  .webhook-footer {
+    display: flex; align-items: center; justify-content: center;
+    gap: 16px; padding: 16px; flex-wrap: wrap;
+  }
+  .webhook-tag {
+    padding: 6px 14px; border-radius: 20px;
+    font-size: 11px; font-weight: 700; font-family: 'Inter', sans-serif;
+    opacity: 0; transition: all 0.4s ease;
+  }
+  .webhook-tag.show { opacity: 1; }
+  .webhook-tag.schema { background: var(--teal); color: white; }
+  .webhook-tag.nodataloss { background: var(--green); color: white; }
+  .webhook-tag.fast { background: var(--amber); color: white; }
+
+  .webhook-value-msg {
+    text-align: center; max-width: 650px; margin: 0 auto;
+  }
+  .webhook-value-msg p {
+    font-size: 14px; color: var(--text-secondary); line-height: 1.6;
+  }
+  .webhook-value-msg strong {
+    color: var(--teal); font-weight: 700;
+  }
+
+  /* ═══ COMPLETE ═══ */
+  .complete-scene { flex-direction: column; gap: 16px; text-align: center; }
+  .complete-icon {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--green-bg); border: 2px solid rgba(39,174,96,0.2);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto;
+  }
+  .complete-icon svg { width: 32px; height: 32px; color: var(--green); }
+  .complete-title { font-size: 22px; font-weight: 800; color: var(--navy); }
+  .complete-sub { font-size: 14px; color: var(--text-secondary); max-width: 550px; margin: 0 auto; line-height: 1.6; }
+
+  /* ─── Controls ─── */
+  .controls { display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 12px; }
+  .next-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 32px; border-radius: 12px; font-size: 14px; font-weight: 700;
+    font-family: 'Inter', sans-serif; cursor: pointer; border: none;
+    background: var(--teal); color: white;
+    box-shadow: 0 4px 16px rgba(13,139,139,0.3);
+    transition: all 0.3s; opacity: 0; transform: translateY(8px); pointer-events: none;
+  }
+  .next-btn.visible { opacity: 1; transform: translateY(0); pointer-events: auto; animation: bounce 2s ease-in-out infinite; }
+  .next-btn:hover { background: var(--teal-dark); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(13,139,139,0.4); animation: none; }
+  .next-btn svg { width: 14px; height: 14px; }
+  @keyframes bounce { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-3px); } }
+  .step-hint { font-size: 12px; color: var(--text-muted); opacity: 0; transition: opacity 0.3s; }
+  .step-hint.visible { opacity: 1; }
+
+  .brand-footer {
+    text-align: center; margin-top: 16px; padding-top: 10px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .brand-footer img { height: 18px; border-radius: 3px; }
+  .brand-footer span { font-size: 11px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.3px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header class="header">
+    <div class="logo-row"><img src="default-1.jpg" alt="SaaScada" class="logo-img"></div>
+    <h1>Pluggable Integration Layer — <em>Build Once, Connect Anything</em></h1>
+    <p>Three standardised interfaces, purpose-built adapters, and zero data loss</p>
+  </header>
+
+  <!-- ═══ PROGRESS BAR ═══ -->
+  <div class="prog-bar" id="progBar">
+    <div class="prog-node" id="pn1">
+      <div class="prog-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+      <span class="prog-label">Architecture</span>
+    </div>
+    <div class="prog-conn" id="pc1"><div class="prog-conn-fill"></div></div>
+    <div class="prog-node" id="pn2">
+      <div class="prog-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 21h18"/><path d="M3 7l9-4 9 4"/><path d="M6 10v7M10 10v7M14 10v7M18 10v7"/></svg></div>
+      <span class="prog-label">Banking</span>
+    </div>
+    <div class="prog-conn" id="pc2"><div class="prog-conn-fill"></div></div>
+    <div class="prog-node" id="pn3">
+      <div class="prog-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+      <span class="prog-label">Cards</span>
+    </div>
+    <div class="prog-conn" id="pc3"><div class="prog-conn-fill"></div></div>
+    <div class="prog-node" id="pn4">
+      <div class="prog-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <span class="prog-label">Monitoring</span>
+    </div>
+    <div class="prog-conn" id="pc4"><div class="prog-conn-fill"></div></div>
+    <div class="prog-node" id="pn5">
+      <div class="prog-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg></div>
+      <span class="prog-label">Adapters</span>
+    </div>
+    <div class="prog-conn" id="pc5"><div class="prog-conn-fill"></div></div>
+    <div class="prog-node" id="pn6">
+      <div class="prog-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M16 18l2-2-2-2"/><path d="M12 18l-2-2 2-2"/><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8h18"/></svg></div>
+      <span class="prog-label">Webhooks</span>
+    </div>
+  </div>
+
+  <!-- ═══ MAIN STAGE ═══ -->
+  <div class="stage" id="stage">
+
+    <!-- Scene 1: Architecture Overview -->
+    <div class="scene" id="sceneArch">
+      <div class="arch-layout">
+        <div class="arch-ledger" id="archLedger">
+          <div class="arch-ledger-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <div class="arch-ledger-title">SaaScada</div>
+          <div class="arch-ledger-sub">Event-Sourced Ledger</div>
+        </div>
+
+        <div class="arch-lanes">
+          <div class="arch-lane" id="lane1">
+            <div class="arch-arrow"><div class="arch-arrow-fill"></div><div class="arch-arrow-head"></div></div>
+            <div class="arch-iface">
+              <div class="arch-iface-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 21h18M3 7l9-4 9 4M6 10v7M10 10v7M14 10v7M18 10v7"/></svg></div>
+              <div class="arch-iface-name">Banking & Payments</div>
+              <div class="arch-iface-sub">Accounts, Payments, FX</div>
+            </div>
+            <div class="arch-arrow"><div class="arch-arrow-fill"></div><div class="arch-arrow-head"></div></div>
+            <div class="arch-adapter" id="archAd1">Adapter</div>
+            <div class="arch-arrow"><div class="arch-arrow-fill"></div><div class="arch-arrow-head"></div></div>
+            <div class="arch-partner" id="archPt1">Payment Gateways<br>Agency Banks</div>
+          </div>
+          <div class="arch-lane" id="lane2">
+            <div class="arch-arrow"><div class="arch-arrow-fill"></div><div class="arch-arrow-head"></div></div>
+            <div class="arch-iface">
+              <div class="arch-iface-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+              <div class="arch-iface-name">Cards</div>
+              <div class="arch-iface-sub">Spend Events, Card Management</div>
+            </div>
+            <div class="arch-arrow"><div class="arch-arrow-fill"></div><div class="arch-arrow-head"></div></div>
+            <div class="arch-adapter" id="archAd2">Adapter</div>
+            <div class="arch-arrow"><div class="arch-arrow-fill"></div><div class="arch-arrow-head"></div></div>
+            <div class="arch-partner" id="archPt2">Card Issuers<br>Card Processors</div>
+          </div>
+          <div class="arch-lane" id="lane3">
+            <div class="arch-arrow"><div class="arch-arrow-fill"></div><div class="arch-arrow-head"></div></div>
+            <div class="arch-iface">
+              <div class="arch-iface-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+              <div class="arch-iface-name">Transaction Monitoring</div>
+              <div class="arch-iface-sub">Screening, Fraud, Compliance</div>
+            </div>
+            <div class="arch-arrow"><div class="arch-arrow-fill"></div><div class="arch-arrow-head"></div></div>
+            <div class="arch-adapter" id="archAd3">Adapter</div>
+            <div class="arch-arrow"><div class="arch-arrow-fill"></div><div class="arch-arrow-head"></div></div>
+            <div class="arch-partner" id="archPt3">TxM Providers</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 2: Banking & Payments Detail -->
+    <div class="scene detail-scene" id="sceneBanking">
+      <div class="detail-card">
+        <div class="detail-header">
+          <div class="detail-header-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 21h18M3 7l9-4 9 4M6 10v7M10 10v7M14 10v7M18 10v7"/></svg></div>
+          <div>
+            <div class="detail-header-title">Banking & Payments Interface</div>
+            <div class="detail-header-sub">Pluggable interface connecting the ledger to banking rails</div>
+          </div>
+        </div>
+        <div class="detail-body">
+          <div class="detail-col">
+            <div class="detail-col-title">Interface Capabilities</div>
+            <div class="cap-group-label">Account Operations</div>
+            <div id="bankCaps1">
+              <span class="cap-pill"><span class="cap-dot"></span>Account Creation</span>
+              <span class="cap-pill"><span class="cap-dot"></span>Virtual Accounts</span>
+              <span class="cap-pill"><span class="cap-dot"></span>vIBANs</span>
+            </div>
+            <div class="cap-group-label">Payments</div>
+            <div id="bankCaps2">
+              <span class="cap-pill"><span class="cap-dot"></span>Inbound — Domestic</span>
+              <span class="cap-pill"><span class="cap-dot"></span>Inbound — International</span>
+              <span class="cap-pill"><span class="cap-dot"></span>Outbound — Domestic</span>
+              <span class="cap-pill"><span class="cap-dot"></span>Outbound — International</span>
+            </div>
+            <div class="cap-group-label">Foreign Exchange</div>
+            <div id="bankCaps3">
+              <span class="cap-pill"><span class="cap-dot"></span>FX Conversion</span>
+              <span class="cap-pill"><span class="cap-dot"></span>FX Rate Feeds</span>
+            </div>
+          </div>
+          <div class="detail-adapter-col">
+            <div class="adapter-badge">Adapter</div>
+            <div class="adapter-arrow">⇄</div>
+          </div>
+          <div class="detail-col">
+            <div class="detail-col-title">Partner Ecosystem</div>
+            <div id="bankPartners">
+              <div class="partner-card">
+                <div class="partner-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+                <div><div class="partner-name">Payment Gateways</div><div class="partner-desc">Domestic & international payment rails</div></div>
+              </div>
+              <div class="partner-card">
+                <div class="partner-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 21h18M3 7l9-4 9 4M6 10v7M18 10v7"/></svg></div>
+                <div><div class="partner-name">Agency Banks</div><div class="partner-desc">Correspondent banking network</div></div>
+              </div>
+              <div class="partner-card">
+                <div class="partner-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+                <div><div class="partner-name">FX Providers</div><div class="partner-desc">Real-time exchange rate feeds</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 3: Cards Detail -->
+    <div class="scene detail-scene" id="sceneCards">
+      <div class="detail-card">
+        <div class="detail-header">
+          <div class="detail-header-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+          <div>
+            <div class="detail-header-title">Cards Interface</div>
+            <div class="detail-header-sub">Pluggable interface connecting the ledger to card processors</div>
+          </div>
+        </div>
+        <div class="detail-body">
+          <div class="detail-col">
+            <div class="detail-col-title">Interface Capabilities</div>
+            <div class="cap-group-label">Spend Events</div>
+            <div id="cardCaps1">
+              <span class="cap-pill"><span class="cap-dot"></span>Authorisations</span>
+              <span class="cap-pill"><span class="cap-dot"></span>Pre-authorisations</span>
+              <span class="cap-pill"><span class="cap-dot"></span>Clearing</span>
+              <span class="cap-pill"><span class="cap-dot"></span>Refunds</span>
+              <span class="cap-pill"><span class="cap-dot"></span>Chargebacks</span>
+              <span class="cap-pill"><span class="cap-dot"></span>Settlement</span>
+            </div>
+            <div class="cap-group-label">Card Management</div>
+            <div id="cardCaps2">
+              <span class="cap-pill"><span class="cap-dot"></span>Create Card</span>
+              <span class="cap-pill"><span class="cap-dot"></span>Lost / Block Card</span>
+              <span class="cap-pill"><span class="cap-dot"></span>View PIN</span>
+              <span class="cap-pill"><span class="cap-dot"></span>Update PIN</span>
+              <span class="cap-pill"><span class="cap-dot"></span>Limits</span>
+            </div>
+          </div>
+          <div class="detail-adapter-col">
+            <div class="adapter-badge">Adapter</div>
+            <div class="adapter-arrow">⇄</div>
+          </div>
+          <div class="detail-col">
+            <div class="detail-col-title">Partner Ecosystem</div>
+            <div id="cardPartners">
+              <div class="partner-card">
+                <div class="partner-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M6 14h4"/></svg></div>
+                <div><div class="partner-name">Card Processors</div><div class="partner-desc">Issuer processing & card network connectivity</div></div>
+              </div>
+              <div class="partner-card">
+                <div class="partner-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3h18v18H3z"/><path d="M9 3v18"/><path d="M15 3v18"/><path d="M3 9h18"/><path d="M3 15h18"/></svg></div>
+                <div><div class="partner-name">Card Issuers</div><div class="partner-desc">Bank & programme-level card issuing</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 4: Transaction Monitoring -->
+    <div class="scene txm-scene" id="sceneTxm">
+      <div style="text-align:center; margin-bottom:4px;">
+        <div style="font-size:16px; font-weight:800; color:var(--navy);">Transaction Monitoring Interface</div>
+        <div style="font-size:12px; color:var(--text-secondary);">Every transaction screened — intelligent routing based on result</div>
+      </div>
+      <div class="txm-flow">
+        <div class="txm-step" id="txmS1">
+          <div class="txm-block">
+            <div class="txm-block-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <div class="txm-block-title">Transaction</div>
+            <div class="txm-block-sub">Inbound or Outbound</div>
+          </div>
+        </div>
+        <div class="txm-arrow-h" id="txmA1"><div class="txm-arrow-h-fill"></div></div>
+        <div class="txm-step" id="txmS2">
+          <div class="txm-block screening">
+            <div class="txm-block-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <div class="txm-block-title">Screening</div>
+            <div class="txm-block-sub">Fraud & Compliance</div>
+          </div>
+        </div>
+        <div class="txm-arrow-h" id="txmA2"><div class="txm-arrow-h-fill"></div></div>
+        <div class="txm-outcomes">
+          <div class="txm-outcome proceed" id="txmProceed">
+            <div class="txm-badge">Proceed</div>
+            <div class="txm-desc">Payment sent to Banking interface (outbound) or applied to ledger (inbound)</div>
+          </div>
+          <div class="txm-outcome hold" id="txmHold">
+            <div class="txm-badge">Hold</div>
+            <div class="txm-desc">Funds moved to suspense account — wait for status webhook — then resolve</div>
+          </div>
+          <div class="txm-outcome decline" id="txmDecline">
+            <div class="txm-badge">Decline</div>
+            <div class="txm-desc">Return payment to sender or move funds to suspense for manual review</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 5: Adapters -->
+    <div class="scene adapter-scene" id="sceneAdapters">
+      <div class="adapter-msg">
+        <div class="adapter-msg-title">SaaScada Builds Every Adapter</div>
+        <div class="adapter-msg-body">We build and maintain all integration adapters so our clients don't have to. Every adapter adds to our compounding knowledge — new clients immediately benefit from all previous integrations.</div>
+      </div>
+      <div class="adapter-visual">
+        <div class="adapter-stack" id="adStack1">
+          <div class="adapter-block">Banking — Gateway A</div>
+          <div class="adapter-block">Banking — Gateway B</div>
+          <div class="adapter-block">Banking — Agency Bank</div>
+        </div>
+        <div class="adapter-stack" id="adStack2">
+          <div class="adapter-block">Cards — Processor A</div>
+          <div class="adapter-block">Cards — Processor B</div>
+        </div>
+        <div class="adapter-stack" id="adStack3">
+          <div class="adapter-block">TxM — Provider A</div>
+          <div class="adapter-block">TxM — Provider B</div>
+        </div>
+      </div>
+      <div class="adapter-benefits" id="adBenefits">
+        <div class="adapter-benefit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          Compounding Knowledge
+        </div>
+        <div class="adapter-benefit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>
+          Clients Go Live Fast
+        </div>
+        <div class="adapter-benefit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Trust Us With Integrations
+        </div>
+        <div class="adapter-benefit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+          Focus on Competitive Advantage
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene 6: Webhooks -->
+    <div class="scene webhook-scene" id="sceneWebhooks">
+      <div style="text-align:center; margin-bottom:4px;">
+        <div style="font-size:16px; font-weight:800; color:var(--navy);">Rich Webhook Payloads — No Data Loss</div>
+        <div style="font-size:12px; color:var(--text-secondary);">Every webhook preserves the full third-party message body inside a richData field</div>
+      </div>
+      <div class="webhook-card">
+        <div class="webhook-header">
+          <div class="webhook-dot r"></div><div class="webhook-dot y"></div><div class="webhook-dot g"></div>
+          <span class="webhook-title">WEBHOOK PAYLOAD — payment.received</span>
+        </div>
+        <div class="webhook-body" id="whBody">
+          <div class="webhook-line" id="whL1"><span class="webhook-key">{</span></div>
+          <div class="webhook-line" id="whL2"><span class="webhook-key">  eventType: </span><span class="webhook-val">"PAYMENT_RECEIVED"</span></div>
+          <div class="webhook-line" id="whL3"><span class="webhook-key">  accountId: </span><span class="webhook-val">"acc_12345"</span></div>
+          <div class="webhook-line" id="whL4"><span class="webhook-key">  walletId: </span><span class="webhook-val">"wlt_67890"</span></div>
+          <div class="webhook-line" id="whL5"><span class="webhook-key">  amount: </span><span class="webhook-val">{ value: 1250.00, ccy: "GBP" }</span></div>
+          <div class="webhook-line" id="whL6"><span class="webhook-key">  balance: </span><span class="webhook-val">{ after: 8689.82 }</span></div>
+          <div class="webhook-line" id="whL7"><span class="webhook-key">  timestamp: </span><span class="webhook-val">"2025-06-15T14:32:01Z"</span></div>
+          <div class="webhook-richdata" id="whRichData">
+            <div class="webhook-line"><span class="webhook-key">  richData: </span><span class="webhook-val" style="color:var(--blue);">{ <span style="font-size:9px;opacity:0.7;font-family:'Inter',sans-serif;letter-spacing:0.5px;">// Full ISO 20022 message preserved</span></span></div>
+            <div class="webhook-line"><span class="webhook-key">    msgId: </span><span class="webhook-val">"ISOC-PAY-2025-06..."</span></div>
+            <div class="webhook-line"><span class="webhook-key">    creDtTm: </span><span class="webhook-val">"2025-06-15T14:32:01Z"</span></div>
+            <div class="webhook-line"><span class="webhook-key">    instdAmt: </span><span class="webhook-val">{ ccy: "GBP", val: "1250.00" }</span></div>
+            <div class="webhook-line"><span class="webhook-key">    dbtrNm: </span><span class="webhook-val">"Smith Holdings Ltd"</span></div>
+            <div class="webhook-line"><span class="webhook-key">    dbtrAcct: </span><span class="webhook-val">"GB29NWBK6016..."</span></div>
+            <div class="webhook-line"><span class="webhook-key">    rmtInf: </span><span class="webhook-val">"INV-2025-0847"</span></div>
+            <div class="webhook-line"><span class="webhook-key">  }</span></div>
+          </div>
+          <div class="webhook-line" id="whL8"><span class="webhook-key">}</span></div>
+        </div>
+        <div class="webhook-footer" id="whFooter">
+          <div class="webhook-tag schema">Consistent Schema</div>
+          <div class="webhook-tag nodataloss">No Data Loss</div>
+          <div class="webhook-tag fast">Get Clients Live FAST</div>
+        </div>
+      </div>
+      <div class="webhook-value-msg" id="whMsg" style="opacity:0; transition: opacity 0.5s;">
+        <p>We abstract away all integration complexity — but preserve <strong>every field, every message, every event</strong> from partner systems. Clients subscribe to rich webhooks and focus on building their competitive advantage.</p>
+      </div>
+    </div>
+
+    <!-- Scene 7: Complete -->
+    <div class="scene complete-scene" id="sceneComplete">
+      <div class="complete-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="complete-title">Pluggable Integration Layer</div>
+      <div class="complete-sub">Three standardised interfaces connecting the ledger to banking rails, card processors, and transaction monitoring providers. Purpose-built adapters with compounding knowledge. Rich webhook payloads with zero data loss. Clients go live fast and focus on what matters.</div>
+    </div>
+
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <span class="step-hint" id="stepHint"></span>
+    <button class="next-btn" id="nextBtn">
+      <span id="nextLabel">Start</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14"/><polyline points="12,5 19,12 12,19"/></svg>
+    </button>
+  </div>
+
+  <div class="brand-footer">
+    <img src="default-1.jpg" alt="SaaScada">
+    <span>Pluggable Integration Layer — Real-time Core Banking</span>
+  </div>
+
+</div>
+
+<script>
+  let timeouts = [];
+  let clickResolver = null;
+
+  function wait(ms) {
+    return new Promise(r => { const t = setTimeout(r, ms); timeouts.push(t); });
+  }
+  function clearAll() { timeouts.forEach(t => clearTimeout(t)); timeouts = []; }
+
+  function waitForClick(label, hint) {
+    return new Promise(resolve => {
+      const btn = document.getElementById('nextBtn');
+      const hintEl = document.getElementById('stepHint');
+      const labelEl = document.getElementById('nextLabel');
+      labelEl.textContent = label || 'Next';
+      hintEl.textContent = hint || '';
+      hintEl.classList.add('visible');
+      btn.classList.add('visible');
+      clickResolver = () => {
+        btn.classList.remove('visible');
+        hintEl.classList.remove('visible');
+        clickResolver = null;
+        resolve();
+      };
+    });
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', () => { if (clickResolver) clickResolver(); });
+  document.addEventListener('keydown', (e) => {
+    if ((e.code === 'Space' || e.code === 'ArrowRight' || e.code === 'Enter') && clickResolver) {
+      e.preventDefault(); clickResolver();
+    }
+  });
+
+  function setProg(step) {
+    for (let i = 1; i <= 6; i++) {
+      const n = document.getElementById('pn' + i);
+      n.classList.remove('active', 'done');
+      if (i < step) n.classList.add('done');
+      if (i === step) n.classList.add('active');
+    }
+    for (let i = 1; i <= 5; i++) {
+      const c = document.getElementById('pc' + i);
+      c.classList.remove('active');
+      if (i < step) c.classList.add('active');
+    }
+  }
+
+  function showScene(id) {
+    document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  async function staggerShow(containerId, selector, delay) {
+    const items = document.querySelectorAll('#' + containerId + ' ' + (selector || '.cap-pill'));
+    for (let i = 0; i < items.length; i++) {
+      items[i].classList.add('show');
+      await wait(delay || 120);
+    }
+  }
+
+  function resetState() {
+    clearAll();
+    for (let i = 1; i <= 6; i++) document.getElementById('pn' + i).classList.remove('active', 'done');
+    for (let i = 1; i <= 5; i++) document.getElementById('pc' + i).classList.remove('active');
+    document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+
+    // Architecture
+    document.getElementById('archLedger').classList.remove('show');
+    ['lane1','lane2','lane3'].forEach(id => {
+      const el = document.getElementById(id);
+      el.classList.remove('show', 'highlight', 'dimmed');
+    });
+    ['archAd1','archAd2','archAd3','archPt1','archPt2','archPt3'].forEach(id =>
+      document.getElementById(id).classList.remove('show')
+    );
+
+    // Detail caps and partners
+    document.querySelectorAll('.cap-pill').forEach(el => el.classList.remove('show'));
+    document.querySelectorAll('.partner-card').forEach(el => el.classList.remove('show'));
+
+    // TxM
+    ['txmS1','txmS2'].forEach(id => document.getElementById(id).classList.remove('show'));
+    ['txmA1','txmA2'].forEach(id => document.getElementById(id).classList.remove('active'));
+    ['txmProceed','txmHold','txmDecline'].forEach(id => document.getElementById(id).classList.remove('show'));
+
+    // Adapters
+    document.querySelectorAll('.adapter-block').forEach(el => el.classList.remove('show'));
+    document.querySelectorAll('.adapter-benefit').forEach(el => el.classList.remove('show'));
+
+    // Webhooks
+    for (let i = 1; i <= 8; i++) {
+      const el = document.getElementById('whL' + i);
+      if (el) el.classList.remove('show');
+    }
+    const rd = document.getElementById('whRichData');
+    if (rd) rd.classList.remove('show');
+    document.querySelectorAll('.webhook-tag').forEach(el => el.classList.remove('show'));
+    document.getElementById('whMsg').style.opacity = '0';
+
+    document.getElementById('nextBtn').classList.remove('visible');
+    document.getElementById('stepHint').classList.remove('visible');
+  }
+
+  // ═══ MAIN ANIMATION ═══
+  async function runAnimation() {
+    resetState();
+
+    // ─── STEP 1: Architecture Overview ───
+    await waitForClick('Start', 'Step 1 of 7 — Pluggable architecture');
+
+    setProg(1);
+    showScene('sceneArch');
+
+    document.getElementById('archLedger').classList.add('show');
+    await wait(500);
+
+    document.getElementById('lane1').classList.add('show');
+    await wait(300);
+    document.getElementById('lane2').classList.add('show');
+    await wait(300);
+    document.getElementById('lane3').classList.add('show');
+    await wait(400);
+
+    document.getElementById('archAd1').classList.add('show');
+    document.getElementById('archAd2').classList.add('show');
+    document.getElementById('archAd3').classList.add('show');
+    await wait(300);
+    document.getElementById('archPt1').classList.add('show');
+    document.getElementById('archPt2').classList.add('show');
+    document.getElementById('archPt3').classList.add('show');
+
+    // ─── STEP 2: Banking & Payments ───
+    await waitForClick('Banking & Payments', 'Step 2 of 7 — Accounts, payments & FX');
+
+    setProg(2);
+    showScene('sceneBanking');
+    await wait(300);
+    await staggerShow('bankCaps1', '.cap-pill', 150);
+    await staggerShow('bankCaps2', '.cap-pill', 150);
+    await staggerShow('bankCaps3', '.cap-pill', 150);
+    await wait(200);
+    await staggerShow('bankPartners', '.partner-card', 250);
+
+    // ─── STEP 3: Cards ───
+    await waitForClick('Cards', 'Step 3 of 7 — Spend events & card management');
+
+    setProg(3);
+    showScene('sceneCards');
+    await wait(300);
+    await staggerShow('cardCaps1', '.cap-pill', 120);
+    await staggerShow('cardCaps2', '.cap-pill', 120);
+    await wait(200);
+    await staggerShow('cardPartners', '.partner-card', 250);
+
+    // ─── STEP 4: Transaction Monitoring ───
+    await waitForClick('Transaction Monitoring', 'Step 4 of 7 — Screening & decision flow');
+
+    setProg(4);
+    showScene('sceneTxm');
+    await wait(300);
+
+    document.getElementById('txmS1').classList.add('show');
+    await wait(400);
+    document.getElementById('txmA1').classList.add('active');
+    await wait(400);
+    document.getElementById('txmS2').classList.add('show');
+    await wait(400);
+    document.getElementById('txmA2').classList.add('active');
+    await wait(400);
+    document.getElementById('txmProceed').classList.add('show');
+    await wait(400);
+    document.getElementById('txmHold').classList.add('show');
+    await wait(400);
+    document.getElementById('txmDecline').classList.add('show');
+
+    // ─── STEP 5: Adapters ───
+    await waitForClick('Adapters', 'Step 5 of 7 — Compounding knowledge');
+
+    setProg(5);
+    showScene('sceneAdapters');
+    await wait(300);
+
+    const stacks = ['adStack1', 'adStack2', 'adStack3'];
+    for (const stackId of stacks) {
+      const blocks = document.querySelectorAll('#' + stackId + ' .adapter-block');
+      for (const b of blocks) {
+        b.classList.add('show');
+        await wait(200);
+      }
+      await wait(100);
+    }
+
+    await wait(300);
+    const benefits = document.querySelectorAll('#adBenefits .adapter-benefit');
+    for (const b of benefits) {
+      b.classList.add('show');
+      await wait(250);
+    }
+
+    // ─── STEP 6: Webhooks ───
+    await waitForClick('Webhooks', 'Step 6 of 7 — Rich data, zero loss');
+
+    setProg(6);
+    showScene('sceneWebhooks');
+    await wait(400);
+
+    // Stagger SaaScada fields
+    for (let i = 1; i <= 7; i++) {
+      document.getElementById('whL' + i).classList.add('show');
+      await wait(150);
+    }
+    await wait(300);
+    // Reveal richData block with ISO20022 body
+    document.getElementById('whRichData').classList.add('show');
+    await wait(400);
+    document.getElementById('whL8').classList.add('show');
+    await wait(300);
+
+    const tags = document.querySelectorAll('#whFooter .webhook-tag');
+    for (const t of tags) {
+      t.classList.add('show');
+      await wait(350);
+    }
+
+    await wait(300);
+    document.getElementById('whMsg').style.opacity = '1';
+
+    // ─── STEP 7: Complete ───
+    await waitForClick('Complete', 'Step 7 of 7');
+
+    showScene('sceneComplete');
+
+    // Offer restart
+    await wait(800);
+    await waitForClick('Replay from Start', 'Click to restart');
+    runAnimation();
+  }
+
+  window.addEventListener('load', () => { setTimeout(runAnimation, 400); });
+</script>
+
+</body>
+</html>
