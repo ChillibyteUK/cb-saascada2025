@@ -38,7 +38,7 @@ $width = get_field( 'width' );
             <iframe
 				id="vid<?= esc_attr( $uq ); ?>"
 				src="<?= esc_url( 'https://player.vimeo.com/video/' . get_field( 'video_id' ) . '?byline=0&portrait=0' ); ?>"
-				allow="fullscreen; picture-in-picture"
+                allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
 				webkitallowfullscreen
 				mozallowfullscreen
 				allowfullscreen
@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const vidImg = document.getElementById("vidimg<?= esc_attr( $uq ); ?>");
     const video = document.getElementById("video<?= esc_attr( $uq ); ?>");
     const iframe = document.getElementById("vid<?= esc_attr( $uq ); ?>");
+    const baseSrc = iframe ? iframe.getAttribute("src") : "";
 
     if (vidImg && video && iframe) {
         vidImg.addEventListener("click", function () {
@@ -58,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => {
                 vidImg.style.display = "none"; // Hide after fade out
                 video.style.display = "block"; // Show video container
-                iframe.src += "&autoplay=1"; // Append autoplay to iframe src
+                iframe.src = `${baseSrc}&autoplay=1&muted=0`; // Start video with sound.
             }, 200); // Match fade-out duration
         });
     }
