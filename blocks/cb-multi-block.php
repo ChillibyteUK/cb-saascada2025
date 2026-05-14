@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						$html_content = preg_replace( '/<header\s+class=["\']header["\'][^>]*>.*?<\/header>/is', '', $html_content );
 						$html_content = preg_replace( '/<div\s+class=["\']brand-footer["\'][^>]*>.*?<\/div>/is', '', $html_content );
 
-						// Inject resize observer script.
+						// Inject resize observer and sticky-fix script.
 						$resize_script = '<script>
 							(function() {
 								function sendHeight() {
@@ -92,6 +92,13 @@ document.addEventListener('DOMContentLoaded', function() {
 										document.documentElement.offsetHeight
 									);
 									window.parent.postMessage({ type: "iframe-resize", height: height }, "*");
+								}
+								
+								// Fix position:sticky inside iframe
+								if (window.self !== window.top) {
+									const style = document.createElement("style");
+									style.textContent = ".story-visual { position: relative !important; top: auto !important; }";
+									document.head.appendChild(style);
 								}
 								
 								// Send initial height

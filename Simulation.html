@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulation Mode — SaaScada</title>
+  <meta name="description" content="SaaScada Simulation Mode lets you design a loan before it exists — snapshot a live account, model repayment paths, then activate with a full audit trail.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       GLOBAL RESETS & TOKENS
+       (self-contained — safe to embed or open standalone)
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: 'Lexend', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 1rem;
+      line-height: 1.65;
+      color: #2d2d2d;
+      background: #ffffff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    img, svg { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      font-family: 'Lexend', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+      white-space: nowrap;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+    }
+    .btn:focus-visible { outline: 2px solid #006f94; outline-offset: 3px; }
+    .btn--primary {
+      background: #006f94;
+      color: #fff;
+      box-shadow: 0 8px 24px 0 rgba(0,111,148,0.28);
+    }
+    .btn--primary:hover {
+      background: #11527f;
+      box-shadow: 0 12px 32px 0 rgba(0,111,148,0.38);
+      transform: translateY(-1px);
+    }
+    .btn--secondary {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .btn--secondary:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.45);
+    }
+    .btn--outline-dark {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .btn--outline-dark:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.55);
+    }
+    .btn--sm { padding: 0.5rem 1rem; font-size: 0.8125rem; }
+    .btn--large { padding: 1rem 2rem; font-size: 1rem; border-radius: 10px; }
+
+    /* ============================================================
+       SIMULATION STORY — all scoped under .simulation-story
+    ============================================================ */
+    .simulation-story {
+      --ss-blue:       #006f94;
+      --ss-blue-dark:  #11527f;
+      --ss-blue-light: #64b6ac;
+      --ss-teal:       #64b6ac;
+      --ss-indigo:     #11527f;
+      --ss-ink-900:    #0d2a3d;
+      --ss-ink-800:    #11527f;
+      --ss-ink-700:    #2a5f82;
+      --ss-ink-600:    #5f5f5f;
+      --ss-ink-500:    #7a7a7a;
+      --ss-ink-400:    #a0a0a0;
+      --ss-ink-300:    #c8c8c8;
+      --ss-ink-200:    #dde6ea;
+      --ss-ink-100:    #f0f8fa;
+      --ss-white:      #FFFFFF;
+      --ss-hero-bg:    #0d2a3d;
+      --ss-bg-tint:    #f0f8fa;
+      --ss-shadow-blue: 0 8px 24px 0 rgba(0,111,148,0.25);
+      font-family: 'Lexend', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    /* ── SECTION WRAPPER ──────────────────────────────────────── */
+    .simulation-story .ss-section {
+      padding: 6rem 1.5rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .simulation-story .ss-section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .simulation-story .ss-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ss-blue);
+      margin-bottom: 0.75rem;
+    }
+    .simulation-story .ss-heading {
+      font-size: clamp(1.875rem, 3.5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+      color: var(--ss-ink-900);
+    }
+
+    /* ── SCROLL STORY GRID ─────────────────────────────────────── */
+    .simulation-story .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 480px;
+      gap: 5rem;
+      align-items: start;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ── LEFT: STEPS ───────────────────────────────────────────── */
+    .simulation-story .story-steps {
+      position: relative;
+      padding-left: 2rem;
+    }
+    /* Vertical progress line */
+    .simulation-story .story-steps::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 12px;
+      bottom: 12px;
+      width: 2px;
+      background: var(--ss-ink-200);
+      border-radius: 2px;
+    }
+
+    .simulation-story .story-step {
+      position: relative;
+      padding: 2rem 0 2.5rem 1.5rem;
+      border-radius: 12px;
+      transition: background 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
+      outline: none;
+      user-select: none;
+    }
+    .simulation-story .story-step:hover {
+      background: rgba(0,111,148,0.04);
+    }
+    .simulation-story .story-step:focus-visible {
+      outline: 2px solid var(--ss-blue);
+      outline-offset: 4px;
+    }
+    .simulation-story .story-step.active {
+      background: rgba(0,111,148,0.07);
+      border-left: 3px solid var(--ss-teal);
+    }
+    /* "Select" hint shown on hover of inactive steps */
+    .simulation-story .story-step:not(.active):hover .step-title::after {
+      content: '';
+      display: inline-block;
+      width: 14px; height: 14px;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+      opacity: 0.35;
+      background: var(--ss-blue);
+      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M12 5l7 7-7 7'/%3E%3C/svg%3E");
+      -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M12 5l7 7-7 7'/%3E%3C/svg%3E");
+      mask-size: contain;
+      -webkit-mask-size: contain;
+      mask-repeat: no-repeat;
+      -webkit-mask-repeat: no-repeat;
+    }
+
+    /* Step dot */
+    .simulation-story .story-step::before {
+      content: '';
+      position: absolute;
+      left: -1.85rem;
+      top: 2.25rem;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--ss-ink-300);
+      background: var(--ss-white);
+      transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+      z-index: 1;
+    }
+    .simulation-story .story-step.active::before {
+      border-color: var(--ss-blue);
+      background: var(--ss-blue);
+      transform: scale(1.25);
+    }
+
+    /* Step number badge */
+    .simulation-story .step-number {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ss-blue);
+      margin-bottom: 0.5rem;
+      opacity: 0.6;
+      transition: opacity 0.25s ease;
+    }
+    .simulation-story .story-step.active .step-number { opacity: 1; }
+
+    .simulation-story .step-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: -0.015em;
+      color: var(--ss-ink-800);
+      margin-bottom: 0.75rem;
+      transition: color 0.25s ease;
+    }
+    .simulation-story .story-step.active .step-title { color: var(--ss-ink-900); }
+
+    .simulation-story .step-copy {
+      font-size: 0.9375rem;
+      line-height: 1.68;
+      color: var(--ss-ink-500);
+      max-width: 46ch;
+      transition: color 0.25s ease;
+    }
+    .simulation-story .story-step.active .step-copy { color: var(--ss-ink-600); }
+
+    /* Detail insight card */
+    .simulation-story .step-detail {
+      margin-top: 1rem;
+      padding: 0.875rem 1.1rem;
+      background: var(--ss-ink-100);
+      border-left: 3px solid var(--ss-blue);
+      border-radius: 0 8px 8px 0;
+      max-width: 46ch;
+    }
+    .simulation-story .story-step.active .step-detail { opacity: 1; }
+    .simulation-story .step-detail__label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--ss-blue);
+      margin-bottom: 0.35rem;
+    }
+    .simulation-story .step-detail__text {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      color: var(--ss-ink-600);
+    }
+
+    /* Mobile inline visual (injected by JS, hidden on desktop) */
+    .simulation-story .step-inline-visual {
+      display: none;
+      margin-top: 1.5rem;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--ss-ink-100);
+    }
+
+    /* ── RIGHT: STICKY VISUAL PANEL ────────────────────────────── */
+    .simulation-story .story-visual {
+      position: sticky;
+      top: 40px;
+    }
+
+    .simulation-story .visual-panel {
+      background: var(--ss-white);
+      border: 1px solid var(--ss-ink-200);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px 0 rgba(0,111,148,0.12), 0 2px 8px 0 rgba(0,0,0,0.04);
+    }
+    .simulation-story .visual-panel__header {
+      padding: 1.25rem 1.5rem 1rem;
+      border-bottom: 1px solid var(--ss-ink-100);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .simulation-story .visual-panel__dots {
+      display: flex; gap: 5px;
+    }
+    .simulation-story .visual-panel__dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--ss-ink-200);
+    }
+    .simulation-story .visual-panel__dot:first-child  { background: #FF5F57; }
+    .simulation-story .visual-panel__dot:nth-child(2) { background: #FEBC2E; }
+    .simulation-story .visual-panel__dot:last-child   { background: #28C840; }
+    .simulation-story .visual-panel__title {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--ss-ink-600);
+      flex: 1;
+      text-align: center;
+      padding-right: 1.5rem; /* offset dots */
+    }
+
+    .simulation-story .visual-container {
+      min-height: 340px;
+      position: relative;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .simulation-story .visual-container.is-changing {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    .simulation-story .visual-panel__caption {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--ss-ink-100);
+      font-size: 0.8125rem;
+      color: var(--ss-ink-500);
+      line-height: 1.5;
+      background: var(--ss-ink-100);
+      min-height: 2.5rem;
+      transition: opacity 0.35s ease;
+    }
+    .simulation-story .visual-panel__caption.is-changing { opacity: 0; }
+
+    /* ── VISUAL CONTENT INSIDE PANEL ───────────────────────────── */
+    /* Shared image wrapper */
+    .simulation-story .vis-image-wrap {
+      position: relative;
+      overflow: hidden;
+      line-height: 0;
+    }
+    .simulation-story .vis-image-wrap img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* Callout badges */
+    .simulation-story .callout {
+      position: absolute;
+      background: rgba(10,15,30,0.82);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #fff;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 0.3rem 0.65rem;
+      border-radius: 999px;
+      white-space: nowrap;
+      border: 1px solid rgba(255,255,255,0.15);
+      pointer-events: none;
+      line-height: 1.4;
+    }
+    .simulation-story .callout--blue {
+      background: rgba(0,111,148,0.92);
+      border-color: rgba(255,255,255,0.2);
+    }
+    .simulation-story .callout--teal {
+      background: rgba(100,182,172,0.92);
+      color: #0d2a3d;
+      border-color: rgba(100,182,172,0.35);
+    }
+    .simulation-story .callout--amber {
+      background: rgba(245,158,11,0.9);
+      color: #1a1a00;
+      border-color: rgba(245,158,11,0.3);
+    }
+
+    /* Visually hidden — readable by crawlers and screen readers */
+    .simulation-story .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* STEP 1: Amortisation table mock */
+    .simulation-story .amort-table {
+      padding: 1.5rem;
+    }
+    .simulation-story .amort-table__title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ss-ink-500);
+      margin-bottom: 0.875rem;
+    }
+    .simulation-story .amort-grid {
+      display: grid;
+      grid-template-columns: 2fr 1.4fr 1.4fr 1.4fr;
+      font-size: 0.75rem;
+      border: 1px solid var(--ss-ink-200);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .simulation-story .amort-cell {
+      padding: 0.45rem 0.7rem;
+      border-bottom: 1px solid var(--ss-ink-200);
+      border-right: 1px solid var(--ss-ink-200);
+      color: var(--ss-ink-700);
+    }
+    .simulation-story .amort-cell:nth-child(4n) { border-right: none; }
+    .simulation-story .amort-cell--head {
+      background: var(--ss-ink-100);
+      font-weight: 700;
+      color: var(--ss-ink-600);
+      font-size: 0.6875rem;
+      letter-spacing: 0.04em;
+    }
+    .simulation-story .amort-cell--last { border-bottom: none; }
+    .simulation-story .amort-note {
+      margin-top: 0.875rem;
+      font-size: 0.75rem;
+      color: var(--ss-ink-400);
+      font-style: italic;
+    }
+    .simulation-story .amort-badge-wrap {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .simulation-story .story-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .simulation-story .story-visual {
+        display: none; /* hidden; inline visuals used instead */
+      }
+      .simulation-story .story-steps {
+        padding-left: 1.75rem;
+      }
+      .simulation-story .story-step {
+        padding: 1.5rem 0 1.5rem 1rem;
+      }
+      .simulation-story .step-inline-visual {
+        display: block;
+      }
+      .simulation-story .ss-hero__actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .simulation-story .ss-section {
+        padding: 4rem 1.25rem;
+      }
+      .simulation-story .ss-section-header {
+        margin-bottom: 2.5rem;
+      }
+      .simulation-story .ss-hero__actions {
+        display: none;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .simulation-story .amort-grid {
+        grid-template-columns: 2fr 1.2fr 1.2fr;
+      }
+      /* Hide last column on very small screens */
+      .simulation-story .amort-cell:nth-child(4n),
+      .simulation-story .amort-cell:nth-child(4n-3) ~ .amort-cell:nth-child(4n) { }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── SIMULATION STORY ────────────────────────────────────── -->
+  <div class="simulation-story">
+
+    <!-- ── SCROLL STORY SECTION ──────────────────────────────── -->
+    <section aria-labelledby="sim-story-heading" style="background:#f0f8fa; padding: 4rem 1.5rem;">
+      <div style="max-width:1200px; margin: 0 auto;">
+        <div class="ss-section-header">
+          <p class="ss-label">How It Works</p>
+          <h2 id="sim-story-heading" class="ss-heading">
+            From static schedule to<br>agreed live structure
+          </h2>
+          <p style="margin-top:1.25rem; font-size:1rem; line-height:1.7; color:#5f5f5f; max-width:60ch; margin-left:auto; margin-right:auto;">
+            SaaScada&#8217;s CQRS architecture separates the command engine from the read model, so simulations run against a dedicated projections engine &#8212; never against the live ledger. That separation is what makes safe, audit-proof modelling possible at scale.
+          </p>
+        </div>
+
+        <!-- Two-column grid -->
+        <div class="story-grid">
+
+          <!-- LEFT: Steps -->
+          <div class="story-steps" role="list" aria-label="Simulation Mode steps">
+
+            <!-- STEP 1 -->
+            <div class="story-step"
+                 role="listitem"
+                 data-step="1"
+                 tabindex="0"
+                 data-panel-title="The limitation of static schedules"
+                 data-panel-caption="Legacy relational databases bake schedule logic into the write path — simulation requires a separate engine.">
+              <div class="step-number">Step 01</div>
+              <h3 class="step-title">When lending doesn&#8217;t fit a template</h3>
+              <p class="step-copy">Traditional core banking systems generate loan schedules from rigid, fixed configurations. Bespoke deal structures — negotiated rates, variable repayment windows, unusual term lengths — don&#8217;t fit the template. Teams end up in spreadsheets to model options, creating version control and audit problems before a single transaction has posted.</p>
+              <div class="step-detail">
+                <div class="step-detail__label">Why this matters</div>
+                <div class="step-detail__text">Static schedules are derived from product settings at origination. Any post-origination negotiation requires manual override — outside the system, outside the audit trail.</div>
+              </div>              <figure class="sr-only">
+                <figcaption>Illustration: a sample fixed-term loan amortisation schedule where future payment rows are unknown, representing the gap that manual workarounds try to fill. Derived schedules leave little room for negotiated flexibility.</figcaption>
+              </figure>              <div class="step-inline-visual" aria-hidden="true"></div>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="story-step"
+                 role="listitem"
+                 data-step="2"
+                 tabindex="0"
+                 data-panel-title="Create a safe simulation space"
+                 data-panel-caption="The Testing Toolkit is available in the SaaScada Portal on non-production environments.">
+              <div class="step-number">Step 02</div>
+              <h3 class="step-title">Snapshot</h3>
+              <p class="step-copy">Open the Testing Toolkit on any non-production account and select <em>Roll Forward Dates</em>. Choose any future date — the account will behave as if that date is today. The snapshot runs entirely against a projection of the account state; no live data is touched at any point.</p>
+              <div class="step-detail">
+                <div class="step-detail__label">How to access it</div>
+                <div class="step-detail__text">The Testing Toolkit is available in the SaaScada Portal on non-production environments. Open any account, launch the toolkit, and select &#8220;Roll Forward Dates&#8221; to begin.</div>
+              </div>              <figure class="sr-only">
+                <img src="assets/roll-forward-2.png" alt="SaaScada Testing Mode screen showing roll-forward date controls and snapshot options with the Testing Toolkit open">
+                <figcaption>The SaaScada Portal Testing Toolkit showing Roll Forward Dates controls. Selecting a future date puts the account into Testing Mode without touching live data. Simulation begins with a snapshot of the account.</figcaption>
+              </figure>              <div class="step-inline-visual" aria-hidden="true"></div>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="story-step"
+                 role="listitem"
+                 data-step="3"
+                 tabindex="0"
+                 data-panel-title="Model future events"
+                 data-panel-caption="Simulated transactions are visible in the Transactions tab, showing full ledger impact for every event.">
+              <div class="step-number">Step 03</div>
+              <h3 class="step-title">Model</h3>
+              <p class="step-copy">Once Testing Mode is active, SaaScada simulates every transaction from the real date through to your selected test date — Interest Accrual entries, Interest Charged transactions, and their cascading effect on the account ledger and related balances. Every event is visible in the Transactions tab before you commit to anything.</p>
+              <div class="step-detail">
+                <div class="step-detail__label">What gets simulated</div>
+                <div class="step-detail__text">Interest Accruals, Interest Charged transactions, and all resulting ledger movements — calculated accurately across the full date range from today to the selected test date.</div>
+              </div>              <figure class="sr-only">
+                <img src="assets/simulated-transactions.png" alt="SaaScada simulated transactions screen showing projected interest accruals, interest charged entries and future account balances in the Transactions tab">
+                <figcaption>The SaaScada Transactions tab in Testing Mode showing simulated Interest Accrual and Interest Charged transactions from the real date to the selected test date, with their impact on the account ledger and related balances. See how the account will behave before committing.</figcaption>
+              </figure>              <div class="step-inline-visual" aria-hidden="true"></div>
+            </div>
+
+            <!-- STEP 4 -->
+            <div class="story-step"
+                 role="listitem"
+                 data-step="4"
+                 tabindex="0"
+                 data-panel-title="Future events mapped clearly"
+                 data-panel-caption="The Account Timeline shows the Deposit, Funding and Maturity Windows alongside the simulated current position.">
+              <div class="step-number">Step 04</div>
+              <h3 class="step-title">Visualise lifecycle impact</h3>
+              <p class="step-copy">The Account Summary tab displays the full Account Timeline — showing every relevant date window (Deposit, Funding and Maturity) and where the account sits within that timeline under the simulated date. Changes to funding windows, maturity dates and projected balances are immediately visible without running a single live process.</p>
+              <div class="step-detail">
+                <div class="step-detail__label">Deposit accounts too</div>
+                <div class="step-detail__text">Roll Forward works equally for Fixed Term Deposit accounts — the account moves through Deposit, Funding and Maturity Windows exactly as it would on the selected date.</div>
+              </div>              <figure class="sr-only">
+                <img src="assets/account-summary.png" alt="SaaScada Account Summary tab showing the account timeline with Deposit Window, Funding Window and Maturity Window markers and the simulated current position">
+                <figcaption>The SaaScada Account Summary tab in Testing Mode showing the Account Timeline with Deposit, Funding and Maturity Windows and the projected account position on the selected test date. Simulation makes lifecycle changes visible before they happen.</figcaption>
+              </figure>              <div class="step-inline-visual" aria-hidden="true"></div>
+            </div>
+
+            <!-- STEP 5 -->
+            <div class="story-step"
+                 role="listitem"
+                 data-step="5"
+                 tabindex="0"
+                 data-panel-title="From simulation to reality"
+                 data-panel-caption="Event Sourcing means every simulation step is replayable and audit-proof — no manual rekeying required.">
+              <div class="step-number">Step 05</div>
+              <h3 class="step-title">Activate</h3>
+              <p class="step-copy">When the simulated schedule is agreed, it becomes the live future of the loan. Because SaaScada is built on Event Sourcing, every hypothetical event is fully replayable — you can see exactly how the projected balance diverges from current reality at any point in the timeline. The full simulation run forms a complete, immutable audit trail with no manual rekeying required.</p>
+              <div class="step-detail">
+                <div class="step-detail__label">Built-in auditability</div>
+                <div class="step-detail__text">The Command side uses Event Sourcing — inject a hypothetical event such as a missed payment and replay the loan&#8217;s history to see exactly how the projected balance diverges from current reality.</div>
+              </div>              <figure class="sr-only">
+                <img src="assets/roll-forward-dates.png" alt="SaaScada Roll Forward Dates screen confirming the simulation version selected, testing complete status and the schedule now set as live">
+                <figcaption>The SaaScada Roll Forward Dates confirmation screen showing the selected simulation version, testing complete status, and the schedule activated as the live operational record. The model becomes the operational schedule with a full immutable audit trail.</figcaption>
+              </figure>              <div class="step-inline-visual" aria-hidden="true"></div>
+            </div>
+
+          </div><!-- /story-steps -->
+
+          <!-- RIGHT: Sticky visual panel -->
+          <div class="story-visual" aria-live="polite" aria-atomic="true" aria-label="Step visual">
+            <div class="visual-panel">
+              <div class="visual-panel__header">
+                <div class="visual-panel__dots" aria-hidden="true">
+                  <div class="visual-panel__dot"></div>
+                  <div class="visual-panel__dot"></div>
+                  <div class="visual-panel__dot"></div>
+                </div>
+                <div class="visual-panel__title" id="panel-title">The limitation of static schedules</div>
+              </div>
+              <div class="visual-container" id="visual-container"></div>
+              <div class="visual-panel__caption" id="panel-caption">Derived schedules leave little room for negotiated flexibility.</div>
+            </div>
+          </div>
+
+        </div><!-- /story-grid -->
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────────────────────────────
+         TEMPLATES — one per step
+    ──────────────────────────────────────────────────────────── -->
+
+    <!-- Step 1: HTML mock amortisation table -->
+    <template id="step-visual-1">
+      <div style="position:relative;">
+        <div class="amort-table">
+          <div class="amort-table__title">Loan Repayment Schedule</div>
+          <div class="amort-grid" role="table" aria-label="Sample amortisation table">
+            <!-- Header row -->
+            <div class="amort-cell amort-cell--head" role="columnheader">Date</div>
+            <div class="amort-cell amort-cell--head" role="columnheader">Payment</div>
+            <div class="amort-cell amort-cell--head" role="columnheader">Interest</div>
+            <div class="amort-cell amort-cell--head" role="columnheader">Balance</div>
+            <!-- Row 1 -->
+            <div class="amort-cell" role="cell">01 Feb 2025</div>
+            <div class="amort-cell" role="cell">£1,842.32</div>
+            <div class="amort-cell" role="cell">£312.50</div>
+            <div class="amort-cell" role="cell">£73,470.18</div>
+            <!-- Row 2 -->
+            <div class="amort-cell" role="cell">01 Mar 2025</div>
+            <div class="amort-cell" role="cell">£1,842.32</div>
+            <div class="amort-cell" role="cell">£306.13</div>
+            <div class="amort-cell" role="cell">£71,933.99</div>
+            <!-- Row 3 -->
+            <div class="amort-cell" role="cell">01 Apr 2025</div>
+            <div class="amort-cell" role="cell">£1,842.32</div>
+            <div class="amort-cell" role="cell">£299.72</div>
+            <div class="amort-cell" role="cell">£70,391.39</div>
+            <!-- Row 4 -->
+            <div class="amort-cell" role="cell">01 May 2025</div>
+            <div class="amort-cell" role="cell">—</div>
+            <div class="amort-cell" role="cell" style="color:#c8c8c8">£?</div>
+            <div class="amort-cell" role="cell" style="color:#c8c8c8">£?</div>
+            <!-- Row 5 -->
+            <div class="amort-cell amort-cell--last" role="cell">01 Jun 2025</div>
+            <div class="amort-cell amort-cell--last" role="cell">—</div>
+            <div class="amort-cell amort-cell--last" role="cell" style="color:#c8c8c8">£?</div>
+            <div class="amort-cell amort-cell--last" role="cell" style="color:#c8c8c8">£?</div>
+          </div>
+          <p class="amort-note">Schedule breaks where terms are under negotiation</p>
+          <div class="amort-badge-wrap">
+            <span class="callout callout--amber" style="position:static; display:inline-block;">Manual workaround</span>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <!-- Step 2: Snapshot -->
+    <template id="step-visual-2">
+      <div class="vis-image-wrap" style="position:relative;">
+        <img src="assets/roll-forward-2.png"
+             alt="SaaScada Testing Mode screen showing roll-forward date controls and snapshot options"
+             loading="lazy">
+        <span class="callout callout--blue"  style="top:10%; left:5%;">Testing Toolkit</span>
+        <span class="callout"                style="top:10%; right:5%;">Roll Forward Dates</span>
+        <span class="callout callout--teal"  style="bottom:12%; left:50%; transform:translateX(-50%);">Live data untouched</span>
+      </div>
+    </template>
+
+    <!-- Step 3: Model -->
+    <template id="step-visual-3">
+      <div class="vis-image-wrap" style="position:relative;">
+        <img src="assets/simulated-transactions.png"
+             alt="SaaScada simulated transactions screen showing projected interest accruals and future balances"
+             loading="lazy">
+        <span class="callout callout--blue"  style="top:8%;  left:5%;">Simulated interest accrual</span>
+        <span class="callout"                style="top:8%;  right:5%;">Projected balance</span>
+        <span class="callout callout--teal"  style="bottom:10%; left:50%; transform:translateX(-50%);">Future transactions</span>
+      </div>
+    </template>
+
+    <!-- Step 4: Visualise -->
+    <template id="step-visual-4">
+      <div class="vis-image-wrap" style="position:relative;">
+        <img src="assets/account-summary.png"
+             alt="SaaScada account summary screen showing the loan timeline, maturity window and projected balance"
+             loading="lazy">
+        <span class="callout"                style="top:8%;  left:5%;">Account timeline</span>
+        <span class="callout callout--blue"  style="top:8%;  right:5%;">Maturity window</span>
+        <span class="callout callout--teal"  style="bottom:10%; left:50%; transform:translateX(-50%);">Projected balance</span>
+      </div>
+    </template>
+
+    <!-- Step 5: Activate -->
+    <template id="step-visual-5">
+      <div class="vis-image-wrap" style="position:relative;">
+        <img src="assets/roll-forward-dates.png"
+             alt="SaaScada roll-forward dates screen confirming simulation version selected and testing complete"
+             loading="lazy">
+        <span class="callout callout--teal"  style="top:8%;  left:5%;">Version selected</span>
+        <span class="callout"                style="top:8%;  right:5%;">Testing complete</span>
+        <span class="callout callout--blue"  style="bottom:10%; left:50%; transform:translateX(-50%);">Now live</span>
+      </div>
+    </template>
+
+
+  </div><!-- /simulation-story -->
+
+
+  <!-- ── SCRIPT ──────────────────────────────────────────────── -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ── Helpers ────────────────────────────────────────── */
+      const $  = (sel, ctx) => (ctx || document).querySelector(sel);
+      const $$ = (sel, ctx) => [...(ctx || document).querySelectorAll(sel)];
+      const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
+      const prefersReducedMotion = () =>
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ── DOM refs ───────────────────────────────────────── */
+      const steps           = $$('.story-step');
+      const visualContainer = $('#visual-container');
+      const panelTitle      = $('#panel-title');
+      const panelCaption    = $('#panel-caption');
+
+      /* ── Clone template into target ─────────────────────── */
+      function getTemplate(stepNum) {
+        const tpl = document.getElementById('step-visual-' + stepNum);
+        if (!tpl) return null;
+        return tpl.content.cloneNode(true);
+      }
+
+      /* ── Swap panel content ─────────────────────────────── */
+      function swapPanel(step) {
+        const stepNum    = step.dataset.step;
+        const newTitle   = step.dataset.panelTitle   || '';
+        const newCaption = step.dataset.panelCaption || '';
+        const clone      = getTemplate(stepNum);
+        if (!clone) return;
+
+        if (prefersReducedMotion()) {
+          // Instant swap — no animation
+          visualContainer.innerHTML = '';
+          visualContainer.appendChild(clone);
+          panelTitle.textContent   = newTitle;
+          panelCaption.textContent = newCaption;
+          return;
+        }
+
+        // Animate out
+        visualContainer.classList.add('is-changing');
+        panelCaption.classList.add('is-changing');
+
+        setTimeout(() => {
+          visualContainer.innerHTML = '';
+          visualContainer.appendChild(clone);
+          panelTitle.textContent   = newTitle;
+          panelCaption.textContent = newCaption;
+
+          // Animate in
+          visualContainer.classList.remove('is-changing');
+          panelCaption.classList.remove('is-changing');
+        }, 340);
+      }
+
+      /* ── Inject inline visuals for mobile ───────────────── */
+      function injectInlineVisuals() {
+        steps.forEach(step => {
+          const wrapper = step.querySelector('.step-inline-visual');
+          if (!wrapper) return;
+          const clone = getTemplate(step.dataset.step);
+          if (clone) wrapper.appendChild(clone);
+        });
+      }
+
+      /* ── Central activate function ───────────────────── */
+      // All activation paths (click, keyboard, scroll) go through here.
+      let activeStep   = null;
+      let clickLock    = false; // brief lock so observer doesn't fight a click
+      let clickLockTimer = null;
+
+      function activateStep(step, opts) {
+        opts = opts || {};
+        if (step === activeStep && !opts.force) return;
+        if (activeStep) activeStep.classList.remove('active');
+        step.classList.add('active');
+        activeStep = step;
+        if (!isMobile()) swapPanel(step);
+        if (opts.scrollTo) {
+          step.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          // Lock observer for 900ms so it doesn't immediately re-activate
+          // a different step while the smooth-scroll is in flight
+          clickLock = true;
+          clearTimeout(clickLockTimer);
+          clickLockTimer = setTimeout(() => { clickLock = false; }, 900);
+        }
+      }
+
+      /* ── IntersectionObserver ───────────────────────────── */
+      // rootMargin creates an activation band in the middle 50% of viewport.
+      // Tracks all currently-intersecting steps; picks the last in DOM order
+      // (= lowest on screen) so the story advances naturally when scrolling down.
+      const intersecting = new Set();
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            intersecting.add(entry.target);
+          } else {
+            intersecting.delete(entry.target);
+          }
+        });
+
+        if (clickLock) return; // user clicked — let the scroll settle first
+
+        // Pick the last intersecting step in DOM order
+        let best = null;
+        steps.forEach(step => {
+          if (intersecting.has(step)) best = step;
+        });
+
+        if (best && best !== activeStep) activateStep(best);
+      }, {
+        rootMargin: '-25% 0px -25% 0px',
+        threshold: 0
+      });
+
+      /* ── Click handler ──────────────────────────────────── */
+      steps.forEach(step => {
+        step.addEventListener('click', () => {
+          activateStep(step, { scrollTo: true });
+        });
+      });
+
+      /* ── Keyboard navigation for steps ─────────────────── */
+      steps.forEach(step => {
+        step.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            activateStep(step, { scrollTo: true });
+          }
+        });
+      });
+
+      /* ── Init ───────────────────────────────────────────── */
+      function init() {
+        if (isMobile()) {
+          injectInlineVisuals();
+        }
+
+        // Lock the observer so its initial intersection scan (which fires
+        // asynchronously but almost immediately) cannot override step 1.
+        clickLock = true;
+        clearTimeout(clickLockTimer);
+
+        // Force step 1 active before the observer has a chance to fire.
+        if (steps.length) {
+          activateStep(steps[0], { force: true });
+        }
+
+        // Observe all steps — observer will fire its initial check shortly.
+        steps.forEach(step => observer.observe(step));
+
+        // Release the lock after the initial observer scan has settled.
+        clickLockTimer = setTimeout(() => { clickLock = false; }, 400);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+      /* ── Re-inject on resize crossing 900px ────────────── */
+      let wasMobile = isMobile();
+      window.addEventListener('resize', () => {
+        const nowMobile = isMobile();
+        if (nowMobile !== wasMobile) {
+          wasMobile = nowMobile;
+          if (nowMobile) {
+            injectInlineVisuals();
+          }
+        }
+      }, { passive: true });
+
+    })();
+  </script>
+</body>
+</html>
